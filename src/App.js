@@ -1,7 +1,7 @@
-import Header from './components/Header';
+import Layout from './components/Layout';
 
-function App() {
-    return <Header />;
-}
+const App = () => {
+    return <Layout>Тут контент</Layout>;
+};
 
 export default App;
