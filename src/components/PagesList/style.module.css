@@ -1,0 +1,40 @@
+.list {
+    list-style: none;
+    padding: 0;
+}
+
+.topLevelTitle, .title {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+}
+
+.topLevelTitle {
+    margin-top: 15px;
+}
+
+.title {
+    margin-top: 5px;
+}
+
+.titleNested span {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-top: 2px solid var(--black);
+    border-right: 2px solid var(--black);
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    transform: translate(0, -50%) rotateZ(45deg);
+    transition: all .3s ease;
+}
+
+.titleNested span:hover {
+    width: 10px;
+    height: 10px;
+}
+
+.titleOpened span {
+    transform: translate(0, -50%) rotateZ(135deg);
+}

@@ -1,0 +1,29 @@
+.sidebar {
+    grid-area: sidebar;
+
+    background-color: var(--sidebar-background);
+}
+
+.wrapper {
+    padding: 20px;
+}
+
+.user {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.userIcon {
+    padding: 5px;
+    background-color: darkgreen;
+    color: var(--white);
+    border-radius: 5px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+}
+
+.userName {
+    margin-left: 10px;
+}
