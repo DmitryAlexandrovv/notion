@@ -1,7 +1,7 @@
 import Layout from './components/Layout';
 
 const App = () => {
-    return <Layout>Тут контент</Layout>;
+    return <Layout />;
 };
 
 export default App;
