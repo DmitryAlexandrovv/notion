@@ -1,0 +1,6 @@
+.imageBlock {
+    composes: block from '../style.module.css';
+    display: block;
+    width: 100%;
+    height: auto;
+}

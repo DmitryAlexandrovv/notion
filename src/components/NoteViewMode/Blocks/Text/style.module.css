@@ -1,0 +1,3 @@
+.textBlock {
+    composes: block from '../style.module.css';
+}
