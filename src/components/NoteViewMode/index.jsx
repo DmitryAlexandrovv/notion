@@ -1,5 +1,6 @@
 import TextBlock from './Blocks/Text';
 import ImageBlock from './Blocks/Image';
+import VideoBlock from './Blocks/YouTubeVideo';
 import { CONTENT_TYPES } from './constants';
 
 import styles from './style.module.css';
@@ -20,6 +21,13 @@ const note = {
                 width: '320',
             },
         },
+        {
+            type: CONTENT_TYPES.VIDEO,
+            data: {
+                id: 'kbrHDov7hLI',
+                title: 'Наруто использует новый режим мудреца против Кодо в аниме Боруто',
+            },
+        },
     ],
 };
 
@@ -33,6 +41,8 @@ const NoteViewMode = () => {
                         return <TextBlock text={block.data} />;
                     case CONTENT_TYPES.IMAGE:
                         return <ImageBlock width={block.data.width} imageURL={block.data.url} />;
+                    case CONTENT_TYPES.VIDEO:
+                        return <VideoBlock videoId={block.data.id} />;
                     default:
                         throw new Error('Неправильный тип контента');
                 }

@@ -1,0 +1,3 @@
+.videoBlock {
+    composes: block from '../style.module.css';
+}
