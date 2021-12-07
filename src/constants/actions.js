@@ -1,0 +1,1 @@
+export const CHANGE_NOTE_MODE = 'CHANGE_NOTE_MODE';
