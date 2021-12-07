@@ -1,3 +1,14 @@
 .textBlock {
     composes: block from '../style.module.css';
 }
+
+.textBlock .noteTextEditor {
+    border: 1px solid var(--black);
+    padding: 2px;
+    border-radius: 2px;
+    height: 140px;
+}
+
+.noteTextSaveBtn {
+    margin: 15px 0 10px 0;
+}

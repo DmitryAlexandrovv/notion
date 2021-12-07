@@ -1,0 +1,7 @@
+.note {
+    composes: note from '../NoteViewMode/style.module.css';
+}
+
+.noteTitle {
+    composes: noteTitle from '../NoteViewMode/style.module.css';
+}
