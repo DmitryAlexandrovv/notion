@@ -1,13 +1,8 @@
 import YouTube from 'react-youtube';
-
-import styles from './style.module.css';
+import CreateBlock from '../hoc/createBlock';
 
 const VideoBlock = (props) => {
-    return (
-        <div className={styles.videoBlock}>
-            <YouTube videoId={props.videoId} />
-        </div>
-    );
+    return <YouTube videoId={props.videoId} />;
 };
 
-export default VideoBlock;
+export default CreateBlock(VideoBlock);

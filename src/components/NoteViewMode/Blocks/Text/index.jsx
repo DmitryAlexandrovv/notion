@@ -1,20 +1,16 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { NOTE_MODE_TYPES } from '../../../../constants';
 import { Editor } from 'react-draft-wysiwyg';
-import ReactTooltip from 'react-tooltip';
 import { Button } from 'antd';
 import { convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
+import CreateBlock from '../hoc/createBlock';
 
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styles from './style.module.css';
 
 const TextBlock = (props) => {
-    const activeMode = useSelector((state) => state.activeMode),
-        [isEdit, toggleEdit] = useState(false),
-        [editorState, onEditorStateChange] = useState(EditorState.createEmpty());
-
-    const { onChange, block } = props;
+    const [editorState, onEditorStateChange] = useState(EditorState.createEmpty()),
+        { isEditMode, toggleEdit, onChange, block } = props;
 
     const onSave = () => {
         const blockHtml = draftToHtml(convertToRaw(editorState.getCurrentContent()));
@@ -22,10 +18,8 @@ const TextBlock = (props) => {
         onChange(block.id, blockHtml);
     };
 
-    const isEditMode = activeMode === NOTE_MODE_TYPES.EDIT && isEdit;
-
     return (
-        <div className={styles.textBlock}>
+        <div>
             {isEditMode ? (
                 <>
                     <Editor
@@ -39,16 +33,11 @@ const TextBlock = (props) => {
                 </>
             ) : (
                 <>
-                    <div
-                        data-tip={'Кликни для редактирования'}
-                        dangerouslySetInnerHTML={{ __html: block.data }}
-                        onClick={() => toggleEdit(true)}
-                    />
-                    {activeMode === NOTE_MODE_TYPES.EDIT && <ReactTooltip />}
+                    <div dangerouslySetInnerHTML={{ __html: block.data }} />
                 </>
             )}
         </div>
     );
 };
 
-export default TextBlock;
+export default CreateBlock(TextBlock);
