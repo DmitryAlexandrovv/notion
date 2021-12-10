@@ -10,9 +10,7 @@ import styles from './style.module.css';
 
 const TextBlock = (props) => {
     const [editorState, onEditorStateChange] = useState(EditorState.createEmpty()),
-        { isEditMode, toggleEdit } = props;
-
-    const { onChange, block } = props;
+        { isEditMode, toggleEdit, onChange, block } = props;
 
     const onSave = () => {
         const blockHtml = draftToHtml(convertToRaw(editorState.getCurrentContent()));
