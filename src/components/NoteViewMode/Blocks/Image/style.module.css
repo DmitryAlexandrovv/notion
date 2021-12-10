@@ -1,5 +1,8 @@
 .imageBlock {
-    composes: block from '../style.module.css';
+    display: inline-block;
+}
+
+.imageBlock img {
     display: block;
     width: 100%;
     height: auto;

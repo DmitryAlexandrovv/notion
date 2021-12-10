@@ -4,12 +4,11 @@ import { saveActiveNote } from '../../store/actions';
 import { CONTENT_TYPES } from '../NoteViewMode/constants';
 import { Button } from 'antd';
 import TextBlock from '../NoteViewMode/Blocks/Text';
-
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import styles from './style.module.css';
 import ImageBlock from '../NoteViewMode/Blocks/Image';
 import VideoBlock from '../NoteViewMode/Blocks/YouTubeVideo';
 import LinkToNoteBlock from '../NoteViewMode/Blocks/LinkToNote';
+
+import styles from './style.module.css';
 
 const NoteEditMode = (props) => {
     const dispatch = useDispatch(),

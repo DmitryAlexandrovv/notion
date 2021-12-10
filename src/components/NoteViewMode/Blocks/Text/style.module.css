@@ -1,8 +1,4 @@
-.textBlock {
-    composes: block from '../style.module.css';
-}
-
-.textBlock .noteTextEditor {
+.noteTextEditor {
     border: 1px solid var(--black);
     padding: 2px;
     border-radius: 2px;

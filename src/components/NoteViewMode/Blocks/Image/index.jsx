@@ -1,4 +1,5 @@
 import styles from './style.module.css';
+import CreateBlock from '../hoc/createBlock';
 
 const ImageBlock = (props) => {
     //ToDo стили будем принимать извне, если нет, то по дефолту width: 100%(при редактировании)
@@ -13,4 +14,4 @@ const ImageBlock = (props) => {
     );
 };
 
-export default ImageBlock;
+export default CreateBlock(ImageBlock);

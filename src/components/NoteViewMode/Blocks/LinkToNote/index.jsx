@@ -1,17 +1,12 @@
 import { Button } from 'antd';
-
-import styles from './style.module.css';
+import CreateBlock from '../hoc/createBlock';
 
 const LinkToNoteBlock = (props) => {
     const redirect = () => {
         //ToDo редирект на другую заметку
     };
 
-    return (
-        <div className={styles.imageBlock}>
-            <Button onClick={redirect}>{props.title}</Button>
-        </div>
-    );
+    return <Button onClick={redirect}>{props.title}</Button>;
 };
 
-export default LinkToNoteBlock;
+export default CreateBlock(LinkToNoteBlock);

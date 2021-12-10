@@ -42,6 +42,7 @@ const App = () => {
 
     useEffect(() => {
         dispatch(loadPages(pages));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return <Layout />;
