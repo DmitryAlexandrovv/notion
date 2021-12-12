@@ -32,11 +32,17 @@ const NoteEditMode = (props) => {
                                 data,
                             };
                         case CONTENT_TYPES.IMAGE:
-                            console.log(data);
                             return {
                                 ...block,
                                 data: {
                                     url: data,
+                                },
+                            };
+                        case CONTENT_TYPES.VIDEO:
+                            return {
+                                ...block,
+                                data: {
+                                    url: data.url,
                                 },
                             };
                         default:
@@ -74,7 +80,7 @@ const NoteEditMode = (props) => {
                                 />
                             );
                         case CONTENT_TYPES.VIDEO:
-                            return <VideoBlock videoId={block.data.id} key={block.id} />;
+                            return <VideoBlock onChange={onBlockContentChanged} block={block} key={block.id} />;
                         case CONTENT_TYPES.LINK_TO_NOTE:
                             return <LinkToNoteBlock id={block.data.id} title={block.data.title} key={block.id} />;
                         default:

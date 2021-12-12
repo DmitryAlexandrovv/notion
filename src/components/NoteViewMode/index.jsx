@@ -19,7 +19,7 @@ const NoteViewMode = (props) => {
                     case CONTENT_TYPES.IMAGE:
                         return <ImageBlock width={block.data.width} block={block} key={block.id} />;
                     case CONTENT_TYPES.VIDEO:
-                        return <VideoBlock videoId={block.data.id} key={block.id} />;
+                        return <VideoBlock block={block} key={block.id} />;
                     case CONTENT_TYPES.LINK_TO_NOTE:
                         return <LinkToNoteBlock id={block.data.id} title={block.data.title} key={block.id} />;
                     default:

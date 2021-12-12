@@ -27,7 +27,7 @@ const note = {
             id: 2,
             type: CONTENT_TYPES.VIDEO,
             data: {
-                id: 'kbrHDov7hLI',
+                url: 'https://www.youtube.com/watch?v=u3kGQZeSSJo',
                 title: 'Наруто использует новый режим мудреца против Кодо в аниме Боруто',
             },
         },
