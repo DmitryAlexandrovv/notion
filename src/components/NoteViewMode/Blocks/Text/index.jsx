@@ -7,6 +7,7 @@ import CreateBlock from '../hoc/createBlock';
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styles from './style.module.css';
+import { CONTENT_TYPES } from '../../constants';
 
 const TextBlock = (props) => {
     const [editorState, onEditorStateChange] = useState(EditorState.createEmpty()),
@@ -15,7 +16,7 @@ const TextBlock = (props) => {
     const onSave = () => {
         const blockHtml = draftToHtml(convertToRaw(editorState.getCurrentContent()));
         toggleEdit(false);
-        onChange(block.id, blockHtml);
+        onChange(CONTENT_TYPES.TEXT, block.id, blockHtml);
     };
 
     return (

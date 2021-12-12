@@ -18,17 +18,30 @@ const NoteEditMode = (props) => {
         onUpdateNote(props.activeNote);
     }, [props.activeNote]);
 
-    const onBlockContentChanged = (id, content) => {
+    const onBlockContentChanged = (type, id, data) => {
         const updatedNote = {
             ...note,
             blocks: note.blocks.map((block) => {
                 if (block.id !== id) {
                     return block;
                 } else {
-                    return {
-                        ...block,
-                        data: content,
-                    };
+                    switch (type) {
+                        case CONTENT_TYPES.TEXT:
+                            return {
+                                ...block,
+                                data,
+                            };
+                        case CONTENT_TYPES.IMAGE:
+                            console.log(data);
+                            return {
+                                ...block,
+                                data: {
+                                    url: data,
+                                },
+                            };
+                        default:
+                            throw new Error('Неизвестный тип контента');
+                    }
                 }
             }),
         };
@@ -52,7 +65,14 @@ const NoteEditMode = (props) => {
                         case CONTENT_TYPES.TEXT:
                             return <TextBlock block={block} onChange={onBlockContentChanged} key={block.id} />;
                         case CONTENT_TYPES.IMAGE:
-                            return <ImageBlock width={block.data.width} imageURL={block.data.url} key={block.id} />;
+                            return (
+                                <ImageBlock
+                                    width={block.data.width}
+                                    onChange={onBlockContentChanged}
+                                    block={block}
+                                    key={block.id}
+                                />
+                            );
                         case CONTENT_TYPES.VIDEO:
                             return <VideoBlock videoId={block.data.id} key={block.id} />;
                         case CONTENT_TYPES.LINK_TO_NOTE:
