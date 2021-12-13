@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import { Button } from 'antd';
-import { convertToRaw, EditorState } from 'draft-js';
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import CreateBlock from '../hoc/createBlock';
 
@@ -11,13 +11,15 @@ import { CONTENT_TYPES } from '../../constants';
 import blockStyles from '../style.module.css';
 
 const TextBlock = (props) => {
-    const [editorState, onEditorStateChange] = useState(EditorState.createEmpty()),
-        { isEditMode, toggleEdit, onChange, block } = props;
+    const { isEditMode, toggleEdit, onChange, block } = props,
+        [editorState, onEditorStateChange] = useState(
+            EditorState.createWithContent(convertFromRaw(JSON.parse(block.data)))
+        ),
+        convertedToHtmlData = draftToHtml(convertToRaw(editorState.getCurrentContent()));
 
     const onSave = () => {
-        const blockHtml = draftToHtml(convertToRaw(editorState.getCurrentContent()));
         toggleEdit(false);
-        onChange(CONTENT_TYPES.TEXT, block.id, blockHtml);
+        onChange(CONTENT_TYPES.TEXT, block.id, JSON.stringify(convertToRaw(editorState.getCurrentContent())));
     };
 
     return (
@@ -35,7 +37,7 @@ const TextBlock = (props) => {
                 </>
             ) : (
                 <>
-                    <div dangerouslySetInnerHTML={{ __html: block.data }} />
+                    <div dangerouslySetInnerHTML={{ __html: convertedToHtmlData }} />
                 </>
             )}
         </div>
