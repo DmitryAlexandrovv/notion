@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import { Button } from 'antd';
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
@@ -16,6 +16,10 @@ const TextBlock = (props) => {
             EditorState.createWithContent(convertFromRaw(JSON.parse(block.data)))
         ),
         convertedToHtmlData = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+
+    useEffect(() => {
+        onEditorStateChange(EditorState.createWithContent(convertFromRaw(JSON.parse(block.data))));
+    }, [block]);
 
     const onSave = () => {
         toggleEdit(false);

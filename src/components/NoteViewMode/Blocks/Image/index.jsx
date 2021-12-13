@@ -1,5 +1,5 @@
 import { Alert, Button, Input } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreateBlock from '../hoc/createBlock';
 import Loader from 'react-loader-spinner';
 import { CONTENT_TYPES } from '../../constants';
@@ -12,6 +12,10 @@ const ImageBlock = (props) => {
         [error, setError] = useState(false),
         [imageURI, changeImageURI] = useState(block.data.url),
         [isLoaded, setIsLoaded] = useState(false);
+
+    useEffect(() => {
+        changeImageURI(block.data.url);
+    }, [block]);
 
     //ToDo стили будем принимать извне, если нет, то по дефолту width: 100%(при редактировании)
     //На будущее, пока сложно будет реализовать

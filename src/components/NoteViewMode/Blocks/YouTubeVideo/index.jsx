@@ -27,6 +27,10 @@ const VideoBlock = (props) => {
         preview = getPreview(videoID);
 
     useEffect(() => {
+        changeVideoURI(block.data.url);
+    }, [block]);
+
+    useEffect(() => {
         if (videoID === false) {
             setError(true);
         } else {
