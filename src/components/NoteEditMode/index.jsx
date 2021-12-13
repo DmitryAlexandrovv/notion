@@ -8,6 +8,7 @@ import ImageBlock from '../NoteViewMode/Blocks/Image';
 import VideoBlock from '../NoteViewMode/Blocks/YouTubeVideo';
 import LinkToNoteBlock from '../NoteViewMode/Blocks/LinkToNote';
 
+import noteStyles from '../NoteViewMode/style.module.css';
 import styles from './style.module.css';
 
 const NoteEditMode = (props) => {
@@ -62,8 +63,8 @@ const NoteEditMode = (props) => {
 
     return (
         <>
-            <div className={styles.note}>
-                <h3 className={styles.noteTitle}>{note.title}</h3>
+            <div className={noteStyles.note}>
+                <h3 className={noteStyles.noteTitle}>{note.title}</h3>
                 {note.blocks.map((block) => {
                     //ToDo edit mode for image, video, link_to_note
                     switch (block.type) {
@@ -87,7 +88,9 @@ const NoteEditMode = (props) => {
                     }
                 })}
             </div>
-            <Button onClick={onSave}>Сохранить заметку</Button>
+            <Button className={styles.noteSaveBtn} onClick={onSave}>
+                Сохранить заметку
+            </Button>
         </>
     );
 };
