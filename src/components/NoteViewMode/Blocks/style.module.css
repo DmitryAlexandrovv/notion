@@ -1,5 +1,8 @@
 .block {
     margin-top: 50px;
+    padding: 10px;
+    border: 2px solid #DFDCE3;
+    border-radius: 4px;
 }
 
 .blockCtrlGroupPositioner {
@@ -30,6 +33,7 @@
     border-radius: 10px;
 
     box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 0.2);
+    background: #fff;
 }
 
 .blockCtrlGroupItem {

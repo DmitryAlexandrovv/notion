@@ -15,3 +15,7 @@ body {
 li > ul {
     padding-left: 15px !important;
 }
+
+p {
+    margin: 0;
+}
