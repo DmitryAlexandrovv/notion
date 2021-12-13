@@ -4,7 +4,3 @@
     border-radius: 2px;
     height: 140px;
 }
-
-.noteTextSaveBtn {
-    composes: noteBlockSaveBtn from '../../style.module.css';
-}

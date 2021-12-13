@@ -46,6 +46,11 @@ const VideoBlock = (props) => {
         });
     };
 
+    const onCancel = () => {
+        toggleEdit(false);
+        changeVideoURI(block.data.url);
+    };
+
     const onBadImageLoaded = () => {
         setError(true);
     };
@@ -74,11 +79,16 @@ const VideoBlock = (props) => {
                         />
                     )}
                     {error && <Alert message='Что-то пошло не так' type='error' />}
-                    {!error && (
-                        <Button className={styles.noteVideoSaveBtn} onClick={onSave}>
-                            Сохранить блок
+                    <div className={blockStyles.blockActions}>
+                        {!error && (
+                            <Button className={blockStyles.blockActionsBtn} onClick={onSave}>
+                                Сохранить блок
+                            </Button>
+                        )}
+                        <Button className={blockStyles.blockActionsBtn} onClick={onCancel}>
+                            Отмена
                         </Button>
-                    )}
+                    </div>
                 </>
             ) : (
                 <div className={!isLoaded ? styles.videoBlockHidden : ''}>

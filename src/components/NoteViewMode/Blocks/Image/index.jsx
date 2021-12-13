@@ -34,6 +34,11 @@ const ImageBlock = (props) => {
         onChange(CONTENT_TYPES.IMAGE, block.id, imageURI);
     };
 
+    const onCancel = () => {
+        toggleEdit(false);
+        changeImageURI(block.data.url);
+    };
+
     const onSuccessImageLoaded = () => {
         setIsLoaded(true);
         setError(false);
@@ -67,10 +72,17 @@ const ImageBlock = (props) => {
                     onLoad={onSuccessImageLoaded}
                 />
             </div>
-            {isEditMode && !error && (
-                <Button className={styles.noteImageSaveBtn} onClick={onSave}>
-                    Сохранить блок
-                </Button>
+            {isEditMode && (
+                <div className={blockStyles.blockActions}>
+                    {!error && (
+                        <Button className={blockStyles.blockActionsBtn} onClick={onSave}>
+                            Сохранить блок
+                        </Button>
+                    )}
+                    <Button className={blockStyles.blockActionsBtn} onClick={onCancel}>
+                        Отмена
+                    </Button>
+                </div>
             )}
         </div>
     );

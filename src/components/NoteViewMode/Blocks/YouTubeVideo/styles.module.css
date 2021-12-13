@@ -1,7 +1,3 @@
-.noteVideoSaveBtn {
-    composes: noteBlockSaveBtn from '../../style.module.css';
-}
-
 .videoBlockHidden {
     display: none;
 }

@@ -26,6 +26,11 @@ const TextBlock = (props) => {
         onChange(CONTENT_TYPES.TEXT, block.id, JSON.stringify(convertToRaw(editorState.getCurrentContent())));
     };
 
+    const onCancel = () => {
+        toggleEdit(false);
+        onEditorStateChange(EditorState.createWithContent(convertFromRaw(JSON.parse(block.data))));
+    };
+
     return (
         <div className={blockStyles.blockContent}>
             {isEditMode ? (
@@ -35,9 +40,14 @@ const TextBlock = (props) => {
                         onEditorStateChange={onEditorStateChange}
                         editorClassName={styles.noteTextEditor}
                     />
-                    <Button className={styles.noteTextSaveBtn} onClick={onSave}>
-                        Сохранить блок
-                    </Button>
+                    <div className={blockStyles.blockActions}>
+                        <Button className={blockStyles.blockActionsBtn} onClick={onSave}>
+                            Сохранить блок
+                        </Button>
+                        <Button className={blockStyles.blockActionsBtn} onClick={onCancel}>
+                            Отмена
+                        </Button>
+                    </div>
                 </>
             ) : (
                 <>
