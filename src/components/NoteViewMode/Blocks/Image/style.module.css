@@ -2,6 +2,10 @@
     display: inline-block;
 }
 
+.imageBlockHidden {
+    display: none;
+}
+
 .imageBlock img {
     display: block;
     width: 100%;

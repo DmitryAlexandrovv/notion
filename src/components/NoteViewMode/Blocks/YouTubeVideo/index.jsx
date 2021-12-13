@@ -1,11 +1,12 @@
 import YouTube from 'react-youtube';
 import CreateBlock from '../hoc/createBlock';
-import { useState } from 'react';
-import { Button, Input } from 'antd';
+import Loader from 'react-loader-spinner';
+import { useEffect, useState } from 'react';
+import { Alert, Button, Input } from 'antd';
 import { CONTENT_TYPES } from '../../constants';
 
 import styles from './styles.module.css';
-import Loader from 'react-loader-spinner';
+import blockStyles from '../style.module.css';
 
 const VideoBlock = (props) => {
     const getPreview = (id) => {
@@ -19,11 +20,19 @@ const VideoBlock = (props) => {
     };
 
     const { isEditMode, toggleEdit, onChange, block } = props,
+        [error, setError] = useState(false),
         [isLoaded, setIsLoaded] = useState(false),
         [videoURI, changeVideoURI] = useState(block.data.url),
         videoID = getVideoId(videoURI),
-        error = videoID === false,
         preview = getPreview(videoID);
+
+    useEffect(() => {
+        if (videoID === false) {
+            setError(true);
+        } else {
+            setError(false);
+        }
+    }, [videoURI]);
 
     const onSave = () => {
         toggleEdit(false);
@@ -33,25 +42,39 @@ const VideoBlock = (props) => {
         });
     };
 
+    const onBadImageLoaded = () => {
+        setError(true);
+    };
+
     const style = {
         width: '320px',
     };
 
     return (
-        <div>
+        <div className={blockStyles.blockContent}>
             {isEditMode ? (
                 <>
                     <Input
+                        className={blockStyles.blockInputField}
                         placeholder='Введите адрес видео'
                         value={videoURI}
                         onChange={(event) => changeVideoURI(event.target.value)}
                     />
-                    {preview && error === false && (
-                        <img src={preview} alt='Превью' onLoad={() => setIsLoaded(true)} style={style} />
+                    {!error && (
+                        <img
+                            src={preview}
+                            alt='Превью'
+                            onError={onBadImageLoaded}
+                            onLoad={() => setIsLoaded(true)}
+                            style={style}
+                        />
                     )}
-                    <Button className={styles.noteVideoSaveBtn} onClick={onSave}>
-                        Сохранить блок
-                    </Button>
+                    {error && <Alert message='Что-то пошло не так' type='error' />}
+                    {!error && (
+                        <Button className={styles.noteVideoSaveBtn} onClick={onSave}>
+                            Сохранить блок
+                        </Button>
+                    )}
                 </>
             ) : (
                 <div className={!isLoaded ? styles.videoBlockHidden : ''}>

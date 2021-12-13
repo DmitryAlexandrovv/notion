@@ -8,6 +8,7 @@ import CreateBlock from '../hoc/createBlock';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styles from './style.module.css';
 import { CONTENT_TYPES } from '../../constants';
+import blockStyles from '../style.module.css';
 
 const TextBlock = (props) => {
     const [editorState, onEditorStateChange] = useState(EditorState.createEmpty()),
@@ -20,7 +21,7 @@ const TextBlock = (props) => {
     };
 
     return (
-        <div>
+        <div className={blockStyles.blockContent}>
             {isEditMode ? (
                 <>
                     <Editor

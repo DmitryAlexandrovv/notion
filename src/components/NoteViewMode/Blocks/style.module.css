@@ -7,6 +7,12 @@
     position: relative;
 }
 
+.blockContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .blockCtrlGroupWrapper {
     min-width: 100px;
     height: 37px;
@@ -36,4 +42,9 @@
 .blockCtrlGroupItem:hover {
     color: #4169E1;
     transform: scale(1.1);
+}
+
+.block .blockInputField {
+    margin-bottom: 15px;
+    width: 420px;
 }

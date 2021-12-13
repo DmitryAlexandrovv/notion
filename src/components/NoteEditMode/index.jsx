@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { saveActiveNote } from '../../store/actions';
 import { CONTENT_TYPES } from '../NoteViewMode/constants';
@@ -14,16 +14,14 @@ const NoteEditMode = (props) => {
     const dispatch = useDispatch(),
         [note, onUpdateNote] = useState(props.activeNote);
 
-    useEffect(() => {
-        onUpdateNote(props.activeNote);
-    }, [props.activeNote]);
-
     const onBlockContentChanged = (type, id, data) => {
         const updatedNote = {
             ...note,
             blocks: note.blocks.map((block) => {
                 if (block.id !== id) {
-                    return block;
+                    return {
+                        ...block,
+                    };
                 } else {
                     switch (type) {
                         case CONTENT_TYPES.TEXT:
@@ -36,6 +34,7 @@ const NoteEditMode = (props) => {
                                 ...block,
                                 data: {
                                     url: data,
+                                    kek: 1,
                                 },
                             };
                         case CONTENT_TYPES.VIDEO:
