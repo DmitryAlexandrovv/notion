@@ -1,10 +1,19 @@
 .block {
     margin-top: 50px;
+    padding: 10px;
+    border: 2px solid #DFDCE3;
+    border-radius: 4px;
 }
 
 .blockCtrlGroupPositioner {
     display: inline-block;
     position: relative;
+}
+
+.blockContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .blockCtrlGroupWrapper {
@@ -24,6 +33,7 @@
     border-radius: 10px;
 
     box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 0.2);
+    background: #fff;
 }
 
 .blockCtrlGroupItem {
@@ -36,4 +46,19 @@
 .blockCtrlGroupItem:hover {
     color: #4169E1;
     transform: scale(1.1);
+}
+
+.block .blockInputField {
+    margin-bottom: 15px;
+    width: 420px;
+}
+
+.blockActions {
+    display: flex;
+    justify-content: flex-start;
+    margin: 15px 0 10px 0;
+}
+
+.blockActionsBtn {
+    margin-right: 10px;
 }
