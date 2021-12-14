@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { saveActiveNote } from '../../store/actions';
-import { CONTENT_TYPES } from '../NoteViewMode/constants';
+import { saveActiveNote } from '../../../store/actions';
+import { CONTENT_TYPES } from '../note-view-mode/constants';
 import { Button } from 'antd';
-import TextBlock from '../NoteViewMode/Blocks/Text';
-import ImageBlock from '../NoteViewMode/Blocks/Image';
-import VideoBlock from '../NoteViewMode/Blocks/YouTubeVideo';
-import LinkToNoteBlock from '../NoteViewMode/Blocks/LinkToNote';
+import TextBlock from '../blocks/text';
+import ImageBlock from '../blocks/image';
+import VideoBlock from '../blocks/youtube-video';
+import LinkToNoteBlock from '../blocks/link-to-note';
 
-import noteStyles from '../NoteViewMode/style.module.css';
+import noteStyles from '../note-view-mode/style.module.css';
 import styles from './style.module.css';
 
 const NoteEditMode = (props) => {
@@ -33,16 +33,19 @@ const NoteEditMode = (props) => {
                         case CONTENT_TYPES.IMAGE:
                             return {
                                 ...block,
-                                data: {
-                                    url: data,
-                                    kek: 1,
-                                },
+                                data,
                             };
                         case CONTENT_TYPES.VIDEO:
                             return {
                                 ...block,
+                                data,
+                            };
+                        case CONTENT_TYPES.LINK_TO_NOTE:
+                            return {
+                                ...block,
                                 data: {
-                                    url: data.url,
+                                    id: data.id,
+                                    title: data.title,
                                 },
                             };
                         default:
@@ -66,7 +69,6 @@ const NoteEditMode = (props) => {
             <div className={noteStyles.note}>
                 <h3 className={noteStyles.noteTitle}>{note.title}</h3>
                 {note.blocks.map((block) => {
-                    //ToDo edit mode for image, video, link_to_note
                     switch (block.type) {
                         case CONTENT_TYPES.TEXT:
                             return <TextBlock block={block} onChange={onBlockContentChanged} key={block.id} />;
@@ -82,7 +84,7 @@ const NoteEditMode = (props) => {
                         case CONTENT_TYPES.VIDEO:
                             return <VideoBlock onChange={onBlockContentChanged} block={block} key={block.id} />;
                         case CONTENT_TYPES.LINK_TO_NOTE:
-                            return <LinkToNoteBlock id={block.data.id} title={block.data.title} key={block.id} />;
+                            return <LinkToNoteBlock block={block} onChange={onBlockContentChanged} key={block.id} />;
                         default:
                             throw new Error('Неправильный тип контента');
                     }
