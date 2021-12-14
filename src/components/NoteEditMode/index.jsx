@@ -45,6 +45,14 @@ const NoteEditMode = (props) => {
                                     url: data.url,
                                 },
                             };
+                        case CONTENT_TYPES.LINK_TO_NOTE:
+                            return {
+                                ...block,
+                                data: {
+                                    id: data.id,
+                                    title: data.title,
+                                },
+                            };
                         default:
                             throw new Error('Неизвестный тип контента');
                     }
@@ -82,7 +90,7 @@ const NoteEditMode = (props) => {
                         case CONTENT_TYPES.VIDEO:
                             return <VideoBlock onChange={onBlockContentChanged} block={block} key={block.id} />;
                         case CONTENT_TYPES.LINK_TO_NOTE:
-                            return <LinkToNoteBlock id={block.data.id} title={block.data.title} key={block.id} />;
+                            return <LinkToNoteBlock block={block} onChange={onBlockContentChanged} key={block.id} />;
                         default:
                             throw new Error('Неправильный тип контента');
                     }
