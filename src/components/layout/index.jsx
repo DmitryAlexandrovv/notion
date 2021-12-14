@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { changeNoteMode } from '../../store/actions';
 import { NOTE_MODE_TYPES } from '../../constants';
-import Sidebar from '../Sidebar';
-import NoteViewMode from '../NoteViewMode';
-import NoteEditMode from '../NoteEditMode';
+import Sidebar from '../sidebar';
+import NoteViewMode from '../note/note-view-mode';
+import NoteEditMode from '../note/note-edit-mode';
 import { Tabs } from 'antd';
-import Login from '../Login';
+import Login from '../login';
 
 import styles from './style.module.css';
 

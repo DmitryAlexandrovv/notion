@@ -1,7 +1,7 @@
-import TextBlock from './Blocks/Text';
-import ImageBlock from './Blocks/Image';
-import VideoBlock from './Blocks/YouTubeVideo';
-import LinkToNoteBlock from './Blocks/LinkToNote';
+import TextBlock from '../blocks/text';
+import ImageBlock from '../blocks/image';
+import VideoBlock from '../blocks/youtube-video';
+import LinkToNoteBlock from '../blocks/link-to-note';
 import { CONTENT_TYPES } from './constants';
 
 import styles from './style.module.css';

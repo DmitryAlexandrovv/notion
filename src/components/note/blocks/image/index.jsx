@@ -2,7 +2,7 @@ import { Alert, Button, Input } from 'antd';
 import { useEffect, useState } from 'react';
 import CreateBlock from '../hoc/createBlock';
 import Loader from 'react-loader-spinner';
-import { CONTENT_TYPES } from '../../constants';
+import { CONTENT_TYPES } from '../../note-view-mode/constants';
 
 import styles from './style.module.css';
 import blockStyles from '../style.module.css';

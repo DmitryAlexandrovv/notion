@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { loadPages } from './store/actions';
-import Layout from './components/Layout';
+import Layout from './components/layout';
 
 // ToDo типа запрос
 const pages = [

@@ -6,7 +6,7 @@ import { getNestedArray } from '../../../../helpers';
 
 import blockStyles from '../style.module.css';
 import styles from './style.module.css';
-import { CONTENT_TYPES } from '../../constants';
+import { CONTENT_TYPES } from '../../note-view-mode/constants';
 
 const TreeNode = TreeSelect.TreeNode;
 

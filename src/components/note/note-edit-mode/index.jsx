@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { saveActiveNote } from '../../store/actions';
-import { CONTENT_TYPES } from '../NoteViewMode/constants';
+import { saveActiveNote } from '../../../store/actions';
+import { CONTENT_TYPES } from '../note-view-mode/constants';
 import { Button } from 'antd';
-import TextBlock from '../NoteViewMode/Blocks/Text';
-import ImageBlock from '../NoteViewMode/Blocks/Image';
-import VideoBlock from '../NoteViewMode/Blocks/YouTubeVideo';
-import LinkToNoteBlock from '../NoteViewMode/Blocks/LinkToNote';
+import TextBlock from '../blocks/text';
+import ImageBlock from '../blocks/image';
+import VideoBlock from '../blocks/youtube-video';
+import LinkToNoteBlock from '../blocks/link-to-note';
 
-import noteStyles from '../NoteViewMode/style.module.css';
+import noteStyles from '../note-view-mode/style.module.css';
 import styles from './style.module.css';
 
 const NoteEditMode = (props) => {

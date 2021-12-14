@@ -1,4 +1,4 @@
-import PagesList from '../PagesList';
+import PagesList from '../pages-list';
 
 import styles from './style.module.css';
 

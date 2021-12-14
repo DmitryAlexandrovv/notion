@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveNote } from '../../store/actions';
-import { CONTENT_TYPES } from '../NoteViewMode/constants';
+import { CONTENT_TYPES } from '../note/note-view-mode/constants';
 import { getNestedArray } from '../../helpers';
 
 import styles from './style.module.css';
