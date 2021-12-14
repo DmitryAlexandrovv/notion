@@ -5,6 +5,7 @@ import Sidebar from '../Sidebar';
 import NoteViewMode from '../NoteViewMode';
 import NoteEditMode from '../NoteEditMode';
 import { Tabs } from 'antd';
+import Login from '../Login';
 
 import styles from './style.module.css';
 
@@ -22,6 +23,7 @@ const Layout = () => {
     return (
         <div className={styles.layout}>
             <Sidebar />
+            <Login />
             <main className={styles.main}>
                 {activeNote && (
                     <Tabs activeKey={activeMode} onChange={tabToggleHandler}>
