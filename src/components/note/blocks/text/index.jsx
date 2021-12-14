@@ -11,37 +11,24 @@ import { CONTENT_TYPES } from '../../note-view-mode/constants';
 import blockStyles from '../style.module.css';
 
 const TextBlock = (props) => {
-    const { isEditMode, toggleEdit, onChange, block } = props,
-        [editorState, onEditorStateChange] = useState(
-            EditorState.createWithContent(convertFromRaw(JSON.parse(block.data)))
-        ),
-        convertedToHtmlData = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-
-    useEffect(() => {
-        onEditorStateChange(EditorState.createWithContent(convertFromRaw(JSON.parse(block.data))));
-    }, [block]);
-
-    const onSave = () => {
-        toggleEdit(false);
-        onChange(CONTENT_TYPES.TEXT, block.id, JSON.stringify(convertToRaw(editorState.getCurrentContent())));
-    };
-
-    const onCancel = () => {
-        toggleEdit(false);
-        onEditorStateChange(EditorState.createWithContent(convertFromRaw(JSON.parse(block.data))));
-    };
+    const { isEditMode, onSave, onCancel, data, setData } = props;
 
     return (
         <div className={blockStyles.blockContent}>
             {isEditMode ? (
                 <>
                     <Editor
-                        editorState={editorState}
-                        onEditorStateChange={onEditorStateChange}
+                        defaultEditorState={EditorState.createWithContent(convertFromRaw(JSON.parse(data)))}
+                        onEditorStateChange={(newEditorState) =>
+                            setData(JSON.stringify(convertToRaw(newEditorState.getCurrentContent())))
+                        }
                         editorClassName={styles.noteTextEditor}
                     />
                     <div className={blockStyles.blockActions}>
-                        <Button className={blockStyles.blockActionsBtn} onClick={onSave}>
+                        <Button
+                            className={blockStyles.blockActionsBtn}
+                            onClick={() => onSave(CONTENT_TYPES.TEXT, data)}
+                        >
                             Сохранить блок
                         </Button>
                         <Button className={blockStyles.blockActionsBtn} onClick={onCancel}>
@@ -51,7 +38,7 @@ const TextBlock = (props) => {
                 </>
             ) : (
                 <>
-                    <div dangerouslySetInnerHTML={{ __html: convertedToHtmlData }} />
+                    <div dangerouslySetInnerHTML={{ __html: draftToHtml(JSON.parse(data)) }} />
                 </>
             )}
         </div>

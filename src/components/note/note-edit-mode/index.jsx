@@ -33,17 +33,12 @@ const NoteEditMode = (props) => {
                         case CONTENT_TYPES.IMAGE:
                             return {
                                 ...block,
-                                data: {
-                                    url: data,
-                                    kek: 1,
-                                },
+                                data,
                             };
                         case CONTENT_TYPES.VIDEO:
                             return {
                                 ...block,
-                                data: {
-                                    url: data.url,
-                                },
+                                data,
                             };
                         case CONTENT_TYPES.LINK_TO_NOTE:
                             return {
@@ -74,7 +69,6 @@ const NoteEditMode = (props) => {
             <div className={noteStyles.note}>
                 <h3 className={noteStyles.noteTitle}>{note.title}</h3>
                 {note.blocks.map((block) => {
-                    //ToDo edit mode for image, video, link_to_note
                     switch (block.type) {
                         case CONTENT_TYPES.TEXT:
                             return <TextBlock block={block} onChange={onBlockContentChanged} key={block.id} />;

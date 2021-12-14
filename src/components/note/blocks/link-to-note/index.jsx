@@ -1,5 +1,4 @@
 import { Button, TreeSelect } from 'antd';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import CreateBlock from '../hoc/createBlock';
 import { getNestedArray } from '../../../../helpers';
@@ -11,22 +10,11 @@ import { CONTENT_TYPES } from '../../note-view-mode/constants';
 const TreeNode = TreeSelect.TreeNode;
 
 const LinkToNoteBlock = (props) => {
-    const { isEditMode, toggleEdit, onChange, block } = props,
-        [selectedNote, setSelectedNote] = useState(block.data),
+    const { isEditMode, onSave, onCancel, data, setData } = props,
         formattedPages = getNestedArray(
             useSelector((state) => state.pages),
             null
         );
-
-    const onSave = () => {
-        toggleEdit(false);
-        onChange(CONTENT_TYPES.LINK_TO_NOTE, block.id, selectedNote);
-    };
-
-    const onCancel = () => {
-        toggleEdit(false);
-        setSelectedNote(block.data);
-    };
 
     const redirect = () => {
         //ToDo редирект на другую заметку
@@ -49,8 +37,8 @@ const LinkToNoteBlock = (props) => {
             {isEditMode ? (
                 <>
                     <TreeSelect
-                        value={selectedNote.id}
-                        onChange={(id, title) => setSelectedNote({ id, title })}
+                        value={data.id}
+                        onChange={(id, title) => setData({ id, title })}
                         className={styles.linkBlockElement}
                     >
                         {formattedPages.map((page) => {
@@ -58,7 +46,10 @@ const LinkToNoteBlock = (props) => {
                         })}
                     </TreeSelect>
                     <div className={blockStyles.blockActions}>
-                        <Button className={blockStyles.blockActionsBtn} onClick={onSave}>
+                        <Button
+                            className={blockStyles.blockActionsBtn}
+                            onClick={() => onSave(CONTENT_TYPES.LINK_TO_NOTE, data)}
+                        >
                             Сохранить блок
                         </Button>
                         <Button className={blockStyles.blockActionsBtn} onClick={onCancel}>
@@ -68,7 +59,7 @@ const LinkToNoteBlock = (props) => {
                 </>
             ) : (
                 <Button onClick={redirect} className={styles.linkBlockElement}>
-                    {block.data.title}
+                    {data.title}
                 </Button>
             )}
         </div>

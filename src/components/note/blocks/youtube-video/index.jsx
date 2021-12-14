@@ -1,60 +1,31 @@
 import YouTube from 'react-youtube';
 import CreateBlock from '../hoc/createBlock';
+import WithImage from '../hoc/withImage';
 import Loader from 'react-loader-spinner';
-import { useEffect, useState } from 'react';
 import { Alert, Button, Input } from 'antd';
 import { CONTENT_TYPES } from '../../note-view-mode/constants';
+import { getVideoId, getPreview } from '../../../../helpers';
 
 import styles from './styles.module.css';
 import blockStyles from '../style.module.css';
 
 const VideoBlock = (props) => {
-    const getPreview = (id) => {
-        return `http://i1.ytimg.com/vi/${id}/maxresdefault.jpg`;
-    };
-
-    const getVideoId = (url) => {
-        const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-        const match = url.match(regExp);
-        return match && match[7].length === 11 ? match[7] : false;
-    };
-
-    const { isEditMode, toggleEdit, onChange, block } = props,
-        [error, setError] = useState(false),
-        [isLoaded, setIsLoaded] = useState(false),
-        [videoURI, changeVideoURI] = useState(block.data.url),
-        videoID = getVideoId(videoURI),
+    const {
+            isEditMode,
+            onSave,
+            onCancel,
+            data,
+            onInput,
+            onSuccessImageLoaded,
+            onBadImageLoaded,
+            error,
+            isLoaded,
+            setIsLoaded,
+        } = props,
+        videoID = getVideoId(data.url),
         preview = getPreview(videoID);
 
-    useEffect(() => {
-        changeVideoURI(block.data.url);
-    }, [block]);
-
-    useEffect(() => {
-        if (videoID === false) {
-            setError(true);
-        } else {
-            setError(false);
-        }
-    }, [videoURI]);
-
-    const onSave = () => {
-        toggleEdit(false);
-        setIsLoaded(false);
-        onChange(CONTENT_TYPES.VIDEO, block.id, {
-            url: videoURI,
-        });
-    };
-
-    const onCancel = () => {
-        toggleEdit(false);
-        changeVideoURI(block.data.url);
-    };
-
-    const onBadImageLoaded = () => {
-        setError(true);
-    };
-
+    //ToDo что по ширине preview?
     const style = {
         width: '320px',
     };
@@ -66,22 +37,25 @@ const VideoBlock = (props) => {
                     <Input
                         className={blockStyles.blockInputField}
                         placeholder='Введите адрес видео'
-                        value={videoURI}
-                        onChange={(event) => changeVideoURI(event.target.value)}
+                        value={data.url}
+                        onChange={onInput}
                     />
-                    {!error && (
+                    <div className={error || !videoID ? styles.videoBlockHidden : ''}>
                         <img
                             src={preview}
                             alt='Превью'
                             onError={onBadImageLoaded}
-                            onLoad={() => setIsLoaded(true)}
+                            onLoad={onSuccessImageLoaded}
                             style={style}
                         />
-                    )}
-                    {error && <Alert message='Что-то пошло не так' type='error' />}
+                    </div>
+                    {(error || !videoID) && <Alert message='Что-то пошло не так' type='error' />}
                     <div className={blockStyles.blockActions}>
                         {!error && (
-                            <Button className={blockStyles.blockActionsBtn} onClick={onSave}>
+                            <Button
+                                className={blockStyles.blockActionsBtn}
+                                onClick={() => onSave(CONTENT_TYPES.VIDEO, data)}
+                            >
                                 Сохранить блок
                             </Button>
                         )}
@@ -100,4 +74,4 @@ const VideoBlock = (props) => {
     );
 };
 
-export default CreateBlock(VideoBlock);
+export default CreateBlock(WithImage(VideoBlock));
