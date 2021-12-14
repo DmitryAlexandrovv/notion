@@ -24,35 +24,21 @@ const NoteEditMode = (props) => {
                         ...block,
                     };
                 } else {
-                    switch (type) {
-                        case CONTENT_TYPES.TEXT:
-                            return {
-                                ...block,
-                                data,
-                            };
-                        case CONTENT_TYPES.IMAGE:
-                            return {
-                                ...block,
-                                data,
-                            };
-                        case CONTENT_TYPES.VIDEO:
-                            return {
-                                ...block,
-                                data,
-                            };
-                        case CONTENT_TYPES.LINK_TO_NOTE:
-                            return {
-                                ...block,
-                                data: {
-                                    id: data.id,
-                                    title: data.title,
-                                },
-                            };
-                        default:
-                            throw new Error('Неизвестный тип контента');
-                    }
+                    return {
+                        ...block,
+                        data,
+                    };
                 }
             }),
+        };
+
+        onUpdateNote(updatedNote);
+    };
+
+    const deleteBlock = (blockId) => {
+        const updatedNote = {
+            ...note,
+            blocks: note.blocks.filter((block) => block.id !== blockId),
         };
 
         onUpdateNote(updatedNote);
@@ -71,10 +57,18 @@ const NoteEditMode = (props) => {
                 {note.blocks.map((block) => {
                     switch (block.type) {
                         case CONTENT_TYPES.TEXT:
-                            return <TextBlock block={block} onChange={onBlockContentChanged} key={block.id} />;
+                            return (
+                                <TextBlock
+                                    deleteBlock={deleteBlock}
+                                    block={block}
+                                    onChange={onBlockContentChanged}
+                                    key={block.id}
+                                />
+                            );
                         case CONTENT_TYPES.IMAGE:
                             return (
                                 <ImageBlock
+                                    deleteBlock={deleteBlock}
                                     width={block.data.width}
                                     onChange={onBlockContentChanged}
                                     block={block}
@@ -82,9 +76,23 @@ const NoteEditMode = (props) => {
                                 />
                             );
                         case CONTENT_TYPES.VIDEO:
-                            return <VideoBlock onChange={onBlockContentChanged} block={block} key={block.id} />;
+                            return (
+                                <VideoBlock
+                                    deleteBlock={deleteBlock}
+                                    onChange={onBlockContentChanged}
+                                    block={block}
+                                    key={block.id}
+                                />
+                            );
                         case CONTENT_TYPES.LINK_TO_NOTE:
-                            return <LinkToNoteBlock block={block} onChange={onBlockContentChanged} key={block.id} />;
+                            return (
+                                <LinkToNoteBlock
+                                    deleteBlock={deleteBlock}
+                                    block={block}
+                                    onChange={onBlockContentChanged}
+                                    key={block.id}
+                                />
+                            );
                         default:
                             throw new Error('Неправильный тип контента');
                     }
