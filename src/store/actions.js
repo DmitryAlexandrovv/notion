@@ -1,4 +1,4 @@
-import { CHANGE_NOTE_MODE, SAVE_ACTIVE_NOTE, LOAD_PAGES, SET_ACTIVE_NOTE } from '../constants/actions';
+import { CHANGE_NOTE_MODE, SAVE_ACTIVE_NOTE, LOAD_PAGES, SET_ACTIVE_NOTE, SET_USER } from '../constants/actions';
 
 const changeNoteMode = (type) => {
     return {
@@ -28,4 +28,11 @@ const setActiveNote = (note) => {
     };
 };
 
-export { changeNoteMode, saveActiveNote, loadPages, setActiveNote };
+const setUser = (user) => {
+    return {
+        type: SET_USER,
+        payload: user,
+    };
+};
+
+export { changeNoteMode, saveActiveNote, loadPages, setActiveNote, setUser };
