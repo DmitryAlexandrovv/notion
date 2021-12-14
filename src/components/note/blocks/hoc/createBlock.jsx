@@ -45,6 +45,10 @@ const CreateBlock = (WrappedComponent) => {
             setData(props.block.data);
         };
 
+        const deleteCurrentBlock = () => {
+            props.deleteBlock(props.block.id);
+        };
+
         return (
             <div
                 className={styles.block}
@@ -56,7 +60,10 @@ const CreateBlock = (WrappedComponent) => {
                         {isCtrlGroupVisible && activeMode === NOTE_MODE_TYPES.EDIT && !isEdit && (
                             <div className={styles.blockCtrlGroupWrapper}>
                                 <div className={styles.blockCtrlGroup}>
-                                    <DeleteOutlined className={styles.blockCtrlGroupItem} />
+                                    <DeleteOutlined
+                                        className={styles.blockCtrlGroupItem}
+                                        onClick={deleteCurrentBlock}
+                                    />
                                     <EditOutlined
                                         className={styles.blockCtrlGroupItem}
                                         onClick={() => toggleEdit(true)}
