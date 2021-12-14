@@ -24,33 +24,10 @@ const NoteEditMode = (props) => {
                         ...block,
                     };
                 } else {
-                    switch (type) {
-                        case CONTENT_TYPES.TEXT:
-                            return {
-                                ...block,
-                                data,
-                            };
-                        case CONTENT_TYPES.IMAGE:
-                            return {
-                                ...block,
-                                data,
-                            };
-                        case CONTENT_TYPES.VIDEO:
-                            return {
-                                ...block,
-                                data,
-                            };
-                        case CONTENT_TYPES.LINK_TO_NOTE:
-                            return {
-                                ...block,
-                                data: {
-                                    id: data.id,
-                                    title: data.title,
-                                },
-                            };
-                        default:
-                            throw new Error('Неизвестный тип контента');
-                    }
+                    return {
+                        ...block,
+                        data,
+                    };
                 }
             }),
         };
