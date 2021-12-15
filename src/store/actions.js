@@ -1,4 +1,13 @@
-import { CHANGE_NOTE_MODE, SAVE_ACTIVE_NOTE, LOAD_PAGES, SET_ACTIVE_NOTE, SET_USER } from '../constants/actions';
+import {
+    CHANGE_NOTE_MODE,
+    SAVE_ACTIVE_NOTE,
+    LOAD_PAGES,
+    SET_ACTIVE_NOTE,
+    CAN_DRAG_BLOCK,
+    UPDATE_ADDED_BLOCKS_IDS,
+    IS_DRAGGING_ACTIVE,
+    SET_USER,
+} from '../constants/actions';
 
 const changeNoteMode = (type) => {
     return {
@@ -28,6 +37,27 @@ const setActiveNote = (note) => {
     };
 };
 
+const canDragNote = (canDragNote) => {
+    return {
+        type: CAN_DRAG_BLOCK,
+        payload: canDragNote,
+    };
+};
+
+const updateAddedBlocksIds = (blockId) => {
+    return {
+        type: UPDATE_ADDED_BLOCKS_IDS,
+        payload: blockId,
+    };
+};
+
+const setIsDraggingActive = (isActive) => {
+    return {
+        type: IS_DRAGGING_ACTIVE,
+        payload: isActive,
+    };
+};
+
 const setUser = (user) => {
     return {
         type: SET_USER,
@@ -35,4 +65,13 @@ const setUser = (user) => {
     };
 };
 
-export { changeNoteMode, saveActiveNote, loadPages, setActiveNote, setUser };
+export {
+    changeNoteMode,
+    saveActiveNote,
+    loadPages,
+    setActiveNote,
+    canDragNote,
+    updateAddedBlocksIds,
+    setIsDraggingActive,
+    setUser,
+};

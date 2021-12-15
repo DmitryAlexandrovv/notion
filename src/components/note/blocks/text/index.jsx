@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import { Button } from 'antd';
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';

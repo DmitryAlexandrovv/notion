@@ -1,0 +1,14 @@
+.addingBlock {
+    grid-area: adding-block;
+    background-color: var(--sidebar-background);
+    min-width: 210px;
+}
+
+.addingBlockTitle {
+    font-size: 18px;
+}
+
+.wrapper {
+    position: fixed;
+    padding: 20px;
+}

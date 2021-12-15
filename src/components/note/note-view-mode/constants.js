@@ -1,6 +1,6 @@
 export const CONTENT_TYPES = {
-    TEXT: 0,
-    IMAGE: 1,
-    VIDEO: 2,
-    LINK_TO_NOTE: 3,
+    TEXT: 'TEXT',
+    IMAGE: 'IMAGE',
+    VIDEO: 'VIDEO',
+    LINK_TO_NOTE: 'LINK_TO_NOTE',
 };

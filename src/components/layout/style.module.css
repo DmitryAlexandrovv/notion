@@ -1,6 +1,6 @@
 .layout {
     display: grid;
-    grid-template-areas: "sidebar main";
+    grid-template-areas: "sidebar main adding-block";
     grid-template-columns: 300px 1fr;
 
     min-height: 100vh;
@@ -10,4 +10,14 @@
     grid-area: main;
 
     padding: 20px;
+}
+
+.noteCtrlGroup {
+    display: flex;
+    justify-content: flex-start;
+    margin: 10px 0;
+}
+
+.noteCtrlGroupItem {
+    margin-right: 10px;
 }
