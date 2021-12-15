@@ -4,6 +4,7 @@ import { NOTE_MODE_TYPES } from '../../constants';
 import Sidebar from '../sidebar';
 import NoteViewMode from '../note/note-view-mode';
 import NoteEditMode from '../note/note-edit-mode';
+import AddingBlock from '../adding-block';
 import { Tabs } from 'antd';
 import Login from '../login';
 
@@ -36,6 +37,7 @@ const Layout = () => {
                     </Tabs>
                 )}
             </main>
+            {activeMode === NOTE_MODE_TYPES.EDIT && <AddingBlock />}
         </div>
     );
 };

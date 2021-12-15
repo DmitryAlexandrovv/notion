@@ -1,6 +1,6 @@
 .layout {
     display: grid;
-    grid-template-areas: "sidebar main";
+    grid-template-areas: "sidebar main adding-block";
     grid-template-columns: 300px 1fr;
 
     min-height: 100vh;
