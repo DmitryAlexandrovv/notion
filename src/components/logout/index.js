@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux';
 const logOut = () => {
   auth.signOut()
       .then(() => {
-          console.log('logged out');
           onSuccess;
       })
       .catch((error) => {

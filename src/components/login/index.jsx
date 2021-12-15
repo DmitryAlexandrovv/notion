@@ -32,15 +32,11 @@ const Login = () => {
         queryGetUsers
             .then((snapshot) => {
                 if (snapshot.exists()) {
-                    console.log(snapshot.val());
-                    // snapshot.val();
                     const userList = snapshot.val();
-                    // don't work
-                    const foundedUser = userList.find((u) => u.email === email);
+                    const userId = Object.keys(userList).filter((key) => userList[key].email === email);
                     let user;
-                    if (foundedUser === undefined) {
+                    if (userId === undefined) {
                         const userId = newUserKey;
-                        console.log(newUserKey);
                         user = {
                             id: userId,
                             name: displayName,
@@ -48,7 +44,11 @@ const Login = () => {
                         };
                         saveNewUser(user);
                     } else {
-                        user = foundedUser;
+                        user = {
+                            id: userId,
+                            name: displayName,
+                            email: email,
+                        };
                     }
                     dispatch(setUser(user));
                 } else {
