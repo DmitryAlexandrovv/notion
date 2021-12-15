@@ -6,6 +6,7 @@ import {
     CAN_DRAG_BLOCK,
     UPDATE_ADDED_BLOCKS_IDS,
     IS_DRAGGING_ACTIVE,
+    SET_USER,
 } from '../constants/actions';
 import { NOTE_MODE_TYPES } from '../constants';
 
@@ -16,6 +17,7 @@ const initialState = {
     canDragBlock: true,
     addedBlocksIds: [],
     isDraggingActive: false,
+    user: null,
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -54,6 +56,10 @@ const reducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 isDraggingActive: payload,
+        case SET_USER:
+            return {
+                ...state,
+                user: payload,
             };
         default:
             return state;

@@ -6,6 +6,7 @@ import {
     CAN_DRAG_BLOCK,
     UPDATE_ADDED_BLOCKS_IDS,
     IS_DRAGGING_ACTIVE,
+    SET_USER,
 } from '../constants/actions';
 
 const changeNoteMode = (type) => {
@@ -57,6 +58,13 @@ const setIsDraggingActive = (isActive) => {
     };
 };
 
+const setUser = (user) => {
+    return {
+        type: SET_USER,
+        payload: user,
+    };
+};
+
 export {
     changeNoteMode,
     saveActiveNote,
@@ -65,4 +73,5 @@ export {
     canDragNote,
     updateAddedBlocksIds,
     setIsDraggingActive,
+    setUser,
 };

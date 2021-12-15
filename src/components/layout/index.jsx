@@ -22,7 +22,6 @@ const Layout = () => {
     return (
         <div className={styles.layout}>
             <Sidebar />
-            <Login />
             <main className={styles.main}>
                 {activeNote && (
                     <>
