@@ -1,19 +1,22 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { saveActiveNote } from '../../../store/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveActiveNote, canDragNote, updateAddedBlocksIds } from '../../../store/actions';
 import { CONTENT_TYPES } from '../note-view-mode/constants';
 import { Button } from 'antd';
 import TextBlock from '../blocks/text';
 import ImageBlock from '../blocks/image';
 import VideoBlock from '../blocks/youtube-video';
 import LinkToNoteBlock from '../blocks/link-to-note';
+import { getDefaultBlockData } from '../../../helpers';
 
 import noteStyles from '../note-view-mode/style.module.css';
 import styles from './style.module.css';
 
 const NoteEditMode = (props) => {
     const dispatch = useDispatch(),
-        [note, onUpdateNote] = useState(props.activeNote);
+        [note, onUpdateNote] = useState(props.activeNote),
+        addedBlocksIds = useSelector((state) => state.addedBlocksIds),
+        isDraggingActive = useSelector((state) => state.isDraggingActive);
 
     const onBlockContentChanged = (type, id, data) => {
         const updatedNote = {
@@ -50,10 +53,35 @@ const NoteEditMode = (props) => {
         dispatch(saveActiveNote(note));
     };
 
+    const addBlock = (prevBlockId, newBlock) => {
+        let newBlockData = getDefaultBlockData(newBlock.type);
+
+        const prevBlockIndex = note.blocks.map((block) => block.id).indexOf(prevBlockId);
+
+        const updatedNote =
+            prevBlockIndex === note.blocks.length - 1
+                ? {
+                      ...note,
+                      blocks: [...note.blocks, newBlockData],
+                  }
+                : {
+                      ...note,
+                      blocks: [
+                          ...note.blocks.slice(0, prevBlockIndex),
+                          newBlockData,
+                          ...note.blocks.slice(prevBlockIndex),
+                      ],
+                  };
+
+        onUpdateNote(updatedNote);
+        dispatch(canDragNote(false));
+        dispatch(updateAddedBlocksIds([...addedBlocksIds, newBlockData.id]));
+    };
+
     return (
         <>
-            <div className={noteStyles.note}>
-                <h3 className={noteStyles.noteTitle}>{note.title}</h3>
+            <h3 className={noteStyles.noteTitle}>{note.title}</h3>
+            <div className={`${noteStyles.note} ${isDraggingActive ? noteStyles.noteWithDraggingBorder : ''}`}>
                 {note.blocks.map((block) => {
                     switch (block.type) {
                         case CONTENT_TYPES.TEXT:
@@ -63,6 +91,7 @@ const NoteEditMode = (props) => {
                                     block={block}
                                     onChange={onBlockContentChanged}
                                     key={block.id}
+                                    addBlock={addBlock}
                                 />
                             );
                         case CONTENT_TYPES.IMAGE:
@@ -73,6 +102,7 @@ const NoteEditMode = (props) => {
                                     onChange={onBlockContentChanged}
                                     block={block}
                                     key={block.id}
+                                    addBlock={addBlock}
                                 />
                             );
                         case CONTENT_TYPES.VIDEO:
@@ -82,6 +112,7 @@ const NoteEditMode = (props) => {
                                     onChange={onBlockContentChanged}
                                     block={block}
                                     key={block.id}
+                                    addBlock={addBlock}
                                 />
                             );
                         case CONTENT_TYPES.LINK_TO_NOTE:
@@ -91,6 +122,7 @@ const NoteEditMode = (props) => {
                                     block={block}
                                     onChange={onBlockContentChanged}
                                     key={block.id}
+                                    addBlock={addBlock}
                                 />
                             );
                         default:

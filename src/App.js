@@ -2,6 +2,8 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { loadPages } from './store/actions';
 import Layout from './components/layout';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 // ToDo типа запрос
 const pages = [
@@ -45,7 +47,11 @@ const App = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return <Layout />;
+    return (
+        <DndProvider backend={HTML5Backend}>
+            <Layout />
+        </DndProvider>
+    );
 };
 
 export default App;

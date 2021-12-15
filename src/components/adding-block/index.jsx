@@ -1,3 +1,6 @@
+import Block from './block';
+import { CONTENT_TYPES } from '../note/note-view-mode/constants';
+
 import styles from './style.module.css';
 
 const AddingBlock = () => {
@@ -5,10 +8,10 @@ const AddingBlock = () => {
         <div className={styles.addingBlock}>
             <div className={styles.wrapper}>
                 <h3 className={styles.addingBlockTitle}>Перетащите блок</h3>
-                <div className={styles.block}>Текст</div>
-                <div className={styles.block}>Картинка</div>
-                <div className={styles.block}>Видео YouTube</div>
-                <div className={styles.block}>Ссылка на другую заметку</div>
+                <Block type={CONTENT_TYPES.TEXT} text='Текст' />
+                <Block type={CONTENT_TYPES.IMAGE} text='Картинка' />
+                <Block type={CONTENT_TYPES.VIDEO} text='Видео YouTube' />
+                <Block type={CONTENT_TYPES.LINK_TO_NOTE} text='Ссылка на другую заметку' />
             </div>
         </div>
     );
