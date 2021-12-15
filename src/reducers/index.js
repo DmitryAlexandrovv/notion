@@ -31,7 +31,6 @@ const reducer = (state = initialState, { type, payload }) => {
                 activeNote: payload,
             };
         case SET_USER:
-            console.log(payload);
             return {
                 ...state,
                 user: payload,

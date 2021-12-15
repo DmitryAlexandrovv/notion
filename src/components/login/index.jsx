@@ -1,16 +1,16 @@
-import { auth, provider } from '../../service/firebase';
+import { auth, provider, queryGetUsers, newUserKey, saveNewUser } from '../../service/firebase';
 import { setUser } from '../../store/actions';
 
 import { Button } from 'antd';
 import { useDispatch } from 'react-redux';
 
-const userList = [
-    {
-        id: 1,
-        email: 'deadm2249@gmail.com',
-        name: 'Dead M',
-    },
-];
+// const userList = [
+//     {
+//         id: 1,
+//         email: 'deadm2249@gmail.com',
+//         name: 'Dead M',
+//     },
+// ];
 
 const signInWithGoogle = (onSuccess) => {
     auth.signInWithPopup(provider)
@@ -26,17 +26,38 @@ const Login = () => {
     const dispatch = useDispatch();
 
     const onSuccess = (result) => {
-        const { email } = result.user;
-        const foundedUser = userList.find((u) => u.email === email);
-        let user;
-        if (foundedUser === null) {
-            // write to database id email name
-            // user = foundedUser;
-            // get user id
-        } else {
-            user = foundedUser;
-        }
-        dispatch(setUser(user));
+        const { email, displayName } = result.user;
+
+        // const userList = getUsers();
+        queryGetUsers
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    const userList = snapshot.val();
+                    const userId = Object.keys(userList).filter((key) => userList[key].email === email);
+                    let user;
+                    if (userId === undefined) {
+                        const userId = newUserKey;
+                        user = {
+                            id: userId,
+                            name: displayName,
+                            email: email,
+                        };
+                        saveNewUser(user);
+                    } else {
+                        user = {
+                            id: userId,
+                            name: displayName,
+                            email: email,
+                        };
+                    }
+                    dispatch(setUser(user));
+                } else {
+                    console.log('No data available');
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     return (
