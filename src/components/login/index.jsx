@@ -1,4 +1,4 @@
-import { auth, provider, database, queryGetUsers, newUserKey, saveNewUser } from '../../service/firebase';
+import { auth, provider, queryGetUsers, newUserKey, saveNewUser } from '../../service/firebase';
 import { setUser } from '../../store/actions';
 
 import { Button } from 'antd';

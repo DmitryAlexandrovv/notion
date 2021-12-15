@@ -2,8 +2,7 @@ import { useState } from 'react';
 
 const WithImage = (WrappedComponent) => {
     return function WithWrapper(props) {
-        const { data, setData } = props,
-            [error, setError] = useState(false),
+        const { data, setData, setError } = props,
             [isLoaded, setIsLoaded] = useState(false);
 
         const onInput = (event) => {
@@ -33,7 +32,6 @@ const WithImage = (WrappedComponent) => {
                 onInput={onInput}
                 isLoaded={isLoaded}
                 setIsLoaded={setIsLoaded}
-                error={error}
             />
         );
     };
