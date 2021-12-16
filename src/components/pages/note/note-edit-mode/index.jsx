@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveActiveNote, canDragNote, updateAddedBlocksIds } from '../../../store/actions';
+import { saveActiveNote, canDragNote, updateAddedBlocksIds } from '../../../../store/actions';
 import { CONTENT_TYPES } from '../note-view-mode/constants';
 import { Button } from 'antd';
 import TextBlock from '../blocks/text';
 import ImageBlock from '../blocks/image';
 import VideoBlock from '../blocks/youtube-video';
 import LinkToNoteBlock from '../blocks/link-to-note';
-import { getDefaultBlockData } from '../../../helpers';
+import HiddenBlock from '../blocks/hiddenBlock';
+import { getDefaultBlockData } from '../../../../helpers';
 
 import noteStyles from '../note-view-mode/style.module.css';
 import styles from './style.module.css';
@@ -17,6 +18,10 @@ const NoteEditMode = (props) => {
         [note, onUpdateNote] = useState(props.activeNote),
         addedBlocksIds = useSelector((state) => state.addedBlocksIds),
         isDraggingActive = useSelector((state) => state.isDraggingActive);
+
+    useEffect(() => {
+        onUpdateNote(props.activeNote);
+    }, [props.activeNote]);
 
     const onBlockContentChanged = (type, id, data) => {
         const updatedNote = {
@@ -78,6 +83,19 @@ const NoteEditMode = (props) => {
         dispatch(updateAddedBlocksIds([...addedBlocksIds, newBlockData.id]));
     };
 
+    const addHiddenBlock = (newBlock) => {
+        let newBlockData = getDefaultBlockData(newBlock.type);
+
+        const updatedNote = {
+            ...note,
+            blocks: [newBlockData],
+        };
+
+        onUpdateNote(updatedNote);
+        dispatch(canDragNote(false));
+        dispatch(updateAddedBlocksIds([...addedBlocksIds, newBlockData.id]));
+    };
+
     return (
         <>
             <h3 className={noteStyles.noteTitle}>{note.title}</h3>
@@ -129,6 +147,7 @@ const NoteEditMode = (props) => {
                             throw new Error('Неправильный тип контента');
                     }
                 })}
+                {note.blocks.length === 0 && <HiddenBlock addHiddenBlock={addHiddenBlock} />}
             </div>
             <Button className={styles.noteSaveBtn} onClick={onSave}>
                 Сохранить заметку

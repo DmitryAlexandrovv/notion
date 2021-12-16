@@ -1,11 +1,15 @@
-import { CONTENT_TYPES } from '../components/note/note-view-mode/constants';
+import { CONTENT_TYPES } from '../components/pages/note/note-view-mode/constants';
 import { v4 as uuid_v4 } from 'uuid';
 import { convertToRaw, EditorState } from 'draft-js';
+import { TreeSelect } from 'antd';
+
+const TreeNode = TreeSelect.TreeNode;
 
 export const getNestedArray = (pages, parent) => {
     const result = [];
+
     for (const page of pages) {
-        if (page.parent === parent) {
+        if (page.parentId === parent) {
             const children = getNestedArray(pages, page.id);
 
             if (children.length) {
@@ -35,6 +39,14 @@ export const getVideoId = (url) => {
     const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     const match = url.match(regExp);
     return match && match[7].length === 11 ? match[7] : false;
+};
+
+export const getDefaultNoteData = ({ title, parentId }) => {
+    return {
+        title,
+        id: uuid_v4(),
+        parentId,
+    };
 };
 
 export const getDefaultBlockData = (type) => {
@@ -76,4 +88,16 @@ export const getDefaultBlockData = (type) => {
         default:
             throw new Error('Неверный тип');
     }
+};
+
+export const createNoteTree = (node) => {
+    return (
+        <TreeNode value={node.id} title={node.title} key={node.id}>
+            {node.nested
+                ? node.nested.map((nodeChild) => {
+                      return createNoteTree(nodeChild);
+                  })
+                : ''}
+        </TreeNode>
+    );
 };

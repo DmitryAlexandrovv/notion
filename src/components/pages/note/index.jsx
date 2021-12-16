@@ -1,67 +1,33 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { changeNoteMode, loadPages } from '../../store/actions';
-import { NOTE_MODE_TYPES } from '../../constants';
-import Sidebar from '../sidebar';
-import NoteViewMode from '../note/note-view-mode';
-import NoteEditMode from '../note/note-edit-mode';
-import AddingBlock from '../adding-block';
+import { changeNoteMode } from '../../../store/actions';
+import { NOTE_MODE_TYPES } from '../../../constants';
+import Sidebar from '../../sidebar';
+import NoteViewMode from './note-view-mode';
+import NoteEditMode from './note-edit-mode';
+import AddingBlock from '../../adding-block';
 import { Button } from 'antd';
 
+import pageStyles from '../style.module.css';
 import styles from './style.module.css';
-import { useEffect } from 'react';
 
-// ToDo типа запрос
-const pages = [
-    {
-        id: 1,
-        title: 'Первая страница',
-        parent: null,
-    },
-    {
-        id: 2,
-        title: 'Фильмы',
-        parent: null,
-    },
-    {
-        id: 3,
-        title: 'Звездные Войны',
-        parent: 2,
-    },
-    {
-        id: 4,
-        title: 'Звездные войны. Эпизод V',
-        parent: 3,
-    },
-    {
-        id: 5,
-        title: 'Рецепты',
-        parent: null,
-    },
-    {
-        id: 6,
-        title: 'Салаты',
-        parent: 5,
-    },
-];
-
-const Layout = () => {
+const Note = () => {
     const dispatch = useDispatch(),
         activeMode = useSelector((state) => state.activeMode),
         activeNote = useSelector((state) => state.activeNote);
 
-    useEffect(() => {
-        dispatch(loadPages(pages));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // useEffect(() => {
+    //     dispatch(loadPages(pages));
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
     const tabToggleHandler = (activeKey) => {
         dispatch(changeNoteMode(activeKey));
     };
 
     return (
-        <div className={styles.layout}>
+        <div className={pageStyles.layout}>
             <Sidebar />
-            <main className={styles.main}>
+            <main className={pageStyles.main}>
                 {activeNote && (
                     <>
                         <div className={styles.noteCtrlGroup}>
@@ -88,4 +54,4 @@ const Layout = () => {
     );
 };
 
-export default Layout;
+export default Note;

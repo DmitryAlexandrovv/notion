@@ -1,6 +1,4 @@
 .sidebar {
-    grid-area: sidebar;
-
     background-color: var(--sidebar-background);
 }
 

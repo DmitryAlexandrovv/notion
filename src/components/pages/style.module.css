@@ -11,13 +11,3 @@
 
     padding: 20px;
 }
-
-.noteCtrlGroup {
-    display: flex;
-    justify-content: flex-start;
-    margin: 10px 0;
-}
-
-.noteCtrlGroupItem {
-    margin-right: 10px;
-}

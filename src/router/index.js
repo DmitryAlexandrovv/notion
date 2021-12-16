@@ -1,11 +1,16 @@
 import { Navigate } from 'react-router-dom';
 import Login from '../components/login';
-import Layout from '../components/layout';
+import Note from '../components/pages/note';
+import Home from '../components/pages/home';
 
 const routes = (isLoggedIn) => [
     {
         path: '/',
-        element: isLoggedIn ? <Layout /> : <Navigate to='/login' />,
+        element: isLoggedIn ? <Home /> : <Navigate to='/login' />,
+    },
+    {
+        path: '/note',
+        element: isLoggedIn ? <Note /> : <Navigate to='/login' />,
     },
     {
         path: '/login',
