@@ -18,6 +18,7 @@ const initialState = {
     addedBlocksIds: [],
     isDraggingActive: false,
     user: null,
+    isLoggedIn: false,
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -61,6 +62,7 @@ const reducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 user: payload,
+                isLoggedIn: true,
             };
         default:
             return state;

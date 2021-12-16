@@ -4,6 +4,8 @@ import { setUser } from '../../store/actions';
 import { Button } from 'antd';
 import { useDispatch } from 'react-redux';
 
+import styles from './style.module.css';
+
 // const userList = [
 //     {
 //         id: 1,
@@ -61,7 +63,7 @@ const Login = () => {
     };
 
     return (
-        <div>
+        <div className={styles.login}>
             <Button onClick={() => signInWithGoogle(onSuccess)}>Sign in with Google</Button>
         </div>
     );
