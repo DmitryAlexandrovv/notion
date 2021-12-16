@@ -35,9 +35,11 @@ const saveNewUser = (data) => {
     })
         .then(() => {
             // cool
+            console.log('here');
         })
         .catch((e) => {
             // e
+            console.log(e);
         });
 };
 

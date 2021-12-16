@@ -56,6 +56,7 @@ const reducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 isDraggingActive: payload,
+            };
         case SET_USER:
             return {
                 ...state,
