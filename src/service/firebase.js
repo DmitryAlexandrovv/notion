@@ -38,6 +38,7 @@ const saveNewUser = (data) => {
         })
         .catch((e) => {
             // e
+            console.log(e);
         });
 };
 

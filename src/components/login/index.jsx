@@ -33,7 +33,7 @@ const Login = () => {
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     const userList = snapshot.val();
-                    const userId = Object.keys(userList).filter((key) => userList[key].email === email);
+                    const userId = Object.keys(userList).filter((key) => userList[key].email === email)[0];
                     let user;
                     if (userId === undefined) {
                         const userId = newUserKey;
