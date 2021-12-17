@@ -6,6 +6,7 @@ import NoteViewMode from './note-view-mode';
 import NoteEditMode from './note-edit-mode';
 import AddingBlock from '../../adding-block';
 import { Button } from 'antd';
+import Navbar from '../../navbar';
 
 import pageStyles from '../style.module.css';
 import styles from './style.module.css';
@@ -21,31 +22,34 @@ const Note = () => {
     };
 
     return (
-        <div className={pageStyles.layout}>
-            <Sidebar />
-            <main className={pageStyles.main}>
-                {activeNote && (
-                    <>
-                        <div className={styles.noteCtrlGroup}>
-                            <Button
-                                className={styles.noteCtrlGroupItem}
-                                onClick={() => tabToggleHandler(NOTE_MODE_TYPES.VIEW)}
-                            >
-                                Просмотр
-                            </Button>
-                            <Button
-                                className={styles.noteCtrlGroupItem}
-                                onClick={() => tabToggleHandler(NOTE_MODE_TYPES.EDIT)}
-                            >
-                                Редактирование
-                            </Button>
-                        </div>
-                        {activeMode === NOTE_MODE_TYPES.VIEW && <NoteViewMode activeNote={activeNote} />}
-                        {activeMode === NOTE_MODE_TYPES.EDIT && <NoteEditMode activeNote={activeNote} />}
-                    </>
-                )}
-            </main>
-            {activeMode === NOTE_MODE_TYPES.EDIT && <AddingBlock />}
+        <div className={pageStyles.wrapper}>
+            <Navbar />
+            <div className={pageStyles.layout}>
+                <Sidebar />
+                <main className={pageStyles.main}>
+                    {activeNote && (
+                        <>
+                            <div className={styles.noteCtrlGroup}>
+                                <Button
+                                    className={styles.noteCtrlGroupItem}
+                                    onClick={() => tabToggleHandler(NOTE_MODE_TYPES.VIEW)}
+                                >
+                                    Просмотр
+                                </Button>
+                                <Button
+                                    className={styles.noteCtrlGroupItem}
+                                    onClick={() => tabToggleHandler(NOTE_MODE_TYPES.EDIT)}
+                                >
+                                    Редактирование
+                                </Button>
+                            </div>
+                            {activeMode === NOTE_MODE_TYPES.VIEW && <NoteViewMode activeNote={activeNote} />}
+                            {activeMode === NOTE_MODE_TYPES.EDIT && <NoteEditMode activeNote={activeNote} />}
+                        </>
+                    )}
+                </main>
+                {activeMode === NOTE_MODE_TYPES.EDIT && <AddingBlock />}
+            </div>
         </div>
     );
 };

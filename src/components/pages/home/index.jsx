@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createNewNote } from '../../../store/actions';
 import { getDefaultNoteData } from '../../../helpers';
+import Navbar from '../../navbar';
 
 import pageStyles from '../style.module.css';
 
@@ -17,12 +18,15 @@ const Home = () => {
     };
 
     return (
-        <div className={pageStyles.layout}>
-            <Sidebar />
-            <main className={pageStyles.main}>
-                <Button onClick={() => setIsOpen(true)}>Создать заметку</Button>
-                <ChangeNotePropsModal onSave={onSave} modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
-            </main>
+        <div className={pageStyles.wrapper}>
+            <Navbar />
+            <div className={pageStyles.layout}>
+                <Sidebar />
+                <main className={pageStyles.main}>
+                    <Button onClick={() => setIsOpen(true)}>Создать заметку</Button>
+                    <ChangeNotePropsModal onSave={onSave} modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
+                </main>
+            </div>
         </div>
     );
 };
