@@ -7,6 +7,7 @@ import {
     IS_DRAGGING_ACTIVE,
     SET_USER,
     CREATE_NEW_NOTE,
+    CLEAR_STORE,
 } from '../constants/actions';
 import { NOTE_MODE_TYPES } from '../constants';
 
@@ -68,6 +69,8 @@ const reducer = (state = initialState, { type, payload }) => {
                 ...state,
                 pages,
             };
+        case CLEAR_STORE:
+            return initialState;
         default:
             return state;
     }
