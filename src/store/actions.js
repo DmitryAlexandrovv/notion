@@ -7,6 +7,7 @@ import {
     IS_DRAGGING_ACTIVE,
     SET_USER,
     CREATE_NEW_NOTE,
+    CLEAR_STORE,
 } from '../constants/actions';
 
 const changeNoteMode = (type) => {
@@ -66,6 +67,12 @@ const createNewNote = (note) => {
     };
 };
 
+const clearStore = () => {
+    return {
+        type: CLEAR_STORE,
+    };
+};
+
 export {
     changeNoteMode,
     saveActiveNote,
@@ -75,4 +82,5 @@ export {
     setIsDraggingActive,
     setUser,
     createNewNote,
+    clearStore,
 };
