@@ -15,12 +15,8 @@ const Note = () => {
         activeMode = useSelector((state) => state.activeMode),
         activeNote = useSelector((state) => state.activeNote);
 
-    // useEffect(() => {
-    //     dispatch(loadPages(pages));
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
-
     const tabToggleHandler = (activeKey) => {
+        //ToDo может стоит сообщать пользаку, что изменения не сохраняться?(Если не нажал сохранить)
         dispatch(changeNoteMode(activeKey));
     };
 

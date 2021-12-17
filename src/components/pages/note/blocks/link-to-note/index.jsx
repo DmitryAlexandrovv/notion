@@ -6,13 +6,20 @@ import { getNestedArray, createNoteTree } from '../../../../../helpers';
 import blockStyles from '../style.module.css';
 import styles from './style.module.css';
 import { CONTENT_TYPES } from '../../note-view-mode/constants';
+import { useEffect } from 'react';
 
 const LinkToNoteBlock = (props) => {
-    const { isEditMode, onSave, onCancel, data, setData } = props,
+    const { isEditMode, onSave, onCancel, data, setData, setError } = props,
         formattedPages = getNestedArray(
             useSelector((state) => state.pages),
             null
         );
+
+    useEffect(() => {
+        if (!data.id) {
+            setError(true);
+        }
+    }, [data]);
 
     const redirect = () => {
         //ToDo редирект на другую заметку

@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getNestedArray } from '../../helpers';
 import { useDispatch } from 'react-redux';
-import { setActiveNote } from '../../store/actions';
+import { changeNoteMode, saveActiveNote } from '../../store/actions';
+import { Link } from 'react-router-dom';
+import { NOTE_MODE_TYPES } from '../../constants';
 
 import styles from './style.module.css';
-import { Link } from 'react-router-dom';
 
 const ListItem = ({ page }) => {
     const [opened, setOpened] = useState(false),
@@ -15,8 +16,10 @@ const ListItem = ({ page }) => {
 
     const openNote = () => {
         //ToDo типа запрос(Отправлять всегда новыцй, тк на фронте хранится тока id, parentId
+        //ToDo лучше один экшн?
+        dispatch(changeNoteMode(NOTE_MODE_TYPES.VIEW));
         dispatch(
-            setActiveNote({
+            saveActiveNote({
                 ...page,
                 blocks: [],
             })

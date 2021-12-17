@@ -2,7 +2,6 @@ import {
     CHANGE_NOTE_MODE,
     SAVE_ACTIVE_NOTE,
     LOAD_PAGES,
-    SET_ACTIVE_NOTE,
     CAN_DRAG_BLOCK,
     UPDATE_ADDED_BLOCKS_IDS,
     IS_DRAGGING_ACTIVE,
@@ -38,11 +37,6 @@ const reducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 pages: payload,
-            };
-        case SET_ACTIVE_NOTE:
-            return {
-                ...state,
-                activeNote: payload,
             };
         case CAN_DRAG_BLOCK:
             return {

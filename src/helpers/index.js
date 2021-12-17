@@ -101,3 +101,16 @@ export const createNoteTree = (node) => {
         </TreeNode>
     );
 };
+
+export const getUpdatedBlocks = (blocks, prevBlockData, newBlockData) => {
+    if (prevBlockData.index === blocks.length - 1) {
+        const prevBlockOffset = document.getElementById(prevBlockData.id).getBoundingClientRect();
+        if (newBlockData.offset.y > prevBlockOffset.y) {
+            return [...blocks, newBlockData.data];
+        } else {
+            return [...blocks.slice(0, blocks.length - 1), newBlockData.data, blocks[blocks.length - 1]];
+        }
+    } else {
+        return [...blocks.slice(0, prevBlockData.index), newBlockData.data, ...blocks.slice(prevBlockData.index)];
+    }
+};
