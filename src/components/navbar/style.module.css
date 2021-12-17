@@ -1,0 +1,25 @@
+.navbar {
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    border: 1px solid #e7e7e7;
+    background-color: #f3f3f3;
+    padding: 0 20px;
+}
+
+.navbarLink {
+    display: block;
+    color: #666;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+.navbarLink:hover {
+    background-color: #ddd;
+}
+
+.navbarLinkActive {
+    color: white;
+    background-color: #008CBA;
+}
