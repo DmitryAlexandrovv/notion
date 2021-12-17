@@ -1,47 +1,12 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setActiveNote } from '../../store/actions';
-import { CONTENT_TYPES } from '../note/note-view-mode/constants';
+import { useSelector } from 'react-redux';
 import { getNestedArray } from '../../helpers';
+import { useDispatch } from 'react-redux';
+import { changeNoteMode, saveActiveNote } from '../../store/actions';
+import { Link } from 'react-router-dom';
+import { NOTE_MODE_TYPES } from '../../constants';
 
 import styles from './style.module.css';
-
-const note = {
-    title: 'Звездные войны',
-    id: 0,
-    parentId: null,
-    blocks: [
-        {
-            id: 0,
-            type: CONTENT_TYPES.TEXT,
-            data: '{"blocks":[{"key":"6339p","text":"ыфвыфв😎ыфв","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":7,"length":3,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}',
-        },
-        {
-            id: 1,
-            type: CONTENT_TYPES.IMAGE,
-            data: {
-                url: 'https://avatars.mds.yandex.net/get-zen_doc/3446134/pub_5eb01ba77386957c8ac84c07_5ede350dcd799e2fd3f9b717/scale_1200',
-                width: '320',
-            },
-        },
-        {
-            id: 2,
-            type: CONTENT_TYPES.VIDEO,
-            data: {
-                url: 'https://www.youtube.com/watch?v=u3kGQZeSSJo',
-                title: 'Наруто использует новый режим мудреца против Кодо в аниме Боруто',
-            },
-        },
-        {
-            id: 3,
-            type: CONTENT_TYPES.LINK_TO_NOTE,
-            data: {
-                id: 2,
-                title: 'Фильмы',
-            },
-        },
-    ],
-};
 
 const ListItem = ({ page }) => {
     const [opened, setOpened] = useState(false),
@@ -50,21 +15,33 @@ const ListItem = ({ page }) => {
     const toggleOpened = () => setOpened((prev) => !prev);
 
     const openNote = () => {
-        //ToDo типа запрос
-        dispatch(setActiveNote(note));
+        //ToDo типа запрос(Отправлять всегда новыцй, тк на фронте хранится тока id, parentId
+        //ToDo лучше один экшн?
+        dispatch(changeNoteMode(NOTE_MODE_TYPES.VIEW));
+        dispatch(
+            saveActiveNote({
+                ...page,
+                blocks: [],
+            })
+        );
     };
 
     const titleStyles = [];
-    titleStyles.push(page.parent === null ? styles.topLevelTitle : styles.title);
+    titleStyles.push(page.parentId === null ? styles.topLevelTitle : styles.title);
     page.nested && titleStyles.push(styles.titleNested);
     opened && titleStyles.push(styles.titleOpened);
 
+    const onTreeOpen = (event) => {
+        event.preventDefault();
+        toggleOpened();
+    };
+
     return (
         <li>
-            <div className={titleStyles.join(' ')} onClick={openNote}>
+            <Link to='/note' className={titleStyles.join(' ')} onClick={openNote}>
                 {page.title}
-                <span onClick={toggleOpened} />
-            </div>
+                <span onClick={onTreeOpen} />
+            </Link>
             {opened && page.nested ? <List pages={page.nested} /> : null}
         </li>
     );
@@ -81,10 +58,8 @@ const List = ({ pages }) => {
 };
 
 const PagesList = () => {
-    const formattedPages = getNestedArray(
-        useSelector((state) => state.pages),
-        null
-    );
+    const pages = useSelector((state) => state.pages),
+        formattedPages = getNestedArray(pages, null);
 
     return <List pages={formattedPages} />;
 };

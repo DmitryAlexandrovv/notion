@@ -8,9 +8,16 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styles from './style.module.css';
 import { CONTENT_TYPES } from '../../note-view-mode/constants';
 import blockStyles from '../style.module.css';
+import { useEffect } from 'react';
 
 const TextBlock = (props) => {
-    const { isEditMode, onSave, onCancel, data, setData } = props;
+    const { isEditMode, onSave, onCancel, data, setData, setError } = props;
+
+    useEffect(() => {
+        if (JSON.parse(data).blocks.length === 1 && JSON.parse(data).blocks[0].text.trim() === '') {
+            setError(true);
+        }
+    }, [data]);
 
     return (
         <div className={blockStyles.blockContent}>

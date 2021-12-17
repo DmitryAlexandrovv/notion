@@ -2,17 +2,17 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { NOTE_MODE_TYPES } from '../../../../constants';
+import { NOTE_MODE_TYPES } from '../../../../../constants';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { canDragNote, updateAddedBlocksIds } from '../../../../store/actions';
+import { canDragNote } from '../../../../../store/actions';
 
 import styles from '../style.module.css';
 import { CONTENT_TYPES } from '../../note-view-mode/constants';
 
 const CreateBlock = (WrappedComponent) => {
     return function WithWrapper(props) {
-        const activeMode = useSelector((state) => state.activeMode),
-            addedBlocksIds = useSelector((state) => state.addedBlocksIds),
+        const { addedBlocksIds, setAddedBlocksIds } = props,
+            activeMode = useSelector((state) => state.activeMode),
             [isCtrlGroupVisible, toggleCtrlGroupVisibility] = useState(false),
             [isEdit, toggleEdit] = useState(false),
             [data, setData] = useState(props.block.data),
@@ -20,21 +20,32 @@ const CreateBlock = (WrappedComponent) => {
             dispatch = useDispatch();
 
         useEffect(() => {
-            toggleEdit(addedBlocksIds.indexOf(props.block.id) !== -1);
+            if (activeMode === NOTE_MODE_TYPES.EDIT) {
+                toggleEdit(addedBlocksIds.indexOf(props.block.id) !== -1);
+            }
         }, [addedBlocksIds]);
 
         const [, drop] = useDrop(
             () => ({
                 accept: [CONTENT_TYPES.TEXT, CONTENT_TYPES.IMAGE, CONTENT_TYPES.VIDEO, CONTENT_TYPES.LINK_TO_NOTE],
-                drop: (item) => props.addBlock(props.block.id, item),
+                drop: (item, monitor) => {
+                    props.addBlock(props.block.id, item, monitor.getClientOffset());
+                },
             }),
             [props.block]
         );
 
         const outsideClickHandler = (event) => {
+            //ToDo может можно легче?
             if (isEdit) {
                 if (error) {
-                    onCancel();
+                    if (props.block.type === CONTENT_TYPES.LINK_TO_NOTE) {
+                        if (!event.target.closest('.ant-select-dropdown')) {
+                            onCancel();
+                        }
+                    } else {
+                        onCancel();
+                    }
                 } else {
                     if (props.block.type === CONTENT_TYPES.LINK_TO_NOTE) {
                         if (!event.target.closest('.ant-select-dropdown')) {
@@ -51,7 +62,7 @@ const CreateBlock = (WrappedComponent) => {
             toggleEdit(false);
             dispatch(canDragNote(true));
             if (addedBlocksIds.indexOf(props.block.id) !== -1) {
-                dispatch(updateAddedBlocksIds([...addedBlocksIds].filter((id) => id !== props.block.id)));
+                setAddedBlocksIds([...addedBlocksIds].filter((id) => id !== props.block.id));
             }
             props.onChange(type, props.block.id, blockData);
         };
@@ -59,7 +70,6 @@ const CreateBlock = (WrappedComponent) => {
         const onCancel = () => {
             toggleEdit(false);
             dispatch(canDragNote(true));
-
             if (error && addedBlocksIds.indexOf(props.block.id) !== -1) {
                 deleteCurrentBlock();
             } else {
@@ -79,6 +89,7 @@ const CreateBlock = (WrappedComponent) => {
         return (
             <div ref={drop} className={styles.blockDropPanel}>
                 <div
+                    id={props.block.id}
                     className={styles.block}
                     onMouseEnter={() => toggleCtrlGroupVisibility(true)}
                     onMouseLeave={() => toggleCtrlGroupVisibility(false)}

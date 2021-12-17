@@ -1,0 +1,21 @@
+.noteProps {
+    display: flex;
+    flex-direction: column;
+}
+
+.noteProp {
+    width: 250px;
+    margin: 15px 0;
+}
+
+.notePropSelect {
+    width: 100%;
+}
+
+.notePropsCtrlGroup {
+    display: flex;
+}
+
+.notePropsCtrlGroupItem {
+    margin-right: 10px;
+}

@@ -1,5 +1,5 @@
 import Block from './block';
-import { CONTENT_TYPES } from '../note/note-view-mode/constants';
+import { CONTENT_TYPES } from '../pages/note/note-view-mode/constants';
 
 import styles from './style.module.css';
 

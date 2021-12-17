@@ -1,35 +1,28 @@
 import { Button, TreeSelect } from 'antd';
 import { useSelector } from 'react-redux';
 import CreateBlock from '../hoc/createBlock';
-import { getNestedArray } from '../../../../helpers';
+import { getNestedArray, createNoteTree } from '../../../../../helpers';
 
 import blockStyles from '../style.module.css';
 import styles from './style.module.css';
 import { CONTENT_TYPES } from '../../note-view-mode/constants';
-
-const TreeNode = TreeSelect.TreeNode;
+import { useEffect } from 'react';
 
 const LinkToNoteBlock = (props) => {
-    const { isEditMode, onSave, onCancel, data, setData } = props,
+    const { isEditMode, onSave, onCancel, data, setData, setError } = props,
         formattedPages = getNestedArray(
             useSelector((state) => state.pages),
             null
         );
 
+    useEffect(() => {
+        if (!data.id) {
+            setError(true);
+        }
+    }, [data]);
+
     const redirect = () => {
         //ToDo редирект на другую заметку
-    };
-
-    const createTree = (node) => {
-        return (
-            <TreeNode value={node.id} title={node.title} key={node.id}>
-                {node.nested
-                    ? node.nested.map((nodeChild) => {
-                          return createTree(nodeChild);
-                      })
-                    : ''}
-            </TreeNode>
-        );
     };
 
     return (
@@ -42,7 +35,7 @@ const LinkToNoteBlock = (props) => {
                         className={styles.linkBlockElement}
                     >
                         {formattedPages.map((page) => {
-                            return createTree(page);
+                            return createNoteTree(page);
                         })}
                     </TreeSelect>
                     <div className={blockStyles.blockActions}>

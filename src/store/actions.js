@@ -2,11 +2,11 @@ import {
     CHANGE_NOTE_MODE,
     SAVE_ACTIVE_NOTE,
     LOAD_PAGES,
-    SET_ACTIVE_NOTE,
     CAN_DRAG_BLOCK,
     UPDATE_ADDED_BLOCKS_IDS,
     IS_DRAGGING_ACTIVE,
     SET_USER,
+    CREATE_NEW_NOTE,
 } from '../constants/actions';
 
 const changeNoteMode = (type) => {
@@ -23,17 +23,11 @@ const saveActiveNote = (note) => {
     };
 };
 
+//ToDo будет нужно, когда подключим бэк
 const loadPages = (pages) => {
     return {
         type: LOAD_PAGES,
         payload: pages,
-    };
-};
-
-const setActiveNote = (note) => {
-    return {
-        type: SET_ACTIVE_NOTE,
-        payload: note,
     };
 };
 
@@ -65,13 +59,20 @@ const setUser = (user) => {
     };
 };
 
+const createNewNote = (note) => {
+    return {
+        type: CREATE_NEW_NOTE,
+        payload: note,
+    };
+};
+
 export {
     changeNoteMode,
     saveActiveNote,
     loadPages,
-    setActiveNote,
     canDragNote,
     updateAddedBlocksIds,
     setIsDraggingActive,
     setUser,
+    createNewNote,
 };

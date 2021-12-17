@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveActiveNote, canDragNote, updateAddedBlocksIds } from '../../../store/actions';
+import { saveActiveNote, canDragNote } from '../../../../store/actions';
 import { CONTENT_TYPES } from '../note-view-mode/constants';
 import { Button } from 'antd';
 import TextBlock from '../blocks/text';
 import ImageBlock from '../blocks/image';
 import VideoBlock from '../blocks/youtube-video';
 import LinkToNoteBlock from '../blocks/link-to-note';
-import { getDefaultBlockData } from '../../../helpers';
+import HiddenBlock from '../blocks/hiddenBlock';
+import { getDefaultBlockData, getUpdatedBlocks } from '../../../../helpers';
 
 import noteStyles from '../note-view-mode/style.module.css';
 import styles from './style.module.css';
@@ -15,8 +16,12 @@ import styles from './style.module.css';
 const NoteEditMode = (props) => {
     const dispatch = useDispatch(),
         [note, onUpdateNote] = useState(props.activeNote),
-        addedBlocksIds = useSelector((state) => state.addedBlocksIds),
+        [addedBlocksIds, setAddedBlocksIds] = useState([]),
         isDraggingActive = useSelector((state) => state.isDraggingActive);
+
+    useEffect(() => {
+        onUpdateNote(props.activeNote);
+    }, [props.activeNote]);
 
     const onBlockContentChanged = (type, id, data) => {
         const updatedNote = {
@@ -49,33 +54,45 @@ const NoteEditMode = (props) => {
 
     const onSave = () => {
         // ToDo пост запрос
-        // ToDo сохранение при клике мимо
         dispatch(saveActiveNote(note));
     };
 
-    const addBlock = (prevBlockId, newBlock) => {
+    const addBlock = (prevBlockId, newBlock, newBlockOffset) => {
         let newBlockData = getDefaultBlockData(newBlock.type);
 
         const prevBlockIndex = note.blocks.map((block) => block.id).indexOf(prevBlockId);
 
-        const updatedNote =
-            prevBlockIndex === note.blocks.length - 1
-                ? {
-                      ...note,
-                      blocks: [...note.blocks, newBlockData],
-                  }
-                : {
-                      ...note,
-                      blocks: [
-                          ...note.blocks.slice(0, prevBlockIndex),
-                          newBlockData,
-                          ...note.blocks.slice(prevBlockIndex),
-                      ],
-                  };
+        let updatedNote = {
+            ...note,
+            blocks: getUpdatedBlocks(
+                note.blocks,
+                {
+                    index: prevBlockIndex,
+                    id: prevBlockId,
+                },
+                {
+                    offset: newBlockOffset,
+                    data: newBlockData,
+                }
+            ),
+        };
 
         onUpdateNote(updatedNote);
         dispatch(canDragNote(false));
-        dispatch(updateAddedBlocksIds([...addedBlocksIds, newBlockData.id]));
+        setAddedBlocksIds([...addedBlocksIds, newBlockData.id]);
+    };
+
+    const addHiddenBlock = (newBlock) => {
+        let newBlockData = getDefaultBlockData(newBlock.type);
+
+        const updatedNote = {
+            ...note,
+            blocks: [newBlockData],
+        };
+
+        onUpdateNote(updatedNote);
+        dispatch(canDragNote(false));
+        setAddedBlocksIds([...addedBlocksIds, newBlockData.id]);
     };
 
     return (
@@ -92,6 +109,8 @@ const NoteEditMode = (props) => {
                                     onChange={onBlockContentChanged}
                                     key={block.id}
                                     addBlock={addBlock}
+                                    addedBlocksIds={addedBlocksIds}
+                                    setAddedBlocksIds={setAddedBlocksIds}
                                 />
                             );
                         case CONTENT_TYPES.IMAGE:
@@ -103,6 +122,8 @@ const NoteEditMode = (props) => {
                                     block={block}
                                     key={block.id}
                                     addBlock={addBlock}
+                                    addedBlocksIds={addedBlocksIds}
+                                    setAddedBlocksIds={setAddedBlocksIds}
                                 />
                             );
                         case CONTENT_TYPES.VIDEO:
@@ -113,6 +134,8 @@ const NoteEditMode = (props) => {
                                     block={block}
                                     key={block.id}
                                     addBlock={addBlock}
+                                    addedBlocksIds={addedBlocksIds}
+                                    setAddedBlocksIds={setAddedBlocksIds}
                                 />
                             );
                         case CONTENT_TYPES.LINK_TO_NOTE:
@@ -123,12 +146,15 @@ const NoteEditMode = (props) => {
                                     onChange={onBlockContentChanged}
                                     key={block.id}
                                     addBlock={addBlock}
+                                    addedBlocksIds={addedBlocksIds}
+                                    setAddedBlocksIds={setAddedBlocksIds}
                                 />
                             );
                         default:
                             throw new Error('Неправильный тип контента');
                     }
                 })}
+                {note.blocks.length === 0 && <HiddenBlock addHiddenBlock={addHiddenBlock} />}
             </div>
             <Button className={styles.noteSaveBtn} onClick={onSave}>
                 Сохранить заметку
