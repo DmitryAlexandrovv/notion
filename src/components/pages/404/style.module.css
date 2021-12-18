@@ -1,0 +1,19 @@
+.notFoundPage{
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+}
+
+.notFoundPageTitle{
+    color: #888;
+    font-size: 50px;
+    transition: all .6s;
+    animation: type .5s alternate infinite;
+    padding-right: 16px;
+}
+
+@keyframes type{
+    from{box-shadow: inset -3px 0 0 #888;}
+    to{box-shadow: inset -3px 0 0 transparent;}
+}
