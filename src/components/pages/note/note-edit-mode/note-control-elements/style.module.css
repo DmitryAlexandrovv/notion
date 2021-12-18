@@ -1,0 +1,23 @@
+.noteControlElements {
+    grid-area: adding-block;
+    background-color: var(--sidebar-background);
+    min-width: 210px;
+}
+
+.noteControlElementsBlock {
+    margin-bottom: 50px;
+}
+
+.noteControlElementsBlock .notePropsEditBtn {
+    white-space: normal;
+    height: auto;
+}
+
+.noteControlElementsTitle {
+    font-size: 18px;
+}
+
+.wrapper {
+    position: fixed;
+    padding: 20px;
+}
