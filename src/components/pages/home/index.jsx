@@ -15,7 +15,11 @@ const Home = () => {
         dispatch = useDispatch();
 
     const onSave = (data) => {
-        const key = appendNewPage(user.id, data).key;
+        const key = appendNewPage(user.id, {
+            title: data.title,
+            ...(data.parentId && { parentId: data.parentId }),
+        }).key;
+
         getPage(user.id, key).then((res) => {
             dispatch(
                 createNewNote({

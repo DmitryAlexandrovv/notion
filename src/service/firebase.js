@@ -28,6 +28,7 @@ const queryGetUsers = get(child(dbRef, `users`));
 const newUserKey = push(child(dbRef, 'users')).key;
 const queryGetPages = (userId) => get(child(dbRef, `pages/${userId}`));
 const queryGetPage = (userId, pageId) => get(child(dbRef, `pages/${userId}/${pageId}`));
+const queryGetBlocks = (userId, pageId) => get(child(dbRef, `notes/${userId}/${pageId}`));
 
 const getPages = (userId) => {
     return queryGetPages(userId)
@@ -39,6 +40,18 @@ const getPages = (userId) => {
 
 const getPage = (userId, pageId) => {
     return queryGetPage(userId, pageId)
+        .then((snapshot) => snapshot.val())
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+const updateNoteBlocks = (userId, noteId, noteData) => {
+    return set(child(ref(getDatabase(), 'notes'), `${userId}/${noteId}`), noteData);
+};
+
+const getNoteBlocks = (userId, pageId) => {
+    return queryGetBlocks(userId, pageId)
         .then((snapshot) => snapshot.val())
         .catch((error) => {
             console.error(error);
@@ -79,4 +92,6 @@ export {
     appendNewPage,
     getPage,
     updatePage,
+    updateNoteBlocks,
+    getNoteBlocks,
 };
