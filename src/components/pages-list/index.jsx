@@ -27,7 +27,7 @@ const ListItem = ({ page }) => {
     };
 
     const titleStyles = [];
-    titleStyles.push(page.parentId === null ? styles.topLevelTitle : styles.title);
+    titleStyles.push(page.parentId === undefined ? styles.topLevelTitle : styles.title);
     page.nested && titleStyles.push(styles.titleNested);
     opened && titleStyles.push(styles.titleOpened);
 
@@ -59,7 +59,7 @@ const List = ({ pages }) => {
 
 const PagesList = () => {
     const pages = useSelector((state) => state.pages),
-        formattedPages = getNestedArray(pages, null);
+        formattedPages = getNestedArray(pages, undefined);
 
     return <List pages={formattedPages} />;
 };

@@ -8,6 +8,7 @@ import {
     SET_USER,
     CREATE_NEW_NOTE,
     CLEAR_STORE,
+    UPDATE_PAGE,
 } from '../constants/actions';
 
 const changeNoteMode = (type) => {
@@ -24,7 +25,6 @@ const saveActiveNote = (note) => {
     };
 };
 
-//ToDo будет нужно, когда подключим бэк
 const loadPages = (pages) => {
     return {
         type: LOAD_PAGES,
@@ -73,6 +73,16 @@ const clearStore = () => {
     };
 };
 
+const updatePage = ({ id, data }) => {
+    return {
+        type: UPDATE_PAGE,
+        payload: {
+            id,
+            data,
+        },
+    };
+};
+
 export {
     changeNoteMode,
     saveActiveNote,
@@ -83,4 +93,5 @@ export {
     setUser,
     createNewNote,
     clearStore,
+    updatePage,
 };

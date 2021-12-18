@@ -26,6 +26,32 @@ const dbRef = ref(getDatabase());
 
 const queryGetUsers = get(child(dbRef, `users`));
 const newUserKey = push(child(dbRef, 'users')).key;
+const queryGetPages = (userId) => get(child(dbRef, `pages/${userId}`));
+const queryGetPage = (userId, pageId) => get(child(dbRef, `pages/${userId}/${pageId}`));
+
+const getPages = (userId) => {
+    return queryGetPages(userId)
+        .then((snapshot) => snapshot.val())
+        .catch((error) => {
+            console.log(error);
+        });
+};
+
+const getPage = (userId, pageId) => {
+    return queryGetPage(userId, pageId)
+        .then((snapshot) => snapshot.val())
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+const appendNewPage = (userId, pageData) => {
+    return push(child(ref(getDatabase(), 'pages'), userId), pageData);
+};
+
+const updatePage = (userId, pageId, pageData) => {
+    set(child(ref(getDatabase(), 'pages'), `${userId}/${pageId}`), pageData);
+};
 
 const saveNewUser = (data) => {
     const { id, name, email } = data;
@@ -34,7 +60,7 @@ const saveNewUser = (data) => {
         email: email,
     })
         .then(() => {
-            // cool
+            //cool
         })
         .catch((e) => {
             // e
@@ -42,4 +68,15 @@ const saveNewUser = (data) => {
         });
 };
 
-export { auth, database, provider, queryGetUsers, newUserKey, saveNewUser };
+export {
+    auth,
+    database,
+    provider,
+    queryGetUsers,
+    newUserKey,
+    saveNewUser,
+    getPages,
+    appendNewPage,
+    getPage,
+    updatePage,
+};

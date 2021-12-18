@@ -2,19 +2,25 @@ import Block from './block';
 import ChangeNotePropsModal from '../../../../change-note-props-modal';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveActiveNote, loadPages } from '../../../../../store/actions';
+import { saveActiveNote, updatePage as updateStorePage } from '../../../../../store/actions';
 import { Button } from 'antd';
 import { CONTENT_TYPES } from '../../note-view-mode/constants';
+import { updatePage as updateFirebasePage } from '../../../../../service/firebase';
 
 import styles from './style.module.css';
 
 const NoteControlElements = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false),
         note = useSelector((state) => state.activeNote),
-        pages = useSelector((state) => state.pages),
+        user = useSelector((state) => state.user),
         dispatch = useDispatch();
 
     const onSaveProps = (data) => {
+        updateFirebasePage(user.id, note.id, {
+            title: data.title,
+            ...(data.parentId && { parentId: data.parentId }),
+        });
+
         dispatch(
             saveActiveNote({
                 ...note,
@@ -22,18 +28,12 @@ const NoteControlElements = () => {
             })
         );
 
-        //ToDo доделать после того, как будет готова БД
-        // const updatedPages = pages.map((page) =>
-        //     page.id === note.id
-        //         ? {
-        //               ...page,
-        //               ...data,
-        //           }
-        //         : page
-        // );
-        //
-        // //ToDo а так надо?
-        // dispatch(loadPages(updatedPages));
+        dispatch(
+            updateStorePage({
+                id: note.id,
+                data,
+            })
+        );
     };
 
     return (
@@ -52,7 +52,14 @@ const NoteControlElements = () => {
                     </Button>
                 </div>
             </div>
-            <ChangeNotePropsModal onSave={onSaveProps} modalIsOpen={modalIsOpen} setIsOpen={setModalIsOpen} />
+            <ChangeNotePropsModal
+                selectedNoteId={note.id}
+                defaultParentId={note.parentId}
+                defaultTitle={note.title}
+                onSave={onSaveProps}
+                modalIsOpen={modalIsOpen}
+                setIsOpen={setModalIsOpen}
+            />
         </div>
     );
 };

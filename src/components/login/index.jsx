@@ -1,18 +1,9 @@
-import { auth, provider, queryGetUsers, newUserKey, saveNewUser } from '../../service/firebase';
-import { setUser } from '../../store/actions';
-
+import { auth, provider, queryGetUsers, newUserKey, saveNewUser, getPages } from '../../service/firebase';
+import { loadPages, setUser } from '../../store/actions';
 import { Button } from 'antd';
 import { useDispatch } from 'react-redux';
 
 import styles from './style.module.css';
-
-// const userList = [
-//     {
-//         id: 1,
-//         email: 'deadm2249@gmail.com',
-//         name: 'Dead M',
-//     },
-// ];
 
 const signInWithGoogle = (onSuccess) => {
     auth.signInWithPopup(provider)
@@ -29,16 +20,16 @@ const Login = () => {
 
     const onSuccess = (result) => {
         const { email, displayName } = result.user;
+        let userId = null;
 
-        // const userList = getUsers();
         queryGetUsers
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     const userList = snapshot.val();
-                    const userId = Object.keys(userList).filter((key) => userList[key].email === email)[0];
+                    userId = Object.keys(userList).filter((key) => userList[key].email === email)[0];
                     let user;
                     if (userId === undefined) {
-                        const userId = newUserKey;
+                        userId = newUserKey;
                         user = {
                             id: userId,
                             name: displayName,
@@ -53,6 +44,13 @@ const Login = () => {
                         };
                     }
                     dispatch(setUser(user));
+
+                    getPages(userId).then((pages) => {
+                        if (pages) {
+                            dispatch(loadPages(pages));
+                        } else {
+                        }
+                    });
                 } else {
                     console.log('No data available');
                 }

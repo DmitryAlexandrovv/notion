@@ -8,6 +8,7 @@ import {
     SET_USER,
     CREATE_NEW_NOTE,
     CLEAR_STORE,
+    UPDATE_PAGE,
 } from '../constants/actions';
 import { NOTE_MODE_TYPES } from '../constants';
 
@@ -61,16 +62,23 @@ const reducer = (state = initialState, { type, payload }) => {
                 isLoggedIn: true,
             };
         case CREATE_NEW_NOTE:
-            const pages = [...state.pages];
-
-            pages.push(payload);
-
             return {
                 ...state,
-                pages,
+                pages: {
+                    ...state.pages,
+                    [payload.id]: payload.data,
+                },
             };
         case CLEAR_STORE:
             return initialState;
+        case UPDATE_PAGE:
+            return {
+                ...state,
+                pages: {
+                    ...state.pages,
+                    [payload.id]: payload.data,
+                },
+            };
         default:
             return state;
     }
