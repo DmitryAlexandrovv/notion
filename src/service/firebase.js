@@ -1,7 +1,8 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import { getDatabase, get, ref, child, push, update, set } from 'firebase/database';
+import { getDatabase, get, ref, child, push, set } from 'firebase/database';
 
+//ToDo вынести в отдельный конфиг
 const firebaseConfig = {
     apiKey: 'AIzaSyBpabxsbKQl2sE_L1DCWe5eaCMk8XDlgqs',
     authDomain: 'notionitis.firebaseapp.com',
@@ -12,6 +13,150 @@ const firebaseConfig = {
     measurementId: '${config.measurementId}',
     databaseURL: 'https://notionitis-default-rtdb.firebaseio.com/',
 };
+
+//ToDo вынести все query за класс
+class FirebaseService {
+    constructor() {
+        this.app = firebase.initializeApp(firebaseConfig);
+        this.auth = firebase.auth();
+        this.provider = new firebase.auth.GoogleAuthProvider().setCustomParameters({ prompt: 'select_account' });
+        this.database = getDatabase(this.app);
+        this.dbRef = ref(getDatabase());
+    }
+
+    queryGetUsers() {
+        return get(child(this.dbRef, `users`));
+    }
+
+    queryGetPages(userId) {
+        return get(child(this.dbRef, `pages/${userId}`));
+    }
+
+    queryGetPage(userId, pageId) {
+        return get(child(this.dbRef, `pages/${userId}/${pageId}`));
+    }
+
+    queryGetBlocks(userId, pageId) {
+        return get(child(this.dbRef, `notes/${userId}/${pageId}`));
+    }
+
+    queryGetUserById(userId) {
+        return get(child(this.dbRef, `users/${userId}`));
+    }
+
+    async signInWithGoogle() {
+        //ToDo исправить
+        let signInUser;
+
+        return this.auth
+            .signInWithPopup(this.provider)
+            .then((result) => {
+                signInUser = result.user;
+                return this.findUserByEmail(result.user.email);
+            })
+            .then((user) =>
+                user
+                    ? user
+                    : this.saveNewUser({
+                          name: signInUser.displayName,
+                          email: signInUser.email,
+                      })
+            )
+            .catch((error) => {
+                throw new Error(error.message);
+            });
+    }
+
+    findUserByEmail(email) {
+        return this.getUsers()
+            .then((users) => {
+                return users[Object.keys(users).find((key) => users[key].email === email)];
+            })
+            .catch((error) => {
+                throw new Error(error);
+            });
+    }
+
+    findUserById(userId) {
+        return this.queryGetUserById(userId).then((snapshot) => {
+            return snapshot.val();
+        });
+    }
+
+    isUrlExists(userId, url) {
+        return this.queryGetPages(userId)
+            .then((snapshot) => {
+                const pages = snapshot.val();
+                return Object.keys(pages).find((key) => pages[key].url === url);
+            })
+            .catch((error) => {
+                throw new Error(error.message);
+            });
+    }
+
+    getUsers() {
+        return this.queryGetUsers()
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    return snapshot.val();
+                } else {
+                    throw new Error('No data available');
+                }
+            })
+            .catch((error) => {
+                throw new Error(error.message);
+            });
+    }
+
+    getPages(userId) {
+        return this.queryGetPages(userId)
+            .then((snapshot) => snapshot.val())
+            .catch((error) => {
+                throw new Error(error.message);
+            });
+    }
+
+    getPage(userId, pageId) {
+        return this.queryGetPage(userId, pageId)
+            .then((snapshot) => snapshot.val())
+            .catch((error) => {
+                throw new Error(error.message);
+            });
+    }
+
+    updateNoteBlocks(userId, noteId, noteData) {
+        return set(child(this.dbRef, `notes/${userId}/${noteId}`), noteData);
+    }
+
+    getNoteBlocks(userId, pageId) {
+        return this.queryGetBlocks(userId, pageId)
+            .then((snapshot) => snapshot.val())
+            .catch((error) => {
+                throw new Error(error.message);
+            });
+    }
+
+    appendNewPage(userId, pageData) {
+        return push(child(this.dbRef, `pages/${userId}`), pageData);
+    }
+
+    updatePage(userId, pageId, pageData) {
+        set(child(this.dbRef, `pages/${userId}/${pageId}`), pageData);
+    }
+
+    saveNewUser(user) {
+        return push(ref(this.database, 'users'), user)
+            .then((res) => ({
+                ...user,
+                id: user.key,
+            }))
+            .catch((error) => {
+                throw new Error(error.message);
+            });
+    }
+}
+
+export default new FirebaseService();
 
 const app = firebase.initializeApp(firebaseConfig);
 
