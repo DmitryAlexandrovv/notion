@@ -6,13 +6,11 @@ import { useSelector } from 'react-redux';
 
 import styles from './style.module.css';
 
-const ChangeNotePropsModal = ({ modalIsOpen, setIsOpen, onSave }) => {
-    const [parentId, setParentId] = useState(null),
-        [title, setTitle] = useState(''),
-        formattedPages = getNestedArray(
-            useSelector((state) => state.pages),
-            null
-        );
+const ChangeNotePropsModal = ({ selectedNoteId, defaultParentId, defaultTitle, modalIsOpen, setIsOpen, onSave }) => {
+    const [parentId, setParentId] = useState(defaultParentId),
+        [title, setTitle] = useState(defaultTitle),
+        pages = useSelector((state) => state.pages),
+        formattedPages = getNestedArray(pages, undefined);
 
     const onNotePropsSave = () => {
         if (title.length < 6) {
@@ -36,7 +34,9 @@ const ChangeNotePropsModal = ({ modalIsOpen, setIsOpen, onSave }) => {
                 <div className={styles.noteProp}>
                     <TreeSelect value={parentId} onChange={(id) => setParentId(id)} className={styles.notePropSelect}>
                         {formattedPages.map((page) => {
-                            return createNoteTree(page);
+                            return page.id !== selectedNoteId
+                                ? createNoteTree(page, selectedNoteId, defaultParentId)
+                                : null;
                         })}
                     </TreeSelect>
                 </div>

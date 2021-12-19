@@ -5,29 +5,34 @@ import { useDispatch } from 'react-redux';
 import { changeNoteMode, saveActiveNote } from '../../store/actions';
 import { Link } from 'react-router-dom';
 import { NOTE_MODE_TYPES } from '../../constants';
+import { getNoteBlocks } from '../../service/firebase';
 
 import styles from './style.module.css';
 
 const ListItem = ({ page }) => {
     const [opened, setOpened] = useState(false),
+        user = useSelector((state) => state.user),
         dispatch = useDispatch();
 
     const toggleOpened = () => setOpened((prev) => !prev);
 
     const openNote = () => {
-        //ToDo типа запрос(Отправлять всегда новыцй, тк на фронте хранится тока id, parentId
         //ToDo лучше один экшн?
-        dispatch(changeNoteMode(NOTE_MODE_TYPES.VIEW));
-        dispatch(
-            saveActiveNote({
-                ...page,
-                blocks: [],
-            })
-        );
+        getNoteBlocks(user.id, page.id).then((res) => {
+            const blocks = res === null ? [] : res;
+
+            dispatch(changeNoteMode(NOTE_MODE_TYPES.VIEW));
+            dispatch(
+                saveActiveNote({
+                    ...page,
+                    blocks,
+                })
+            );
+        });
     };
 
     const titleStyles = [];
-    titleStyles.push(page.parentId === null ? styles.topLevelTitle : styles.title);
+    titleStyles.push(page.parentId === undefined ? styles.topLevelTitle : styles.title);
     page.nested && titleStyles.push(styles.titleNested);
     opened && titleStyles.push(styles.titleOpened);
 
@@ -59,7 +64,7 @@ const List = ({ pages }) => {
 
 const PagesList = () => {
     const pages = useSelector((state) => state.pages),
-        formattedPages = getNestedArray(pages, null);
+        formattedPages = getNestedArray(pages, undefined);
 
     return <List pages={formattedPages} />;
 };

@@ -9,6 +9,7 @@ import VideoBlock from '../blocks/youtube-video';
 import LinkToNoteBlock from '../blocks/link-to-note';
 import HiddenBlock from '../blocks/hiddenBlock';
 import { getDefaultBlockData, getUpdatedBlocks } from '../../../../helpers';
+import { updateNoteBlocks } from '../../../../service/firebase';
 
 import noteStyles from '../note-view-mode/style.module.css';
 import styles from './style.module.css';
@@ -17,6 +18,7 @@ const NoteEditMode = (props) => {
     const dispatch = useDispatch(),
         [note, onUpdateNote] = useState(props.activeNote),
         [addedBlocksIds, setAddedBlocksIds] = useState([]),
+        user = useSelector((state) => state.user),
         isDraggingActive = useSelector((state) => state.isDraggingActive);
 
     useEffect(() => {
@@ -53,7 +55,7 @@ const NoteEditMode = (props) => {
     };
 
     const onSave = () => {
-        // ToDo пост запрос
+        updateNoteBlocks(user.id, note.id, note.blocks);
         dispatch(saveActiveNote(note));
     };
 

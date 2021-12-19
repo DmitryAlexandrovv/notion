@@ -1,7 +1,7 @@
 import { useDrag } from 'react-dnd';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { setIsDraggingActive } from '../../../store/actions';
+import { setIsDraggingActive } from '../../../../../../store/actions';
 
 import styles from './style.module.css';
 

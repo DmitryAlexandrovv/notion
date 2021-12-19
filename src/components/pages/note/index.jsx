@@ -4,7 +4,7 @@ import { NOTE_MODE_TYPES } from '../../../constants';
 import Sidebar from '../../sidebar';
 import NoteViewMode from './note-view-mode';
 import NoteEditMode from './note-edit-mode';
-import AddingBlock from '../../adding-block';
+import NoteControlElements from './note-edit-mode/note-control-elements';
 import { Button } from 'antd';
 import Navbar from '../../navbar';
 
@@ -48,7 +48,7 @@ const Note = () => {
                         </>
                     )}
                 </main>
-                {activeMode === NOTE_MODE_TYPES.EDIT && <AddingBlock />}
+                {activeMode === NOTE_MODE_TYPES.EDIT && <NoteControlElements />}
             </div>
         </div>
     );

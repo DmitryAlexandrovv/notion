@@ -7,18 +7,21 @@ const TreeNode = TreeSelect.TreeNode;
 
 export const getNestedArray = (pages, parent) => {
     const result = [];
-
-    for (const page of pages) {
+    Object.keys(pages).forEach((key) => {
+        const page = {
+            title: pages[key].title,
+            parentId: pages[key].parentId,
+            id: key,
+        };
         if (page.parentId === parent) {
-            const children = getNestedArray(pages, page.id);
-
+            const children = getNestedArray(pages, key);
             if (children.length) {
                 page.nested = children;
             }
 
             result.push(page);
         }
-    }
+    });
     return result;
 };
 
@@ -90,12 +93,14 @@ export const getDefaultBlockData = (type) => {
     }
 };
 
-export const createNoteTree = (node) => {
+export const createNoteTree = (node, selectedNoteId, parentId) => {
     return (
         <TreeNode value={node.id} title={node.title} key={node.id}>
-            {node.nested
+            {node.nested && node.id !== parentId && node.id !== selectedNoteId && node.nested.length > 0
                 ? node.nested.map((nodeChild) => {
-                      return createNoteTree(nodeChild);
+                      return nodeChild.id !== selectedNoteId
+                          ? createNoteTree(nodeChild, selectedNoteId, node.id)
+                          : null;
                   })
                 : ''}
         </TreeNode>
