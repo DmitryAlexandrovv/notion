@@ -12,6 +12,7 @@ export const getNestedArray = (pages, parent) => {
             title: pages[key].title,
             parentId: pages[key].parentId,
             id: key,
+            url: pages[key].url,
         };
         if (page.parentId === parent) {
             const children = getNestedArray(pages, key);
@@ -118,4 +119,19 @@ export const getUpdatedBlocks = (blocks, prevBlockData, newBlockData) => {
     } else {
         return [...blocks.slice(0, prevBlockData.index), newBlockData.data, ...blocks.slice(prevBlockData.index)];
     }
+};
+
+export const findPageIdByUrl = (pages, url) => {
+    return Object.keys(pages).find((key) => pages[key].url === url);
+};
+
+export const isUrlPossible = (url) => {
+    const possible = 'abcdefghijklmnopqrstuvwxyz0123456789_-'.split('');
+    return url.split('').reduce((acc, val) => {
+        if (possible.indexOf(val) === -1) {
+            return false;
+        } else {
+            return !!acc;
+        }
+    }, true);
 };

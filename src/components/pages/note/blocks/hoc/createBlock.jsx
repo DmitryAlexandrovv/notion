@@ -1,18 +1,17 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { NOTE_MODE_TYPES } from '../../../../../constants';
+import { CONTENT_TYPES } from '../../note-view-mode/constants';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { canDragNote } from '../../../../../store/actions';
 
 import styles from '../style.module.css';
-import { CONTENT_TYPES } from '../../note-view-mode/constants';
 
 const CreateBlock = (WrappedComponent) => {
     return function WithWrapper(props) {
         const { addedBlocksIds, setAddedBlocksIds } = props,
-            activeMode = useSelector((state) => state.activeMode),
             [isCtrlGroupVisible, toggleCtrlGroupVisibility] = useState(false),
             [isEdit, toggleEdit] = useState(false),
             [data, setData] = useState(props.block.data),
@@ -20,7 +19,7 @@ const CreateBlock = (WrappedComponent) => {
             dispatch = useDispatch();
 
         useEffect(() => {
-            if (activeMode === NOTE_MODE_TYPES.EDIT) {
+            if (props.activeMode === NOTE_MODE_TYPES.EDIT) {
                 toggleEdit(addedBlocksIds.indexOf(props.block.id) !== -1);
             }
         }, [addedBlocksIds]);
@@ -96,7 +95,7 @@ const CreateBlock = (WrappedComponent) => {
                 >
                     <OutsideClickHandler onOutsideClick={outsideClickHandler}>
                         <div className={styles.blockCtrlGroupPositioner}>
-                            {isCtrlGroupVisible && activeMode === NOTE_MODE_TYPES.EDIT && !isEdit && (
+                            {isCtrlGroupVisible && props.activeMode === NOTE_MODE_TYPES.EDIT && !isEdit && (
                                 <div className={styles.blockCtrlGroupWrapper}>
                                     <div className={styles.blockCtrlGroup}>
                                         <DeleteOutlined
@@ -109,7 +108,7 @@ const CreateBlock = (WrappedComponent) => {
                             )}
                             <WrappedComponent
                                 {...props}
-                                isEditMode={activeMode === NOTE_MODE_TYPES.EDIT && isEdit}
+                                isEditMode={props.activeMode === NOTE_MODE_TYPES.EDIT && isEdit}
                                 toggleCtrlGroupVisibility={toggleCtrlGroupVisibility}
                                 onSave={onSave}
                                 onCancel={onCancel}
