@@ -17,6 +17,7 @@ const Home = () => {
     const onSave = (data) => {
         const key = appendNewPage(user.id, {
             title: data.title,
+            url: data.url,
             ...(data.parentId && { parentId: data.parentId }),
         }).key;
 
@@ -27,6 +28,7 @@ const Home = () => {
                     data: {
                         title: data.title,
                         parentId: data.parentId ?? undefined,
+                        url: data.url,
                     },
                 })
             );
