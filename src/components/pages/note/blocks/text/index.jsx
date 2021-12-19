@@ -16,6 +16,8 @@ const TextBlock = (props) => {
     useEffect(() => {
         if (JSON.parse(data).blocks.length === 1 && JSON.parse(data).blocks[0].text.trim() === '') {
             setError(true);
+        } else {
+            setError(false);
         }
     }, [data]);
 

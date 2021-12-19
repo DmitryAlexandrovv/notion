@@ -1,6 +1,5 @@
 import {
     CHANGE_NOTE_MODE,
-    SAVE_ACTIVE_NOTE,
     LOAD_PAGES,
     CAN_DRAG_BLOCK,
     UPDATE_ADDED_BLOCKS_IDS,
@@ -14,7 +13,6 @@ import { NOTE_MODE_TYPES } from '../constants';
 
 const initialState = {
     activeMode: NOTE_MODE_TYPES.VIEW,
-    activeNote: null,
     pages: [],
     canDragBlock: true,
     addedBlocksIds: [],
@@ -29,11 +27,6 @@ const reducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 activeMode: payload,
-            };
-        case SAVE_ACTIVE_NOTE:
-            return {
-                ...state,
-                activeNote: payload,
             };
         case LOAD_PAGES:
             return {

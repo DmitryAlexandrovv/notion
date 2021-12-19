@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveActiveNote, canDragNote } from '../../../../store/actions';
+import { canDragNote } from '../../../../store/actions';
 import { CONTENT_TYPES } from '../note-view-mode/constants';
 import { Button } from 'antd';
 import TextBlock from '../blocks/text';
@@ -55,8 +55,11 @@ const NoteEditMode = (props) => {
     };
 
     const onSave = () => {
-        updateNoteBlocks(user.id, note.id, note.blocks);
-        dispatch(saveActiveNote(note));
+        updateNoteBlocks(user.id, props.pageId, note.blocks);
+        props.setactiveNote({
+            ...props.activeNote,
+            blocks: [...note.blocks],
+        });
     };
 
     const addBlock = (prevBlockId, newBlock, newBlockOffset) => {
@@ -113,6 +116,7 @@ const NoteEditMode = (props) => {
                                     addBlock={addBlock}
                                     addedBlocksIds={addedBlocksIds}
                                     setAddedBlocksIds={setAddedBlocksIds}
+                                    activeMode={props.activeMode}
                                 />
                             );
                         case CONTENT_TYPES.IMAGE:
@@ -126,6 +130,7 @@ const NoteEditMode = (props) => {
                                     addBlock={addBlock}
                                     addedBlocksIds={addedBlocksIds}
                                     setAddedBlocksIds={setAddedBlocksIds}
+                                    activeMode={props.activeMode}
                                 />
                             );
                         case CONTENT_TYPES.VIDEO:
@@ -138,6 +143,7 @@ const NoteEditMode = (props) => {
                                     addBlock={addBlock}
                                     addedBlocksIds={addedBlocksIds}
                                     setAddedBlocksIds={setAddedBlocksIds}
+                                    activeMode={props.activeMode}
                                 />
                             );
                         case CONTENT_TYPES.LINK_TO_NOTE:
@@ -150,6 +156,7 @@ const NoteEditMode = (props) => {
                                     addBlock={addBlock}
                                     addedBlocksIds={addedBlocksIds}
                                     setAddedBlocksIds={setAddedBlocksIds}
+                                    activeMode={props.activeMode}
                                 />
                             );
                         default:

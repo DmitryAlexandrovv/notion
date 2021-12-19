@@ -30,6 +30,17 @@ const queryGetPages = (userId) => get(child(dbRef, `pages/${userId}`));
 const queryGetPage = (userId, pageId) => get(child(dbRef, `pages/${userId}/${pageId}`));
 const queryGetBlocks = (userId, pageId) => get(child(dbRef, `notes/${userId}/${pageId}`));
 
+const isUrlExists = (userId, url) => {
+    return queryGetPages(userId)
+        .then((snapshot) => {
+            const pages = snapshot.val();
+            return Object.keys(pages).find((key) => pages[key].url === url);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
+
 const getPages = (userId) => {
     return queryGetPages(userId)
         .then((snapshot) => snapshot.val())
@@ -94,4 +105,5 @@ export {
     updatePage,
     updateNoteBlocks,
     getNoteBlocks,
+    isUrlExists,
 };

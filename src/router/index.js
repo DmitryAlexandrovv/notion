@@ -10,7 +10,7 @@ const routes = (isLoggedIn) => [
         element: isLoggedIn ? <Home /> : <Navigate to='/login' />,
     },
     {
-        path: '/note',
+        path: '/note/:url',
         element: isLoggedIn ? <Note /> : <Navigate to='/login' />,
     },
     {

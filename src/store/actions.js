@@ -1,6 +1,5 @@
 import {
     CHANGE_NOTE_MODE,
-    SAVE_ACTIVE_NOTE,
     LOAD_PAGES,
     CAN_DRAG_BLOCK,
     UPDATE_ADDED_BLOCKS_IDS,
@@ -15,13 +14,6 @@ const changeNoteMode = (type) => {
     return {
         type: CHANGE_NOTE_MODE,
         payload: type,
-    };
-};
-
-const saveActiveNote = (note) => {
-    return {
-        type: SAVE_ACTIVE_NOTE,
-        payload: note,
     };
 };
 
@@ -85,7 +77,6 @@ const updatePage = ({ id, data }) => {
 
 export {
     changeNoteMode,
-    saveActiveNote,
     loadPages,
     canDragNote,
     updateAddedBlocksIds,
