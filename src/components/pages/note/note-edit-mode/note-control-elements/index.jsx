@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePage as updateStorePage } from '../../../../../store/actions';
-import { updatePage as updateFirebasePage } from '../../../../../service/firebase';
+import firebaseService from '../../../../../service/firebase';
 import { useNavigate } from 'react-router-dom';
 import { CONTENT_TYPES } from '../../note-view-mode/constants';
 import Block from './block';
@@ -17,25 +17,30 @@ const NoteControlElements = ({ pageId, activeNote, setActiveNote, history }) => 
         navigate = useNavigate();
 
     const onSaveProps = (data) => {
-        updateFirebasePage(user.id, pageId, {
-            title: data.title,
-            url: data.url,
-            ...(data.parentId && { parentId: data.parentId }),
-        });
-
-        dispatch(
-            updateStorePage({
-                id: pageId,
-                data,
+        firebaseService
+            .updatePage(user.id, pageId, {
+                title: data.title,
+                url: data.url,
+                ...(data.parentId && { parentId: data.parentId }),
             })
-        );
+            .then(() => {
+                dispatch(
+                    updateStorePage({
+                        id: pageId,
+                        data,
+                    })
+                );
 
-        //ToDo alert,измененные данные не сохранятся
-        if (data.url) {
-            navigate(`/note/${data.url}`, { replace: true });
-        } else {
-            navigate(`/note/${pageId}`, { replace: true });
-        }
+                //ToDo alert,измененные данные не сохранятся
+                if (data.url) {
+                    navigate(`/note/${data.url}`, { replace: true });
+                } else {
+                    navigate(`/note/${pageId}`, { replace: true });
+                }
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
     };
 
     return (

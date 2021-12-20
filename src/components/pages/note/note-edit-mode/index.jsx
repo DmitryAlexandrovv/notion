@@ -9,7 +9,7 @@ import VideoBlock from '../blocks/youtube-video';
 import LinkToNoteBlock from '../blocks/link-to-note';
 import HiddenBlock from '../blocks/hiddenBlock';
 import { getDefaultBlockData, getUpdatedBlocks } from '../../../../helpers';
-import { updateNoteBlocks } from '../../../../service/firebase';
+import firebaseService from '../../../../service/firebase';
 
 import noteStyles from '../note-view-mode/style.module.css';
 import styles from './style.module.css';
@@ -55,11 +55,17 @@ const NoteEditMode = (props) => {
     };
 
     const onSave = () => {
-        updateNoteBlocks(user.id, props.pageId, note.blocks);
-        props.setactiveNote({
-            ...props.activeNote,
-            blocks: [...note.blocks],
-        });
+        firebaseService
+            .updateNoteBlocks(user.id, props.pageId, note.blocks)
+            .then(() => {
+                props.setactiveNote({
+                    ...props.activeNote,
+                    blocks: [...note.blocks],
+                });
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
     };
 
     const addBlock = (prevBlockId, newBlock, newBlockOffset) => {

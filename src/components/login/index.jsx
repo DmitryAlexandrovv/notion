@@ -20,6 +20,9 @@ const Login = () => {
                 if (pages) {
                     dispatch(loadPages(pages));
                 }
+            })
+            .catch((error) => {
+                console.error(error);
             });
     };
 
