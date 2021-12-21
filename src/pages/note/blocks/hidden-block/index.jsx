@@ -1,6 +1,6 @@
 import styles from './style.module.css';
 import { useDrop } from 'react-dnd';
-import { CONTENT_TYPES } from '../../note-view-mode/constants';
+import { CONTENT_TYPES } from '../../view-mode/constants';
 
 const HiddenBlock = ({ addHiddenBlock }) => {
     const [, drop] = useDrop(() => ({

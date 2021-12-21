@@ -3,8 +3,8 @@ import CreateBlock from '../hoc/createBlock';
 import WithImage from '../hoc/withImage';
 import Loader from 'react-loader-spinner';
 import { Alert, Button, Input } from 'antd';
-import { CONTENT_TYPES } from '../../note-view-mode/constants';
-import { getVideoId, getPreview } from '../../../../../helpers';
+import { CONTENT_TYPES } from '../../view-mode/constants';
+import { getVideoId, getPreview } from '../../../../helpers';
 
 import styles from './styles.module.css';
 import blockStyles from '../style.module.css';

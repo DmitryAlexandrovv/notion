@@ -1,14 +1,14 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import firebaseService from '../../../service/firebase';
-import { findPageIdByUrl } from '../../../helpers';
-import { NOTE_MODE_TYPES } from '../../../constants';
-import Sidebar from '../../sidebar';
-import NoteViewMode from './note-view-mode';
-import NoteEditMode from './note-edit-mode';
-import NoteControlElements from './note-edit-mode/note-control-elements';
-import Navbar from '../../navbar';
+import firebaseService from '../../service/firebase';
+import { findPageIdByUrl } from '../../helpers';
+import { NOTE_MODE_TYPES } from '../../constants';
+import Sidebar from '../../components/sidebar';
+import NoteViewMode from './view-mode';
+import NoteEditMode from './edit-mode';
+import NoteControlElements from './edit-mode/note-control-elements';
+import Navbar from '../../components/navbar';
 import { Button } from 'antd';
 
 import pageStyles from '../style.module.css';

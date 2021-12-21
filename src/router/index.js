@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom';
-import Login from '../components/login';
-import Note from '../components/pages/note';
-import Home from '../components/pages/home';
-import NotFound from '../components/pages/404';
+import Login from '../pages/login';
+import Note from '../pages/note';
+import Home from '../pages/home';
+import NotFound from '../pages/404';
 
 const routes = (isLoggedIn) => [
     {

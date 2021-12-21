@@ -1,4 +1,4 @@
-import { CONTENT_TYPES } from '../components/pages/note/note-view-mode/constants';
+import { CONTENT_TYPES } from '../pages/note/view-mode/constants';
 import { v4 as uuid_v4 } from 'uuid';
 import { convertToRaw, EditorState } from 'draft-js';
 import { TreeSelect } from 'antd';

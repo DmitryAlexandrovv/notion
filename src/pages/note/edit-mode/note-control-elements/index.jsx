@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updatePage as updateStorePage } from '../../../../../store/actions';
-import firebaseService from '../../../../../service/firebase';
+import { updatePage as updateStorePage } from '../../../../store/actions';
+import firebaseService from '../../../../service/firebase';
 import { useNavigate } from 'react-router-dom';
-import { CONTENT_TYPES } from '../../note-view-mode/constants';
+import { CONTENT_TYPES } from '../../view-mode/constants';
 import Block from './block';
-import ChangeNotePropsModal from '../../../../change-note-props-modal';
+import ChangeNotePropsModal from '../../../../components/change-note-props-modal';
 import { Button } from 'antd';
 
 import styles from './style.module.css';

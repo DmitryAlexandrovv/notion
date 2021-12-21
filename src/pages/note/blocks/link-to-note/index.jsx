@@ -1,11 +1,11 @@
 import { Button, TreeSelect } from 'antd';
 import { useSelector } from 'react-redux';
 import CreateBlock from '../hoc/createBlock';
-import { getNestedArray, createNoteTree } from '../../../../../helpers';
+import { getNestedArray, createNoteTree } from '../../../../helpers';
 
 import blockStyles from '../style.module.css';
 import styles from './style.module.css';
-import { CONTENT_TYPES } from '../../note-view-mode/constants';
+import { CONTENT_TYPES } from '../../view-mode/constants';
 import { useEffect } from 'react';
 
 const LinkToNoteBlock = (props) => {
