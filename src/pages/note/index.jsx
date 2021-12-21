@@ -26,9 +26,8 @@ const Note = () => {
         dispatch = useDispatch();
 
     useEffect(() => {
-        firebaseService
-            .getNoteBlocks(user.id, pageId)
-            .then((res) => {
+        if (pageId) {
+            firebaseService.getNoteBlocks(user.id, pageId).then((res) => {
                 const blocks = res === null ? [] : res;
 
                 const page = pages[pageId];
@@ -38,10 +37,10 @@ const Note = () => {
                     blocks,
                 });
                 setIsUrlExists(true);
-            })
-            .catch(() => {
-                setIsUrlExists(false);
             });
+        } else {
+            setIsUrlExists(false);
+        }
     }, [noteUrl]);
 
     useEffect(() => {
