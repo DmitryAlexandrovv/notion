@@ -1,6 +1,6 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { NOTE_MODE_TYPES } from '../../../../constants';
 import { CONTENT_TYPES } from '../../view-mode/constants';
@@ -12,6 +12,7 @@ import styles from '../style.module.css';
 const CreateBlock = (WrappedComponent) => {
     return function WithWrapper(props) {
         const { addedBlocksIds, setAddedBlocksIds } = props,
+            activeMode = useSelector((state) => state.activeMode),
             [isCtrlGroupVisible, toggleCtrlGroupVisibility] = useState(false),
             [isEdit, toggleEdit] = useState(false),
             [data, setData] = useState(props.block.data),
@@ -19,7 +20,7 @@ const CreateBlock = (WrappedComponent) => {
             dispatch = useDispatch();
 
         useEffect(() => {
-            if (props.activeMode === NOTE_MODE_TYPES.EDIT) {
+            if (activeMode === NOTE_MODE_TYPES.EDIT) {
                 toggleEdit(addedBlocksIds.indexOf(props.block.id) !== -1);
             }
         }, [addedBlocksIds]);
@@ -95,7 +96,7 @@ const CreateBlock = (WrappedComponent) => {
                 >
                     <OutsideClickHandler onOutsideClick={outsideClickHandler}>
                         <div className={styles.blockCtrlGroupPositioner}>
-                            {isCtrlGroupVisible && props.activeMode === NOTE_MODE_TYPES.EDIT && !isEdit && (
+                            {isCtrlGroupVisible && activeMode === NOTE_MODE_TYPES.EDIT && !isEdit && (
                                 <div className={styles.blockCtrlGroupWrapper}>
                                     <div className={styles.blockCtrlGroup}>
                                         <DeleteOutlined
@@ -108,7 +109,7 @@ const CreateBlock = (WrappedComponent) => {
                             )}
                             <WrappedComponent
                                 {...props}
-                                isEditMode={props.activeMode === NOTE_MODE_TYPES.EDIT && isEdit}
+                                isEditMode={activeMode === NOTE_MODE_TYPES.EDIT && isEdit}
                                 toggleCtrlGroupVisibility={toggleCtrlGroupVisibility}
                                 onSave={onSave}
                                 onCancel={onCancel}
