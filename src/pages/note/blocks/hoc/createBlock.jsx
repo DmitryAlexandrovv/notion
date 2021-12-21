@@ -2,10 +2,10 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { NOTE_MODE_TYPES } from '../../../../../constants';
-import { CONTENT_TYPES } from '../../note-view-mode/constants';
+import { NOTE_MODE_TYPES } from '../../../../constants';
+import { CONTENT_TYPES } from '../../view-mode/constants';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { canDragNote } from '../../../../../store/actions';
+import { canDragNote } from '../../../../store/actions';
 
 import styles from '../style.module.css';
 

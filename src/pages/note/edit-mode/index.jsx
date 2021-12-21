@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { canDragNote } from '../../../../store/actions';
-import { CONTENT_TYPES } from '../note-view-mode/constants';
+import { canDragNote } from '../../../store/actions';
+import { CONTENT_TYPES } from '../view-mode/constants';
 import { Button } from 'antd';
 import TextBlock from '../blocks/text';
 import ImageBlock from '../blocks/image';
 import VideoBlock from '../blocks/youtube-video';
 import LinkToNoteBlock from '../blocks/link-to-note';
-import HiddenBlock from '../blocks/hiddenBlock';
-import { getDefaultBlockData, getUpdatedBlocks } from '../../../../helpers';
-import firebaseService from '../../../../service/firebase';
+import HiddenBlock from '../blocks/hidden-block';
+import { getDefaultBlockData, getUpdatedBlocks } from '../../../helpers';
+import firebaseService from '../../../service/firebase';
 
-import noteStyles from '../note-view-mode/style.module.css';
+import noteStyles from '../view-mode/style.module.css';
 import styles from './style.module.css';
 
 const NoteEditMode = (props) => {

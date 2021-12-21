@@ -1,11 +1,11 @@
-import Sidebar from '../../sidebar';
+import Sidebar from '../../components/sidebar';
 import { Button } from 'antd';
-import ChangeNotePropsModal from '../../change-note-props-modal';
+import ChangeNotePropsModal from '../../components/change-note-props-modal';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createNewNote } from '../../../store/actions';
-import Navbar from '../../navbar';
-import firebaseService from '../../../service/firebase';
+import { createNewNote } from '../../store/actions';
+import Navbar from '../../components/navbar';
+import firebaseService from '../../service/firebase';
 
 import pageStyles from '../style.module.css';
 

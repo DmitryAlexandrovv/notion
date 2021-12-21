@@ -6,7 +6,7 @@ import CreateBlock from '../hoc/createBlock';
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styles from './style.module.css';
-import { CONTENT_TYPES } from '../../note-view-mode/constants';
+import { CONTENT_TYPES } from '../../view-mode/constants';
 import blockStyles from '../style.module.css';
 import { useEffect } from 'react';
 
