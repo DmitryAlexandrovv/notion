@@ -61,8 +61,11 @@ const NoteControlElements = ({ pageId, activeNote, setActiveNote, history }) => 
             </div>
             <ChangeNotePropsModal
                 selectedNoteId={pageId}
-                defaultParentId={activeNote.parentId}
-                defaultTitle={activeNote.title}
+                activeNoteData={{
+                    parentId: activeNote.parentId,
+                    title: activeNote.title,
+                    url: activeNote.url,
+                }}
                 onSave={onSaveProps}
                 modalIsOpen={modalIsOpen}
                 setIsOpen={setModalIsOpen}

@@ -47,8 +47,11 @@ const Home = () => {
                     <Button onClick={() => setIsOpen(true)}>Создать заметку</Button>
                     <ChangeNotePropsModal
                         noteId={null}
-                        defaultParentId={undefined}
-                        defaultTitle=''
+                        activeNoteData={{
+                            parentId: undefined,
+                            title: '',
+                            url: '',
+                        }}
                         onSave={onSave}
                         modalIsOpen={modalIsOpen}
                         setIsOpen={setIsOpen}
