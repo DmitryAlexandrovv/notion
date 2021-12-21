@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { isUrlPossible } from '../../helpers';
 import firebaseService from '../../service/firebase';
+import { VALIDATION_RESULT } from './constants';
 import Modal from 'react-modal';
 import { Button, Input, TreeSelect } from 'antd';
 
@@ -17,30 +18,68 @@ const ChangeNotePropsModal = ({ selectedNoteId, defaultParentId, defaultTitle, m
         formattedPages = getNestedArray(pages, undefined);
 
     const onNotePropsSave = () => {
-        //ToDo показывать alert, что не сохранятся данные
         firebaseService
             .isUrlExists(user.id, url)
             .then((res) => {
-                if (title.length < 6) {
-                    alert('Длина заголовка должна быть больше 5 символов');
-                } else if (url.length < 5) {
-                    alert('Длина url должна быть больше 4 символов');
-                } else if (res) {
-                    alert('Этот url уже занят');
-                } else if (!isUrlPossible(url)) {
-                    alert('Недопустимое значение url');
-                } else {
+                const validationTitleResult = checkTitleRules();
+                const validationResult =
+                    validationTitleResult.type === VALIDATION_RESULT.ERROR
+                        ? validationTitleResult
+                        : url === ''
+                        ? validationTitleResult
+                        : checkUrlRules(res);
+
+                if (validationResult.type === VALIDATION_RESULT.SUCCESS) {
+                    //ToDo показывать alert, что не сохранятся данные блоков
                     onSave({
                         title,
                         parentId,
                         url,
                     });
                     setIsOpen(false);
+                } else {
+                    alert(validationResult.value);
                 }
             })
             .catch((error) => {
                 console.error(error);
             });
+    };
+
+    const checkTitleRules = () => {
+        if (title.length < 6) {
+            return {
+                type: VALIDATION_RESULT.ERROR,
+                value: 'Длина заголовка должна быть больше 5 символов',
+            };
+        } else {
+            return {
+                type: VALIDATION_RESULT.SUCCESS,
+            };
+        }
+    };
+
+    const checkUrlRules = (res) => {
+        if (url.length < 5) {
+            return {
+                type: VALIDATION_RESULT.ERROR,
+                value: 'Длина url должна быть больше 4 символов',
+            };
+        } else if (res) {
+            return {
+                type: VALIDATION_RESULT.ERROR,
+                value: 'Этот url уже занят',
+            };
+        } else if (!isUrlPossible(url)) {
+            return {
+                type: VALIDATION_RESULT,
+                value: 'Недопустимое значение url',
+            };
+        } else {
+            return {
+                type: VALIDATION_RESULT.SUCCESS,
+            };
+        }
     };
 
     return (
