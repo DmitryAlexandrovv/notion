@@ -21,7 +21,7 @@ const Note = () => {
         activeMode = useSelector((state) => state.activeMode),
         [activeNote, setActiveNote] = useState(null),
         { url: noteUrl } = useParams(),
-        pageId = pages[noteUrl] ? noteUrl : findPageIdByUrl(pages, noteUrl).length,
+        pageId = pages[noteUrl] ? noteUrl : findPageIdByUrl(pages, noteUrl),
         dispatch = useDispatch();
 
     useEffect(() => {
