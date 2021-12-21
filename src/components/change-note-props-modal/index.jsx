@@ -1,5 +1,5 @@
 import { createNoteTree, getNestedArray } from '../../helpers';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { isUrlPossible } from '../../helpers';
 import firebaseService from '../../service/firebase';
@@ -9,32 +9,42 @@ import { Button, Input, TreeSelect } from 'antd';
 
 import styles from './style.module.css';
 
-const ChangeNotePropsModal = ({ selectedNoteId, defaultParentId, defaultTitle, modalIsOpen, setIsOpen, onSave }) => {
-    const [parentId, setParentId] = useState(defaultParentId),
-        [title, setTitle] = useState(defaultTitle),
-        [url, setUrl] = useState(''),
+const ChangeNotePropsModal = ({ selectedNoteId, activeNoteData, modalIsOpen, setIsOpen, onSave }) => {
+    const [noteProps, setNoteProps] = useState({
+            parentId: activeNoteData.parentId,
+            title: activeNoteData.title,
+            url: activeNoteData.url,
+        }),
         pages = useSelector((state) => state.pages),
         user = useSelector((state) => state.user),
         formattedPages = getNestedArray(pages, undefined);
 
+    useEffect(() => {
+        setNoteProps({
+            parentId: activeNoteData.parentId,
+            title: activeNoteData.title,
+            url: activeNoteData.url,
+        });
+    }, [activeNoteData]);
+
     const onNotePropsSave = () => {
         firebaseService
-            .isUrlExists(user.id, url)
+            .isUrlExists(user.id, noteProps.url)
             .then((res) => {
                 const validationTitleResult = checkTitleRules();
                 const validationResult =
                     validationTitleResult.type === VALIDATION_RESULT.ERROR
                         ? validationTitleResult
-                        : url === ''
+                        : noteProps.url === ''
                         ? validationTitleResult
                         : checkUrlRules(res);
 
                 if (validationResult.type === VALIDATION_RESULT.SUCCESS) {
                     //ToDo показывать alert, что не сохранятся данные блоков
                     onSave({
-                        title,
-                        parentId,
-                        url,
+                        title: noteProps.title,
+                        parentId: noteProps.parentId,
+                        url: noteProps.url,
                     });
                     setIsOpen(false);
                 } else {
@@ -47,7 +57,7 @@ const ChangeNotePropsModal = ({ selectedNoteId, defaultParentId, defaultTitle, m
     };
 
     const checkTitleRules = () => {
-        if (title.length < 6) {
+        if (noteProps.title.length < 6) {
             return {
                 type: VALIDATION_RESULT.ERROR,
                 value: 'Длина заголовка должна быть больше 5 символов',
@@ -60,7 +70,7 @@ const ChangeNotePropsModal = ({ selectedNoteId, defaultParentId, defaultTitle, m
     };
 
     const checkUrlRules = (res) => {
-        if (url.length < 5) {
+        if (noteProps.url.length < 5) {
             return {
                 type: VALIDATION_RESULT.ERROR,
                 value: 'Длина url должна быть больше 4 символов',
@@ -70,7 +80,7 @@ const ChangeNotePropsModal = ({ selectedNoteId, defaultParentId, defaultTitle, m
                 type: VALIDATION_RESULT.ERROR,
                 value: 'Этот url уже занят',
             };
-        } else if (!isUrlPossible(url)) {
+        } else if (!isUrlPossible(noteProps.url)) {
             return {
                 type: VALIDATION_RESULT,
                 value: 'Недопустимое значение url',
@@ -87,16 +97,33 @@ const ChangeNotePropsModal = ({ selectedNoteId, defaultParentId, defaultTitle, m
             <h2>Введите свойства заметки</h2>
             <div className={styles.noteProps}>
                 <div className={styles.noteProp}>
-                    <Input placeholder='Заголовок' value={title} onChange={(event) => setTitle(event.target.value)} />
+                    <Input
+                        placeholder='Заголовок'
+                        value={noteProps.title}
+                        onChange={(event) => setNoteProps({ ...noteProps, title: event.target.value })}
+                    />
                 </div>
                 <div className={styles.noteProp}>
-                    <Input placeholder='URL' value={url} onChange={(event) => setUrl(event.target.value)} />
+                    <Input
+                        placeholder='URL'
+                        value={noteProps.url}
+                        onChange={(event) => setNoteProps({ ...noteProps, url: event.target.value })}
+                    />
                 </div>
                 <div className={styles.noteProp}>
-                    <TreeSelect value={parentId} onChange={(id) => setParentId(id)} className={styles.notePropSelect}>
+                    <TreeSelect
+                        value={noteProps.parentId}
+                        onChange={(id) =>
+                            setNoteProps({
+                                ...noteProps,
+                                parentId: id,
+                            })
+                        }
+                        className={styles.notePropSelect}
+                    >
                         {formattedPages.map((page) => {
                             return page.id !== selectedNoteId
-                                ? createNoteTree(page, selectedNoteId, defaultParentId)
+                                ? createNoteTree(page, selectedNoteId, activeNoteData.parentId)
                                 : null;
                         })}
                     </TreeSelect>
