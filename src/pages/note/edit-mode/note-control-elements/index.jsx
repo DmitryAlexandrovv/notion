@@ -10,7 +10,7 @@ import { Button } from 'antd';
 
 import styles from './style.module.css';
 
-const NoteControlElements = ({ pageId, activeNote, setActiveNote, history }) => {
+const NoteControlElements = ({ pageId, activeNote }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false),
         user = useSelector((state) => state.user),
         dispatch = useDispatch(),

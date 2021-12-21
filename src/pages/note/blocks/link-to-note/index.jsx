@@ -2,18 +2,20 @@ import { Button, TreeSelect } from 'antd';
 import { useSelector } from 'react-redux';
 import CreateBlock from '../hoc/createBlock';
 import { getNestedArray, createNoteTree } from '../../../../helpers';
+import { useNavigate } from 'react-router-dom';
+import { CONTENT_TYPES } from '../../view-mode/constants';
+import { NOTE_MODE_TYPES } from '../../../../constants';
+import { useEffect } from 'react';
 
 import blockStyles from '../style.module.css';
 import styles from './style.module.css';
-import { CONTENT_TYPES } from '../../view-mode/constants';
-import { useEffect } from 'react';
 
 const LinkToNoteBlock = (props) => {
     const { isEditMode, onSave, onCancel, data, setData, setError } = props,
-        formattedPages = getNestedArray(
-            useSelector((state) => state.pages),
-            null
-        );
+        pages = useSelector((state) => state.pages),
+        activeMode = useSelector((state) => state.activeMode),
+        formattedPages = getNestedArray(pages, undefined),
+        navigate = useNavigate();
 
     useEffect(() => {
         if (!data.id) {
@@ -22,7 +24,8 @@ const LinkToNoteBlock = (props) => {
     }, [data]);
 
     const redirect = () => {
-        //ToDo редирект на другую заметку
+        const page = pages[data.id];
+        navigate(`/note/${page.url ? page.url : data.id}`, { replace: true });
     };
 
     return (
@@ -51,7 +54,11 @@ const LinkToNoteBlock = (props) => {
                     </div>
                 </>
             ) : (
-                <Button onClick={redirect} className={styles.linkBlockElement}>
+                <Button
+                    className={styles.linkBlockElement}
+                    onClick={redirect}
+                    disabled={activeMode === NOTE_MODE_TYPES.EDIT}
+                >
                     {data.title}
                 </Button>
             )}

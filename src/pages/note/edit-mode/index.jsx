@@ -122,7 +122,6 @@ const NoteEditMode = (props) => {
                                     addBlock={addBlock}
                                     addedBlocksIds={addedBlocksIds}
                                     setAddedBlocksIds={setAddedBlocksIds}
-                                    activeMode={props.activeMode}
                                 />
                             );
                         case CONTENT_TYPES.IMAGE:
@@ -136,7 +135,6 @@ const NoteEditMode = (props) => {
                                     addBlock={addBlock}
                                     addedBlocksIds={addedBlocksIds}
                                     setAddedBlocksIds={setAddedBlocksIds}
-                                    activeMode={props.activeMode}
                                 />
                             );
                         case CONTENT_TYPES.VIDEO:
@@ -149,7 +147,6 @@ const NoteEditMode = (props) => {
                                     addBlock={addBlock}
                                     addedBlocksIds={addedBlocksIds}
                                     setAddedBlocksIds={setAddedBlocksIds}
-                                    activeMode={props.activeMode}
                                 />
                             );
                         case CONTENT_TYPES.LINK_TO_NOTE:
@@ -162,7 +159,6 @@ const NoteEditMode = (props) => {
                                     addBlock={addBlock}
                                     addedBlocksIds={addedBlocksIds}
                                     setAddedBlocksIds={setAddedBlocksIds}
-                                    activeMode={props.activeMode}
                                 />
                             );
                         default:
