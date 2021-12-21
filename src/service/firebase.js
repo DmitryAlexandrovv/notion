@@ -139,7 +139,13 @@ class FirebaseService {
 
     getNoteBlocks(userId, pageId) {
         return this.queryGetBlocks(userId, pageId)
-            .then((snapshot) => snapshot.val())
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    return snapshot.val();
+                } else {
+                    throw new Error('Url is not exists');
+                }
+            })
             .catch((error) => {
                 throw new Error(error.message);
             });
