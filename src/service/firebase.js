@@ -4,20 +4,22 @@ import { getDatabase, get, ref, child, push, set } from 'firebase/database';
 
 //ToDo вынести в отдельный конфиг
 //Заюзать process.env
+// check storageBucket, messagingSenderId, measurementId
 const firebaseConfig = {
-    apiKey: 'AIzaSyBpabxsbKQl2sE_L1DCWe5eaCMk8XDlgqs',
-    authDomain: 'notionitis.firebaseapp.com',
-    projectId: 'notionitis',
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_PROJECT_ID,
     storageBucket: 'notionitis.appspot.com',
     messagingSenderId: '611834882905',
-    appId: '1:611834882905:web:0b786850af54682512ba48',
-    measurementId: '${config.measurementId}',
-    databaseURL: 'https://notionitis-default-rtdb.firebaseio.com/',
+    appId: process.env.REACT_APP_APP_ID,
+    measurementId: '',
+    databaseURL: process.env.REACT_APP_DATABASE_URL,
 };
 
 //ToDo вынести все query за класс
 class FirebaseService {
     constructor() {
+        console.log(firebaseConfig);
         this.app = firebase.initializeApp(firebaseConfig);
         this.auth = firebase.auth();
         this.provider = new firebase.auth.GoogleAuthProvider().setCustomParameters({ prompt: 'select_account' });
