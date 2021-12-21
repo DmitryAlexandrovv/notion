@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { auth } from '../../service/firebase';
+import firebaseService from '../../service/firebase';
 import { useDispatch } from 'react-redux';
 import { clearStore } from '../../store/actions';
 
@@ -10,7 +10,8 @@ const Navbar = () => {
 
     const logout = (event) => {
         event.preventDefault();
-        auth.signOut()
+        firebaseService
+            .signOut()
             .then(() => {
                 dispatch(clearStore());
             })

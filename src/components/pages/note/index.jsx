@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { getNoteBlocks } from '../../../service/firebase';
+import firebaseService from '../../../service/firebase';
 import { findPageIdByUrl } from '../../../helpers';
 import { NOTE_MODE_TYPES } from '../../../constants';
 import Sidebar from '../../sidebar';
@@ -23,8 +23,7 @@ const Note = () => {
         pageId = pages[noteUrl] ? noteUrl : findPageIdByUrl(pages, noteUrl);
 
     useEffect(() => {
-        //ToDo лучше один экшн?
-        getNoteBlocks(user.id, pageId).then((res) => {
+        firebaseService.getNoteBlocks(user.id, pageId).then((res) => {
             const blocks = res === null ? [] : res;
 
             const page = pages[pageId];

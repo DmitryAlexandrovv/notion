@@ -1,6 +1,4 @@
 import PagesList from '../pages-list';
-import Login from '../login';
-
 import { useSelector } from 'react-redux';
 
 import styles from './style.module.css';
@@ -19,18 +17,10 @@ const UserData = ({ user }) => {
 const Sidebar = () => {
     const user = useSelector((state) => state.user);
 
-    let button;
-
-    if (user === null) {
-        button = <Login />;
-    } else {
-        button = <UserData user={user} />;
-    }
-
     return (
         <aside className={styles.sidebar}>
             <div className={styles.wrapper}>
-                {button}
+                <UserData user={user} />
                 <PagesList />
             </div>
         </aside>

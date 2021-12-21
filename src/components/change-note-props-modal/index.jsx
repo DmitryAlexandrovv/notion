@@ -1,8 +1,8 @@
 import { createNoteTree, getNestedArray } from '../../helpers';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { isUrlExists } from '../../service/firebase';
 import { isUrlPossible } from '../../helpers';
+import firebaseService from '../../service/firebase';
 import Modal from 'react-modal';
 import { Button, Input, TreeSelect } from 'antd';
 
@@ -18,25 +18,29 @@ const ChangeNotePropsModal = ({ selectedNoteId, defaultParentId, defaultTitle, m
 
     const onNotePropsSave = () => {
         //ToDo показывать alert, что не сохранятся данные
-        isUrlExists(user.id, url).then((res) => {
-            if (title.length < 6) {
-                alert('Длина заголовка должна быть больше 5 символов');
-            } else if (url.length < 5) {
-                alert('Длина url должна быть больше 4 символов');
-            } else if (res) {
-                alert('Этот url уже занят');
-            } else if (!isUrlPossible(url)) {
-                console.log(isUrlPossible(url));
-                alert('Недопустимое значение url');
-            } else {
-                onSave({
-                    title,
-                    parentId,
-                    url,
-                });
-                setIsOpen(false);
-            }
-        });
+        firebaseService
+            .isUrlExists(user.id, url)
+            .then((res) => {
+                if (title.length < 6) {
+                    alert('Длина заголовка должна быть больше 5 символов');
+                } else if (url.length < 5) {
+                    alert('Длина url должна быть больше 4 символов');
+                } else if (res) {
+                    alert('Этот url уже занят');
+                } else if (!isUrlPossible(url)) {
+                    alert('Недопустимое значение url');
+                } else {
+                    onSave({
+                        title,
+                        parentId,
+                        url,
+                    });
+                    setIsOpen(false);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     return (

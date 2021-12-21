@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createNewNote } from '../../../store/actions';
 import Navbar from '../../navbar';
-import { appendNewPage, getPage } from '../../../service/firebase';
+import firebaseService from '../../../service/firebase';
 
 import pageStyles from '../style.module.css';
 
@@ -15,24 +15,27 @@ const Home = () => {
         dispatch = useDispatch();
 
     const onSave = (data) => {
-        const key = appendNewPage(user.id, {
-            title: data.title,
-            url: data.url,
-            ...(data.parentId && { parentId: data.parentId }),
-        }).key;
-
-        getPage(user.id, key).then((res) => {
-            dispatch(
-                createNewNote({
-                    id: key,
-                    data: {
-                        title: data.title,
-                        parentId: data.parentId ?? undefined,
-                        url: data.url,
-                    },
-                })
-            );
-        });
+        firebaseService
+            .appendNewPage(user.id, {
+                title: data.title,
+                url: data.url,
+                ...(data.parentId && { parentId: data.parentId }),
+            })
+            .then((data) => {
+                dispatch(
+                    createNewNote({
+                        id: data.id,
+                        data: {
+                            title: data.title,
+                            parentId: data.parentId ?? undefined,
+                            url: data.url,
+                        },
+                    })
+                );
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
     };
 
     return (
