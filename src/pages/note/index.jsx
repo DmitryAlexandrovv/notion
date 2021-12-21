@@ -37,6 +37,12 @@ const Note = () => {
         });
     }, [noteUrl]);
 
+    useEffect(() => {
+        return () => {
+            dispatch(changeNoteMode(NOTE_MODE_TYPES.VIEW));
+        };
+    }, [activeNote]);
+
     const tabToggleHandler = (activeKey) => {
         //ToDo может стоит сообщать пользаку, что изменения не сохраняться?(Если не нажал сохранить)
         dispatch(changeNoteMode(activeKey));
