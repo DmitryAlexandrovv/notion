@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updatePage as updateStorePage } from '../../../../store/actions';
+import { setLoading, updatePage as updateStorePage } from '../../../../store/actions';
 import firebaseService from '../../../../service/firebase';
 import { useNavigate } from 'react-router-dom';
 import { CONTENT_TYPES } from '../../view-mode/constants';
@@ -17,6 +17,7 @@ const NoteControlElements = ({ pageId, activeNote }) => {
         navigate = useNavigate();
 
     const onSaveProps = (data) => {
+        dispatch(setLoading(true));
         firebaseService
             .updatePage(user.id, pageId, {
                 title: data.title,
@@ -40,6 +41,9 @@ const NoteControlElements = ({ pageId, activeNote }) => {
             })
             .catch((error) => {
                 console.error(error.message);
+            })
+            .finally(() => {
+                dispatch(setLoading(false));
             });
     };
 

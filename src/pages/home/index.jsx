@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import ChangeNotePropsModal from '../../components/change-note-props-modal';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createNewNote } from '../../store/actions';
+import { createNewNote, setLoading } from '../../store/actions';
 import Navbar from '../../components/navbar';
 import firebaseService from '../../service/firebase';
 
@@ -15,6 +15,7 @@ const Home = () => {
         dispatch = useDispatch();
 
     const onSave = (data) => {
+        dispatch(setLoading(true));
         firebaseService
             .appendNewPage(user.id, {
                 title: data.title,
@@ -35,6 +36,9 @@ const Home = () => {
             })
             .catch((error) => {
                 console.error(error.message);
+            })
+            .finally(() => {
+                dispatch(setLoading(false));
             });
     };
 

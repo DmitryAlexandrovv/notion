@@ -8,6 +8,7 @@ import {
     CREATE_NEW_NOTE,
     CLEAR_STORE,
     UPDATE_PAGE,
+    SET_LOADING,
 } from '../constants/actions';
 
 const changeNoteMode = (type) => {
@@ -75,6 +76,15 @@ const updatePage = ({ id, data }) => {
     };
 };
 
+const setLoading = (loading) => {
+    return {
+        type: SET_LOADING,
+        payload: {
+            loading,
+        },
+    };
+};
+
 export {
     changeNoteMode,
     loadPages,
@@ -85,4 +95,5 @@ export {
     createNewNote,
     clearStore,
     updatePage,
+    setLoading,
 };

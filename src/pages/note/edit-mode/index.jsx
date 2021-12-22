@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { canDragNote } from '../../../store/actions';
+import { canDragNote, setLoading } from '../../../store/actions';
 import { CONTENT_TYPES } from '../view-mode/constants';
 import { Button } from 'antd';
 import TextBlock from '../blocks/text';
@@ -55,6 +55,7 @@ const NoteEditMode = (props) => {
     };
 
     const onSave = () => {
+        dispatch(setLoading(true));
         firebaseService
             .updateNoteBlocks(user.id, props.pageId, note.blocks)
             .then(() => {
@@ -65,6 +66,9 @@ const NoteEditMode = (props) => {
             })
             .catch((error) => {
                 console.error(error.message);
+            })
+            .finally(() => {
+                dispatch(setLoading(false));
             });
     };
 

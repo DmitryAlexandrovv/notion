@@ -7,3 +7,4 @@ export const SET_USER = 'SET_USER';
 export const CREATE_NEW_NOTE = 'CREATE_NEW_NOTE';
 export const CLEAR_STORE = 'CLEAR_STORE';
 export const UPDATE_PAGE = 'UPDATE_PAGE';
+export const SET_LOADING = 'SET_LOADING';
