@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import firebaseService from '../../service/firebase';
 import { useDispatch } from 'react-redux';
-import { clearStore, setLoading } from '../../store/actions';
 
 import styles from './style.module.css';
+import { clearStore, setLoading } from '../../store/actions/appActions';
 
 const Navbar = () => {
     const dispatch = useDispatch();

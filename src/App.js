@@ -4,7 +4,7 @@ import routes from './router';
 import Loader from './components/loader';
 
 const App = () => {
-    const isLoggedIn = useSelector((state) => state.isLoggedIn);
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
     const routing = useRoutes(routes(isLoggedIn));
 

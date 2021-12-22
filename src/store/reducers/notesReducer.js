@@ -1,16 +1,13 @@
+import { NOTE_MODE_TYPES } from '../../constants';
 import {
-    CHANGE_NOTE_MODE,
-    LOAD_PAGES,
     CAN_DRAG_BLOCK,
-    UPDATE_ADDED_BLOCKS_IDS,
-    IS_DRAGGING_ACTIVE,
-    SET_USER,
+    CHANGE_NOTE_MODE,
     CREATE_NEW_NOTE,
-    CLEAR_STORE,
+    IS_DRAGGING_ACTIVE,
+    LOAD_PAGES,
+    UPDATE_ADDED_BLOCKS_IDS,
     UPDATE_PAGE,
-    SET_LOADING,
-} from '../constants/actions';
-import { NOTE_MODE_TYPES } from '../constants';
+} from '../../constants/actions';
 
 const initialState = {
     activeMode: NOTE_MODE_TYPES.VIEW,
@@ -18,12 +15,9 @@ const initialState = {
     canDragBlock: true,
     addedBlocksIds: [],
     isDraggingActive: false,
-    user: null,
-    isLoggedIn: false,
-    loading: false,
 };
 
-const reducer = (state = initialState, { type, payload }) => {
+const notesReducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case CHANGE_NOTE_MODE:
             return {
@@ -50,12 +44,6 @@ const reducer = (state = initialState, { type, payload }) => {
                 ...state,
                 isDraggingActive: payload,
             };
-        case SET_USER:
-            return {
-                ...state,
-                user: payload,
-                isLoggedIn: true,
-            };
         case CREATE_NEW_NOTE:
             return {
                 ...state,
@@ -64,8 +52,6 @@ const reducer = (state = initialState, { type, payload }) => {
                     [payload.id]: payload.data,
                 },
             };
-        case CLEAR_STORE:
-            return initialState;
         case UPDATE_PAGE:
             return {
                 ...state,
@@ -74,14 +60,9 @@ const reducer = (state = initialState, { type, payload }) => {
                     [payload.id]: payload.data,
                 },
             };
-        case SET_LOADING:
-            return {
-                ...state,
-                loading: payload.loading,
-            };
         default:
             return state;
     }
 };
 
-export default reducer;
+export default notesReducer;

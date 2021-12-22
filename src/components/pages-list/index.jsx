@@ -44,7 +44,7 @@ const List = ({ pages }) => {
 };
 
 const PagesList = () => {
-    const pages = useSelector((state) => state.pages),
+    const pages = useSelector((state) => state.notes.pages),
         formattedPages = getNestedArray(pages, undefined);
 
     return <List pages={formattedPages} />;

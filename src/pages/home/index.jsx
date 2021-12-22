@@ -3,15 +3,16 @@ import { Button } from 'antd';
 import ChangeNotePropsModal from '../../components/change-note-props-modal';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createNewNote, setLoading } from '../../store/actions';
 import Navbar from '../../components/navbar';
 import firebaseService from '../../service/firebase';
 
 import pageStyles from '../style.module.css';
+import { setLoading } from '../../store/actions/appActions';
+import { createNewNote } from '../../store/actions/notesActions';
 
 const Home = () => {
     const [modalIsOpen, setIsOpen] = useState(false),
-        user = useSelector((state) => state.user),
+        user = useSelector((state) => state.auth.user),
         dispatch = useDispatch();
 
     const onSave = (data) => {

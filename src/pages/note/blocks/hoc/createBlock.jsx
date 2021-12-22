@@ -5,14 +5,14 @@ import { useDrop } from 'react-dnd';
 import { NOTE_MODE_TYPES } from '../../../../constants';
 import { CONTENT_TYPES } from '../../view-mode/constants';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { canDragNote } from '../../../../store/actions';
 
 import styles from '../style.module.css';
+import { canDragNote } from '../../../../store/actions/notesActions';
 
 const CreateBlock = (WrappedComponent) => {
     return function WithWrapper(props) {
         const { addedBlocksIds, setAddedBlocksIds } = props,
-            activeMode = useSelector((state) => state.activeMode),
+            activeMode = useSelector((state) => state.notes.activeMode),
             [isCtrlGroupVisible, toggleCtrlGroupVisibility] = useState(false),
             [isEdit, toggleEdit] = useState(false),
             [data, setData] = useState(props.block.data),

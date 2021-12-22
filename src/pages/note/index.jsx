@@ -10,15 +10,16 @@ import NoteEditMode from './edit-mode';
 import NoteControlElements from './edit-mode/note-control-elements';
 import Navbar from '../../components/navbar';
 import { Button } from 'antd';
-import { changeNoteMode, setLoading } from '../../store/actions';
+import { setLoading } from '../../store/actions/appActions';
 
 import pageStyles from '../style.module.css';
 import styles from './style.module.css';
+import { changeNoteMode } from '../../store/actions/notesActions';
 
 const Note = () => {
-    const user = useSelector((state) => state.user),
-        pages = useSelector((state) => state.pages),
-        activeMode = useSelector((state) => state.activeMode),
+    const user = useSelector((state) => state.auth.user),
+        pages = useSelector((state) => state.notes.pages),
+        activeMode = useSelector((state) => state.notes.activeMode),
         [activeNote, setActiveNote] = useState(null),
         [isUrlExists, setIsUrlExists] = useState(true),
         { url: noteUrl } = useParams(),

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoading, updatePage as updateStorePage } from '../../../../store/actions';
+import { updatePage as updateStorePage } from '../../../../store/actions/notesActions';
 import firebaseService from '../../../../service/firebase';
 import { useNavigate } from 'react-router-dom';
 import { CONTENT_TYPES } from '../../view-mode/constants';
@@ -9,10 +9,11 @@ import ChangeNotePropsModal from '../../../../components/change-note-props-modal
 import { Button } from 'antd';
 
 import styles from './style.module.css';
+import { setLoading } from '../../../../store/actions/appActions';
 
 const NoteControlElements = ({ pageId, activeNote }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false),
-        user = useSelector((state) => state.user),
+        user = useSelector((state) => state.auth.user),
         dispatch = useDispatch(),
         navigate = useNavigate();
 

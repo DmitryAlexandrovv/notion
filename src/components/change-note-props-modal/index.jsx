@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 import { Button, Input, TreeSelect } from 'antd';
 
 import styles from './style.module.css';
-import { setLoading } from '../../store/actions';
+import { setLoading } from '../../store/actions/appActions';
 
 const ChangeNotePropsModal = ({ selectedNoteId, activeNoteData, modalIsOpen, setIsOpen, onSave }) => {
     const [noteProps, setNoteProps] = useState({
@@ -16,8 +16,8 @@ const ChangeNotePropsModal = ({ selectedNoteId, activeNoteData, modalIsOpen, set
             title: activeNoteData.title,
             url: activeNoteData.url,
         }),
-        pages = useSelector((state) => state.pages),
-        user = useSelector((state) => state.user),
+        pages = useSelector((state) => state.notes.pages),
+        user = useSelector((state) => state.notes.user),
         formattedPages = getNestedArray(pages, undefined),
         dispatch = useDispatch();
 

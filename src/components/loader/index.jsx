@@ -4,7 +4,7 @@ import { Spin } from 'antd';
 import styles from './style.module.css';
 
 const Loader = () => {
-    const loading = useSelector((state) => state.loading);
+    const loading = useSelector((state) => state.app.loading);
 
     return loading ? (
         <div className={styles.wrapper}>

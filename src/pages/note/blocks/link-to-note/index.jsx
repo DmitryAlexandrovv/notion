@@ -12,8 +12,8 @@ import styles from './style.module.css';
 
 const LinkToNoteBlock = (props) => {
     const { isEditMode, onSave, onCancel, data, setData, setError } = props,
-        pages = useSelector((state) => state.pages),
-        activeMode = useSelector((state) => state.activeMode),
+        pages = useSelector((state) => state.notes.pages),
+        activeMode = useSelector((state) => state.notes.activeMode),
         formattedPages = getNestedArray(pages, undefined),
         navigate = useNavigate();
 

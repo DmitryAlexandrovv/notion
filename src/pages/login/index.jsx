@@ -1,9 +1,11 @@
 import firebaseService from '../../service/firebase';
-import { loadPages, setLoading, setUser } from '../../store/actions';
 import { Button } from 'antd';
 import { useDispatch } from 'react-redux';
 
 import styles from './style.module.css';
+import { setUser } from '../../store/actions/authActions';
+import { loadPages } from '../../store/actions/notesActions';
+import { setLoading } from '../../store/actions/appActions';
 
 const Login = () => {
     const dispatch = useDispatch();

@@ -1,12 +1,12 @@
 import { useDrag } from 'react-dnd';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { setIsDraggingActive } from '../../../../../store/actions';
 
 import styles from './style.module.css';
+import { setIsDraggingActive } from '../../../../../store/actions/notesActions';
 
 const Block = ({ type, text }) => {
-    const canDragBlock = useSelector((state) => state.canDragBlock),
+    const canDragBlock = useSelector((state) => state.notes.canDragBlock),
         dispatch = useDispatch();
 
     const [{ isDragging }, drag] = useDrag(

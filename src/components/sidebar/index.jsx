@@ -15,7 +15,7 @@ const UserData = ({ user }) => {
 };
 
 const Sidebar = () => {
-    const user = useSelector((state) => state.user);
+    const user = useSelector((state) => state.auth.user);
 
     return (
         <aside className={styles.sidebar}>

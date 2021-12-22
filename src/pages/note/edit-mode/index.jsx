@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { canDragNote, setLoading } from '../../../store/actions';
 import { CONTENT_TYPES } from '../view-mode/constants';
 import { Button } from 'antd';
 import TextBlock from '../blocks/text';
@@ -13,12 +12,14 @@ import firebaseService from '../../../service/firebase';
 
 import noteStyles from '../view-mode/style.module.css';
 import styles from './style.module.css';
+import { setLoading } from '../../../store/actions/appActions';
+import { canDragNote } from '../../../store/actions/notesActions';
 
 const NoteEditMode = (props) => {
     const dispatch = useDispatch(),
         [note, onUpdateNote] = useState(props.activeNote),
         [addedBlocksIds, setAddedBlocksIds] = useState([]),
-        user = useSelector((state) => state.user),
+        user = useSelector((state) => state.auth.user),
         isDraggingActive = useSelector((state) => state.isDraggingActive);
 
     useEffect(() => {
