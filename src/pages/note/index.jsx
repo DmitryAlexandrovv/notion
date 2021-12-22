@@ -10,7 +10,7 @@ import NoteEditMode from './edit-mode';
 import NoteControlElements from './edit-mode/note-control-elements';
 import Navbar from '../../components/navbar';
 import { Button } from 'antd';
-import { changeNoteMode } from '../../store/actions';
+import { changeNoteMode, setLoading } from '../../store/actions';
 
 import pageStyles from '../style.module.css';
 import styles from './style.module.css';
@@ -20,22 +20,40 @@ const Note = () => {
         pages = useSelector((state) => state.pages),
         activeMode = useSelector((state) => state.activeMode),
         [activeNote, setActiveNote] = useState(null),
+        [isUrlExists, setIsUrlExists] = useState(true),
         { url: noteUrl } = useParams(),
         pageId = pages[noteUrl] ? noteUrl : findPageIdByUrl(pages, noteUrl),
         dispatch = useDispatch();
 
     useEffect(() => {
-        firebaseService.getNoteBlocks(user.id, pageId).then((res) => {
-            const blocks = res === null ? [] : res;
+        if (pageId) {
+            dispatch(setLoading(true));
+            firebaseService
+                .getNoteBlocks(user.id, pageId)
+                .then((res) => {
+                    const blocks = res === null ? [] : res;
 
-            const page = pages[pageId];
+                    const page = pages[pageId];
 
-            setActiveNote({
-                ...page,
-                blocks,
-            });
-        });
+                    setActiveNote({
+                        ...page,
+                        blocks,
+                    });
+                    setIsUrlExists(true);
+                })
+                .finally(() => {
+                    dispatch(setLoading(false));
+                });
+        } else {
+            setIsUrlExists(false);
+        }
     }, [noteUrl]);
+
+    useEffect(() => {
+        return () => {
+            dispatch(changeNoteMode(NOTE_MODE_TYPES.VIEW));
+        };
+    }, [activeNote]);
 
     const tabToggleHandler = (activeKey) => {
         //ToDo может стоит сообщать пользаку, что изменения не сохраняться?(Если не нажал сохранить)
@@ -48,7 +66,8 @@ const Note = () => {
             <div className={pageStyles.layout}>
                 <Sidebar />
                 <main className={pageStyles.main}>
-                    {activeNote && (
+                    {!isUrlExists && <h1>Note not found</h1>}
+                    {activeNote && isUrlExists && (
                         <>
                             <div className={styles.noteCtrlGroup}>
                                 <Button
