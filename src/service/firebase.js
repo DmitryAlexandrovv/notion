@@ -2,15 +2,12 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { getDatabase, get, ref, child, push, set } from 'firebase/database';
 
-//ToDo вынести в отдельный конфиг
-//Заюзать process.env
-// check storageBucket, messagingSenderId, measurementId
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
     projectId: process.env.REACT_APP_PROJECT_ID,
     storageBucket: 'notionitis.appspot.com',
-    messagingSenderId: '611834882905',
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
     appId: process.env.REACT_APP_APP_ID,
     measurementId: '',
     databaseURL: process.env.REACT_APP_DATABASE_URL,
