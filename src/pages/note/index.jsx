@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import firebaseService from '../../service/firebase';
-import { findPageIdByUrl } from '../../helpers';
+import { findPageIdByUrl, showConfirmModal } from '../../helpers';
 import { NOTE_MODE_TYPES } from '../../constants';
 import Sidebar from '../../components/sidebar';
 import NoteViewMode from './view-mode';
@@ -19,11 +19,13 @@ const Note = () => {
     const user = useSelector((state) => state.user),
         pages = useSelector((state) => state.pages),
         activeMode = useSelector((state) => state.activeMode),
+        [isNoteBlocksEdited, setIsNoteBlocksEdited] = useState(false),
         [activeNote, setActiveNote] = useState(null),
         [isUrlExists, setIsUrlExists] = useState(true),
         { url: noteUrl } = useParams(),
         pageId = pages[noteUrl] ? noteUrl : findPageIdByUrl(pages, noteUrl),
-        dispatch = useDispatch();
+        dispatch = useDispatch(),
+        location = useLocation();
 
     useEffect(() => {
         if (pageId) {
@@ -47,7 +49,7 @@ const Note = () => {
         } else {
             setIsUrlExists(false);
         }
-    }, [noteUrl]);
+    }, [noteUrl, location]);
 
     useEffect(() => {
         return () => {
@@ -57,7 +59,15 @@ const Note = () => {
 
     const tabToggleHandler = (activeKey) => {
         //ToDo может стоит сообщать пользаку, что изменения не сохраняться?(Если не нажал сохранить)
-        dispatch(changeNoteMode(activeKey));
+        if (isNoteBlocksEdited && activeKey === NOTE_MODE_TYPES.VIEW) {
+            showConfirmModal({
+                title: 'Подтвердите действие',
+                message: 'Изменения не сохранятся, продолжить?',
+                onSuccess: () => dispatch(changeNoteMode(activeKey)),
+            });
+        } else {
+            dispatch(changeNoteMode(activeKey));
+        }
     };
 
     return (
@@ -88,6 +98,7 @@ const Note = () => {
                             )}
                             {activeMode === NOTE_MODE_TYPES.EDIT && activeNote && (
                                 <NoteEditMode
+                                    setIsNoteBlocksEdited={setIsNoteBlocksEdited}
                                     pageId={pageId}
                                     activeNote={activeNote}
                                     activeMode={activeMode}
@@ -98,7 +109,12 @@ const Note = () => {
                     )}
                 </main>
                 {activeMode === NOTE_MODE_TYPES.EDIT && activeNote && (
-                    <NoteControlElements pageId={pageId} activeNote={activeNote} setActiveNote={setActiveNote} />
+                    <NoteControlElements
+                        isNoteBlocksEdited={isNoteBlocksEdited}
+                        pageId={pageId}
+                        activeNote={activeNote}
+                        setActiveNote={setActiveNote}
+                    />
                 )}
             </div>
         </div>

@@ -2,6 +2,7 @@ import { CONTENT_TYPES } from '../pages/note/view-mode/constants';
 import { v4 as uuid_v4 } from 'uuid';
 import { convertToRaw, EditorState } from 'draft-js';
 import { TreeSelect } from 'antd';
+import { confirmAlert } from 'react-confirm-alert';
 
 const TreeNode = TreeSelect.TreeNode;
 
@@ -134,4 +135,60 @@ export const isUrlPossible = (url) => {
             return !!acc;
         }
     }, true);
+};
+
+export const showConfirmModal = ({
+    title,
+    message,
+    onSuccess = () => {},
+    successLabel = 'Да',
+    failureLabel = 'Нет',
+    closeOnEscape = true,
+    closeOnClickOutside = true,
+}) => {
+    showModal({
+        title,
+        message,
+        buttons: [
+            {
+                label: successLabel,
+                onClick: onSuccess,
+            },
+            {
+                label: failureLabel,
+            },
+        ],
+        closeOnEscape,
+        closeOnClickOutside,
+    });
+};
+
+export const showAlertModal = ({
+    title,
+    message,
+    successLabel = 'Ок',
+    closeOnEscape = true,
+    closeOnClickOutside = true,
+}) => {
+    showModal({
+        title,
+        message,
+        buttons: [
+            {
+                label: successLabel,
+            },
+        ],
+        closeOnEscape,
+        closeOnClickOutside,
+    });
+};
+
+const showModal = ({ title, message, buttons, closeOnEscape, closeOnClickOutside }) => {
+    confirmAlert({
+        title,
+        message,
+        buttons,
+        closeOnEscape,
+        closeOnClickOutside,
+    });
 };

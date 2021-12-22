@@ -10,7 +10,7 @@ import { Button } from 'antd';
 
 import styles from './style.module.css';
 
-const NoteControlElements = ({ pageId, activeNote }) => {
+const NoteControlElements = ({ pageId, activeNote, isNoteBlocksEdited, setActiveNote }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false),
         user = useSelector((state) => state.user),
         dispatch = useDispatch(),
@@ -64,6 +64,7 @@ const NoteControlElements = ({ pageId, activeNote }) => {
                 </div>
             </div>
             <ChangeNotePropsModal
+                isNoteBlocksEdited={isNoteBlocksEdited}
                 selectedNoteId={pageId}
                 activeNoteData={{
                     parentId: activeNote.parentId,
