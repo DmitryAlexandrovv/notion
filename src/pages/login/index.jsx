@@ -1,5 +1,5 @@
 import firebaseService from '../../service/firebase';
-import { loadPages, setUser } from '../../store/actions';
+import { loadPages, setLoading, setUser } from '../../store/actions';
 import { Button } from 'antd';
 import { useDispatch } from 'react-redux';
 
@@ -9,6 +9,7 @@ const Login = () => {
     const dispatch = useDispatch();
 
     const signIn = () => {
+        dispatch(setLoading(true));
         firebaseService
             .signInWithGoogle()
             .then((user) => {
@@ -23,6 +24,9 @@ const Login = () => {
             })
             .catch((error) => {
                 console.error(error);
+            })
+            .finally(() => {
+                dispatch(setLoading(false));
             });
     };
 

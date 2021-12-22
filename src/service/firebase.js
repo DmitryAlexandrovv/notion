@@ -83,10 +83,12 @@ class FirebaseService {
             .then((users) => {
                 const userId = Object.keys(users).find((key) => users[key].email === email);
                 const user = users[Object.keys(users).find((key) => users[key].email === email)];
-                return {
-                    ...user,
-                    id: userId,
-                };
+                return userId
+                    ? {
+                          ...user,
+                          id: userId,
+                      }
+                    : null;
             })
             .catch((error) => {
                 throw new Error(error);

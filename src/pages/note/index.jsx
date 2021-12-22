@@ -10,7 +10,7 @@ import NoteEditMode from './edit-mode';
 import NoteControlElements from './edit-mode/note-control-elements';
 import Navbar from '../../components/navbar';
 import { Button } from 'antd';
-import { changeNoteMode } from '../../store/actions';
+import { changeNoteMode, setLoading } from '../../store/actions';
 
 import pageStyles from '../style.module.css';
 import styles from './style.module.css';
@@ -27,17 +27,23 @@ const Note = () => {
 
     useEffect(() => {
         if (pageId) {
-            firebaseService.getNoteBlocks(user.id, pageId).then((res) => {
-                const blocks = res === null ? [] : res;
+            dispatch(setLoading(true));
+            firebaseService
+                .getNoteBlocks(user.id, pageId)
+                .then((res) => {
+                    const blocks = res === null ? [] : res;
 
-                const page = pages[pageId];
+                    const page = pages[pageId];
 
-                setActiveNote({
-                    ...page,
-                    blocks,
+                    setActiveNote({
+                        ...page,
+                        blocks,
+                    });
+                    setIsUrlExists(true);
+                })
+                .finally(() => {
+                    dispatch(setLoading(false));
                 });
-                setIsUrlExists(true);
-            });
         } else {
             setIsUrlExists(false);
         }

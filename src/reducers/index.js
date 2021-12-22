@@ -8,6 +8,7 @@ import {
     CREATE_NEW_NOTE,
     CLEAR_STORE,
     UPDATE_PAGE,
+    SET_LOADING,
 } from '../constants/actions';
 import { NOTE_MODE_TYPES } from '../constants';
 
@@ -19,6 +20,7 @@ const initialState = {
     isDraggingActive: false,
     user: null,
     isLoggedIn: false,
+    loading: false,
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -71,6 +73,11 @@ const reducer = (state = initialState, { type, payload }) => {
                     ...state.pages,
                     [payload.id]: payload.data,
                 },
+            };
+        case SET_LOADING:
+            return {
+                ...state,
+                loading: payload.loading,
             };
         default:
             return state;

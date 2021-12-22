@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import firebaseService from '../../service/firebase';
 import { useDispatch } from 'react-redux';
-import { clearStore } from '../../store/actions';
+import { clearStore, setLoading } from '../../store/actions';
 
 import styles from './style.module.css';
 
@@ -9,6 +9,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
 
     const logout = (event) => {
+        dispatch(setLoading(true));
         event.preventDefault();
         firebaseService
             .signOut()
@@ -17,6 +18,9 @@ const Navbar = () => {
             })
             .catch((error) => {
                 console.log(error.message);
+            })
+            .finally(() => {
+                dispatch(setLoading(false));
             });
     };
 
