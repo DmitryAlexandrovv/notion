@@ -7,6 +7,7 @@ import { createNewNote, setLoading } from '../../store/actions';
 import Navbar from '../../components/navbar';
 import firebaseService from '../../service/firebase';
 
+import styles from './style.module.css';
 import pageStyles from '../style.module.css';
 
 const Home = () => {
@@ -48,7 +49,10 @@ const Home = () => {
             <div className={pageStyles.layout}>
                 <Sidebar />
                 <main className={pageStyles.main}>
-                    <Button onClick={() => setIsOpen(true)}>Создать заметку</Button>
+                    <h1>Notion - удобный, простой и практичный менеджер заметок</h1>
+                    <Button onClick={() => setIsOpen(true)} className={styles.createNoteBtn}>
+                        Создать заметку
+                    </Button>
                     <ChangeNotePropsModal
                         noteId={null}
                         activeNoteData={{

@@ -77,7 +77,7 @@ const Note = () => {
                                     Просмотр
                                 </Button>
                                 <Button
-                                    className={styles.noteCtrlGroupItem}
+                                    className={`${styles.noteCtrlGroupItem} ${styles.noteCtrlEditBtn}`}
                                     onClick={() => tabToggleHandler(NOTE_MODE_TYPES.EDIT)}
                                 >
                                     Редактирование

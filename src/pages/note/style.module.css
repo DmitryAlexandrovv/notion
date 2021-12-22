@@ -7,3 +7,9 @@
 .noteCtrlGroupItem {
     margin-right: 10px;
 }
+
+@media (max-width: 720px) {
+    .noteCtrlGroupItem.noteCtrlEditBtn {
+        display: none;
+    }
+}
