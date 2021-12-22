@@ -2,17 +2,14 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { getDatabase, get, ref, child, push, set } from 'firebase/database';
 
-//ToDo вынести в отдельный конфиг
-//Заюзать process.env
 const firebaseConfig = {
-    apiKey: 'AIzaSyBpabxsbKQl2sE_L1DCWe5eaCMk8XDlgqs',
-    authDomain: 'notionitis.firebaseapp.com',
-    projectId: 'notionitis',
-    storageBucket: 'notionitis.appspot.com',
-    messagingSenderId: '611834882905',
-    appId: '1:611834882905:web:0b786850af54682512ba48',
-    measurementId: '${config.measurementId}',
-    databaseURL: 'https://notionitis-default-rtdb.firebaseio.com/',
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID,
+    databaseURL: process.env.REACT_APP_DATABASE_URL,
 };
 
 //ToDo вынести все query за класс
