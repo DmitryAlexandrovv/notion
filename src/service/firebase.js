@@ -6,17 +6,15 @@ const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
     projectId: process.env.REACT_APP_PROJECT_ID,
-    storageBucket: 'notionitis.appspot.com',
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
     messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
     appId: process.env.REACT_APP_APP_ID,
-    measurementId: '',
     databaseURL: process.env.REACT_APP_DATABASE_URL,
 };
 
 //ToDo вынести все query за класс
 class FirebaseService {
     constructor() {
-        console.log(firebaseConfig);
         this.app = firebase.initializeApp(firebaseConfig);
         this.auth = firebase.auth();
         this.provider = new firebase.auth.GoogleAuthProvider().setCustomParameters({ prompt: 'select_account' });
