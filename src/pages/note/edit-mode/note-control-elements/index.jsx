@@ -32,7 +32,6 @@ const NoteControlElements = ({ pageId, activeNote, isNoteBlocksEdited, setActive
                     })
                 );
 
-                //ToDo alert,измененные данные не сохранятся
                 if (data.url) {
                     navigate(`/note/${data.url}`, { replace: true });
                 } else {

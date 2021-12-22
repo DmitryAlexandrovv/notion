@@ -58,7 +58,6 @@ const Note = () => {
     }, [activeNote]);
 
     const tabToggleHandler = (activeKey) => {
-        //ToDo может стоит сообщать пользаку, что изменения не сохраняться?(Если не нажал сохранить)
         if (isNoteBlocksEdited && activeKey === NOTE_MODE_TYPES.VIEW) {
             showConfirmModal({
                 title: 'Подтвердите действие',
