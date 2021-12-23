@@ -1,0 +1,25 @@
+.user {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.userIcon {
+    padding: 5px;
+    background-color: darkgreen;
+    color: var(--white);
+    border-radius: 5px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+
+.userName {
+    margin-left: 10px;
+}
+
+@media (max-width: 720px) {
+    .userName {
+        display: none;
+    }
+}

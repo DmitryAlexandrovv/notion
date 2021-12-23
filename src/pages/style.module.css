@@ -2,17 +2,23 @@
     display: grid;
     grid-template-areas: "sidebar main adding-block";
     grid-template-columns: 300px 1fr;
-
-    min-height: 100vh;
+    height: 100%;
 }
 
 .main {
     grid-area: main;
-
     padding: 20px;
 }
 
 .wrapper {
+    height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+@media (max-width: 720px) {
+    .layout {
+        grid-template-areas: "main";
+        grid-template-columns: 100%;
+    }
 }

@@ -7,6 +7,16 @@
     padding: 0 20px;
 }
 
+.navbarTreeItem {
+    width: 100%;
+    max-width: 200px;
+}
+
+.navbarTreeItem, .navbarUserItem {
+    display: flex;
+    align-items: center;
+}
+
 .navbarLink {
     display: block;
     color: #666;
@@ -22,4 +32,14 @@
 .navbarLinkActive {
     color: white;
     background-color: #008CBA;
+}
+
+.noteTreeLink {
+    width: 100%;
+}
+
+@media (min-width: 720px) {
+    .navbarTreeItem, .navbarUserItem {
+        display: none;
+    }
 }
