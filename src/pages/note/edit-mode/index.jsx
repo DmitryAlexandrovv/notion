@@ -14,19 +14,19 @@ import firebaseService from '../../../service/firebase';
 import noteStyles from '../view-mode/style.module.css';
 import styles from './style.module.css';
 
-const NoteEditMode = (props) => {
+const NoteEditMode = ({ activeNote, setIsNoteBlocksEdited, pageId, setActiveNote }) => {
     const dispatch = useDispatch(),
-        [note, onUpdateNote] = useState(props.activeNote),
+        [note, onUpdateNote] = useState(activeNote),
         [addedBlocksIds, setAddedBlocksIds] = useState([]),
         user = useSelector((state) => state.user),
         isDraggingActive = useSelector((state) => state.isDraggingActive);
 
     useEffect(() => {
-        onUpdateNote(props.activeNote);
-    }, [props.activeNote]);
+        onUpdateNote(activeNote);
+    }, [activeNote]);
 
     useEffect(() => {
-        props.setIsNoteBlocksEdited(JSON.stringify(note) !== JSON.stringify(props.activeNote));
+        setIsNoteBlocksEdited(JSON.stringify(note) !== JSON.stringify(activeNote));
     }, [note]);
 
     const onBlockContentChanged = (type, id, data) => {
@@ -61,11 +61,11 @@ const NoteEditMode = (props) => {
     const onSave = () => {
         dispatch(setLoading(true));
         firebaseService
-            .updateNoteBlocks(user.id, props.pageId, note.blocks)
+            .updateNoteBlocks(user.id, pageId, note.blocks)
             .then(() => {
-                props.setIsNoteBlocksEdited(false);
-                props.setactiveNote({
-                    ...props.activeNote,
+                setIsNoteBlocksEdited(false);
+                setActiveNote({
+                    ...activeNote,
                     blocks: [...note.blocks],
                 });
             })
