@@ -4,7 +4,8 @@ import {
     CHANGE_NOTE_MODE,
     CREATE_NEW_NOTE,
     IS_DRAGGING_ACTIVE,
-    LOAD_PAGES,
+    SET_PAGES,
+    SET_ACTIVE_NOTE,
     UPDATE_ADDED_BLOCKS_IDS,
     UPDATE_PAGE,
 } from '../../constants/actions';
@@ -15,6 +16,7 @@ const initialState = {
     canDragBlock: true,
     addedBlocksIds: [],
     isDraggingActive: false,
+    activeNote: null,
 };
 
 const notesReducer = (state = initialState, { type, payload }) => {
@@ -24,7 +26,7 @@ const notesReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 activeMode: payload,
             };
-        case LOAD_PAGES:
+        case SET_PAGES:
             return {
                 ...state,
                 pages: payload,
@@ -59,6 +61,11 @@ const notesReducer = (state = initialState, { type, payload }) => {
                     ...state.pages,
                     [payload.id]: payload.data,
                 },
+            };
+        case SET_ACTIVE_NOTE:
+            return {
+                ...state,
+                activeNote: payload.note,
             };
         default:
             return state;

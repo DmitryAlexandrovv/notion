@@ -2,45 +2,18 @@ import Sidebar from '../../components/sidebar';
 import { Button } from 'antd';
 import ChangeNotePropsModal from '../../components/change-note-props-modal';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Navbar from '../../components/navbar';
-import firebaseService from '../../service/firebase';
+import { savePage } from '../../store/actions/notesActions';
 
 import pageStyles from '../style.module.css';
-import { setLoading } from '../../store/actions/appActions';
-import { createNewNote } from '../../store/actions/notesActions';
 
 const Home = () => {
     const [modalIsOpen, setIsOpen] = useState(false),
-        user = useSelector((state) => state.auth.user),
         dispatch = useDispatch();
 
     const onSave = (data) => {
-        dispatch(setLoading(true));
-        firebaseService
-            .appendNewPage(user.id, {
-                title: data.title,
-                url: data.url,
-                ...(data.parentId && { parentId: data.parentId }),
-            })
-            .then((data) => {
-                dispatch(
-                    createNewNote({
-                        id: data.id,
-                        data: {
-                            title: data.title,
-                            parentId: data.parentId ?? undefined,
-                            url: data.url,
-                        },
-                    })
-                );
-            })
-            .catch((error) => {
-                console.error(error.message);
-            })
-            .finally(() => {
-                dispatch(setLoading(false));
-            });
+        dispatch(savePage(data));
     };
 
     return (

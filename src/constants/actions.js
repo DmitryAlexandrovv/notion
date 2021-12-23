@@ -1,5 +1,5 @@
 export const CHANGE_NOTE_MODE = 'CHANGE_NOTE_MODE';
-export const LOAD_PAGES = 'LOAD_PAGES';
+export const SET_PAGES = 'SET_PAGES';
 export const CAN_DRAG_BLOCK = 'CAN_DRAG_BLOCK';
 export const UPDATE_ADDED_BLOCKS_IDS = 'UPDATE_ADDED_BLOCKS_IDS';
 export const IS_DRAGGING_ACTIVE = 'IS_DRAGGING_ACTIVE';
@@ -8,3 +8,4 @@ export const CREATE_NEW_NOTE = 'CREATE_NEW_NOTE';
 export const CLEAR_STORE = 'CLEAR_STORE';
 export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const SET_LOADING = 'SET_LOADING';
+export const SET_ACTIVE_NOTE = 'SET_ACTIVE_NOTE';

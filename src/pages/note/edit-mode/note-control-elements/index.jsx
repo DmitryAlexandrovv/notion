@@ -1,51 +1,19 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { updatePage as updateStorePage } from '../../../../store/actions/notesActions';
-import firebaseService from '../../../../service/firebase';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Button } from 'antd';
+import { savePageProps } from '../../../../store/actions/notesActions';
 import { CONTENT_TYPES } from '../../view-mode/constants';
 import Block from './block';
 import ChangeNotePropsModal from '../../../../components/change-note-props-modal';
-import { Button } from 'antd';
 
 import styles from './style.module.css';
-import { setLoading } from '../../../../store/actions/appActions';
 
 const NoteControlElements = ({ pageId, activeNote }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false),
-        user = useSelector((state) => state.auth.user),
-        dispatch = useDispatch(),
-        navigate = useNavigate();
+        dispatch = useDispatch();
 
     const onSaveProps = (data) => {
-        dispatch(setLoading(true));
-        firebaseService
-            .updatePage(user.id, pageId, {
-                title: data.title,
-                url: data.url,
-                ...(data.parentId && { parentId: data.parentId }),
-            })
-            .then(() => {
-                dispatch(
-                    updateStorePage({
-                        id: pageId,
-                        data,
-                    })
-                );
-
-                //ToDo alert,измененные данные не сохранятся
-                if (data.url) {
-                    navigate(`/note/${data.url}`, { replace: true });
-                } else {
-                    navigate(`/note/${pageId}`, { replace: true });
-                }
-            })
-            .catch((error) => {
-                console.error(error.message);
-            })
-            .finally(() => {
-                dispatch(setLoading(false));
-            });
+        dispatch(savePageProps(activeNote, data));
     };
 
     return (

@@ -1,27 +1,16 @@
 import { Link } from 'react-router-dom';
-import firebaseService from '../../service/firebase';
 import { useDispatch } from 'react-redux';
+import { logout } from '../../store/actions/authActions';
 
 import styles from './style.module.css';
-import { clearStore, setLoading } from '../../store/actions/appActions';
 
 const Navbar = () => {
     const dispatch = useDispatch();
 
-    const logout = (event) => {
-        dispatch(setLoading(true));
+    const onLogout = (event) => {
         event.preventDefault();
-        firebaseService
-            .signOut()
-            .then(() => {
-                dispatch(clearStore());
-            })
-            .catch((error) => {
-                console.log(error.message);
-            })
-            .finally(() => {
-                dispatch(setLoading(false));
-            });
+
+        dispatch(logout());
     };
 
     return (
@@ -33,9 +22,9 @@ const Navbar = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link to='/logout' className={styles.navbarLink} onClick={logout}>
+                    <a className={styles.navbarLink} onClick={onLogout}>
                         Logout
-                    </Link>
+                    </a>
                 </li>
             </ul>
         </div>

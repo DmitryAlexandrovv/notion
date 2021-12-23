@@ -1,8 +1,7 @@
+import { Alert, Button, Input, Spin as Loader } from 'antd';
 import YouTube from 'react-youtube';
 import CreateBlock from '../hoc/createBlock';
 import WithImage from '../hoc/withImage';
-import Loader from 'react-loader-spinner';
-import { Alert, Button, Input } from 'antd';
 import { CONTENT_TYPES } from '../../view-mode/constants';
 import { getVideoId, getPreview } from '../../../../helpers';
 

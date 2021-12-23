@@ -8,7 +8,7 @@ const UserData = ({ user }) => {
 
     return (
         <div className={styles.user}>
-            <span className={styles.userIcon}>A</span>
+            <span className={styles.userIcon}>{name[0]}</span>
             <span className={styles.userName}>{name}</span>
         </div>
     );

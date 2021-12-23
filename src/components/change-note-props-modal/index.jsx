@@ -1,14 +1,14 @@
 import { createNoteTree, getNestedArray } from '../../helpers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Modal from 'react-modal';
+import { Button, Input, TreeSelect } from 'antd';
 import { isUrlPossible } from '../../helpers';
 import firebaseService from '../../service/firebase';
 import { VALIDATION_RESULT } from './constants';
-import Modal from 'react-modal';
-import { Button, Input, TreeSelect } from 'antd';
+import { setLoading } from '../../store/actions/appActions';
 
 import styles from './style.module.css';
-import { setLoading } from '../../store/actions/appActions';
 
 const ChangeNotePropsModal = ({ selectedNoteId, activeNoteData, modalIsOpen, setIsOpen, onSave }) => {
     const [noteProps, setNoteProps] = useState({
@@ -17,7 +17,7 @@ const ChangeNotePropsModal = ({ selectedNoteId, activeNoteData, modalIsOpen, set
             url: activeNoteData.url,
         }),
         pages = useSelector((state) => state.notes.pages),
-        user = useSelector((state) => state.notes.user),
+        user = useSelector((state) => state.auth.user),
         formattedPages = getNestedArray(pages, undefined),
         dispatch = useDispatch();
 

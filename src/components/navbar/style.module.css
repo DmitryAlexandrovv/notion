@@ -17,6 +17,7 @@
 
 .navbarLink:hover {
     background-color: #ddd;
+    cursor: pointer;
 }
 
 .navbarLinkActive {
