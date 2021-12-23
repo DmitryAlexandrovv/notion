@@ -101,7 +101,7 @@ const Note = () => {
                                     pageId={pageId}
                                     activeNote={activeNote}
                                     activeMode={activeMode}
-                                    setactiveNote={setActiveNote}
+                                    setActiveNote={setActiveNote}
                                 />
                             )}
                         </>

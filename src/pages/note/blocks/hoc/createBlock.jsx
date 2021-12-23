@@ -11,17 +11,17 @@ import styles from '../style.module.css';
 
 const CreateBlock = (WrappedComponent) => {
     return function WithWrapper(props) {
-        const { addedBlocksIds, setAddedBlocksIds } = props,
+        const { block, addBlock, deleteBlock, addedBlocksIds, setAddedBlocksIds, onChange } = props,
             activeMode = useSelector((state) => state.activeMode),
             [isCtrlGroupVisible, toggleCtrlGroupVisibility] = useState(false),
             [isEdit, toggleEdit] = useState(false),
-            [data, setData] = useState(props.block.data),
+            [data, setData] = useState(block.data),
             [error, setError] = useState(false),
             dispatch = useDispatch();
 
         useEffect(() => {
             if (activeMode === NOTE_MODE_TYPES.EDIT) {
-                toggleEdit(addedBlocksIds.indexOf(props.block.id) !== -1);
+                toggleEdit(addedBlocksIds.indexOf(block.id) !== -1);
             }
         }, [addedBlocksIds]);
 
@@ -29,17 +29,17 @@ const CreateBlock = (WrappedComponent) => {
             () => ({
                 accept: [CONTENT_TYPES.TEXT, CONTENT_TYPES.IMAGE, CONTENT_TYPES.VIDEO, CONTENT_TYPES.LINK_TO_NOTE],
                 drop: (item, monitor) => {
-                    props.addBlock(props.block.id, item, monitor.getClientOffset());
+                    addBlock(block.id, item, monitor.getClientOffset());
                 },
             }),
-            [props.block]
+            [block]
         );
 
         const outsideClickHandler = (event) => {
             //ToDo может можно легче?
             if (isEdit) {
                 if (error) {
-                    if (props.block.type === CONTENT_TYPES.LINK_TO_NOTE) {
+                    if (block.type === CONTENT_TYPES.LINK_TO_NOTE) {
                         if (!event.target.closest('.ant-select-dropdown')) {
                             onCancel();
                         }
@@ -47,12 +47,12 @@ const CreateBlock = (WrappedComponent) => {
                         onCancel();
                     }
                 } else {
-                    if (props.block.type === CONTENT_TYPES.LINK_TO_NOTE) {
+                    if (block.type === CONTENT_TYPES.LINK_TO_NOTE) {
                         if (!event.target.closest('.ant-select-dropdown')) {
-                            onSave(props.block.type, data);
+                            onSave(block.type, data);
                         }
                     } else {
-                        onSave(props.block.type, data);
+                        onSave(block.type, data);
                     }
                 }
             }
@@ -61,19 +61,19 @@ const CreateBlock = (WrappedComponent) => {
         const onSave = (type, blockData) => {
             toggleEdit(false);
             dispatch(canDragNote(true));
-            if (addedBlocksIds.indexOf(props.block.id) !== -1) {
-                setAddedBlocksIds([...addedBlocksIds].filter((id) => id !== props.block.id));
+            if (addedBlocksIds.indexOf(block.id) !== -1) {
+                setAddedBlocksIds([...addedBlocksIds].filter((id) => id !== block.id));
             }
-            props.onChange(type, props.block.id, blockData);
+            onChange(type, block.id, blockData);
         };
 
         const onCancel = () => {
             toggleEdit(false);
             dispatch(canDragNote(true));
-            if (error && addedBlocksIds.indexOf(props.block.id) !== -1) {
+            if (error && addedBlocksIds.indexOf(block.id) !== -1) {
                 deleteCurrentBlock();
             } else {
-                setData(props.block.data);
+                setData(block.data);
             }
         };
 
@@ -83,13 +83,13 @@ const CreateBlock = (WrappedComponent) => {
         };
 
         const deleteCurrentBlock = () => {
-            props.deleteBlock(props.block.id);
+            deleteBlock(block.id);
         };
 
         return (
             <div ref={drop} className={styles.blockDropPanel}>
                 <div
-                    id={props.block.id}
+                    id={block.id}
                     className={styles.block}
                     onMouseEnter={() => toggleCtrlGroupVisibility(true)}
                     onMouseLeave={() => toggleCtrlGroupVisibility(false)}
