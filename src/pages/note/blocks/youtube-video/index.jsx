@@ -31,7 +31,7 @@ const VideoBlock = (props) => {
     };
 
     return (
-        <div className={blockStyles.blockContent}>
+        <div className={`${blockStyles.blockContent} ${styles.videoBlock}`}>
             {isEditMode ? (
                 <>
                     <Input
