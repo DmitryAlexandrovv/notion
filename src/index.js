@@ -8,6 +8,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { PersistGate } from 'redux-persist/integration/react';
 
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import 'antd/dist/antd.css';
 import './index.css';

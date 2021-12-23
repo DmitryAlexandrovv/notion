@@ -25,6 +25,10 @@ const NoteEditMode = (props) => {
         onUpdateNote(props.activeNote);
     }, [props.activeNote]);
 
+    useEffect(() => {
+        props.setIsNoteBlocksEdited(JSON.stringify(note) !== JSON.stringify(props.activeNote));
+    }, [note]);
+
     const onBlockContentChanged = (type, id, data) => {
         const updatedNote = {
             ...note,
@@ -59,6 +63,7 @@ const NoteEditMode = (props) => {
         firebaseService
             .updateNoteBlocks(user.id, props.pageId, note.blocks)
             .then(() => {
+                props.setIsNoteBlocksEdited(false);
                 props.setactiveNote({
                     ...props.activeNote,
                     blocks: [...note.blocks],

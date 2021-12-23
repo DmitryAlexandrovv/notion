@@ -1,4 +1,4 @@
-import { createNoteTree, getNestedArray } from '../../helpers';
+import { createNoteTree, getNestedArray, showConfirmModal, showAlertModal } from '../../helpers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isUrlPossible } from '../../helpers';
@@ -10,7 +10,14 @@ import { Button, Input, TreeSelect } from 'antd';
 import styles from './style.module.css';
 import { setLoading } from '../../store/actions';
 
-const ChangeNotePropsModal = ({ selectedNoteId, activeNoteData, modalIsOpen, setIsOpen, onSave }) => {
+const ChangeNotePropsModal = ({
+    selectedNoteId,
+    activeNoteData,
+    modalIsOpen,
+    setIsOpen,
+    onSave,
+    isNoteBlocksEdited,
+}) => {
     const [noteProps, setNoteProps] = useState({
             parentId: activeNoteData.parentId,
             title: activeNoteData.title,
@@ -29,12 +36,24 @@ const ChangeNotePropsModal = ({ selectedNoteId, activeNoteData, modalIsOpen, set
         });
     }, [activeNoteData]);
 
-    const onNotePropsSave = () => {
+    const tryNotePropsSave = () => {
         if (JSON.stringify(noteProps) === JSON.stringify(activeNoteData)) {
             setIsOpen(false);
             return;
         }
 
+        if (isNoteBlocksEdited) {
+            showConfirmModal({
+                title: 'Подтвердите действие',
+                message: 'Изменения в блоках заметки не сохранятся, продолжить?',
+                onSuccess: saveNoteProps,
+            });
+        } else {
+            saveNoteProps();
+        }
+    };
+
+    const saveNoteProps = () => {
         dispatch(setLoading(true));
         firebaseService
             .isUrlExists(user.id, noteProps.url)
@@ -48,7 +67,6 @@ const ChangeNotePropsModal = ({ selectedNoteId, activeNoteData, modalIsOpen, set
                         : checkUrlRules(res);
 
                 if (validationResult.type === VALIDATION_RESULT.SUCCESS) {
-                    //ToDo показывать alert, что не сохранятся данные блоков
                     onSave({
                         title: noteProps.title,
                         parentId: noteProps.parentId,
@@ -56,7 +74,10 @@ const ChangeNotePropsModal = ({ selectedNoteId, activeNoteData, modalIsOpen, set
                     });
                     setIsOpen(false);
                 } else {
-                    alert(validationResult.value);
+                    showAlertModal({
+                        title: 'Подтвердите действие',
+                        message: validationResult.value,
+                    });
                 }
             })
             .catch((error) => {
@@ -149,7 +170,7 @@ const ChangeNotePropsModal = ({ selectedNoteId, activeNoteData, modalIsOpen, set
                 </div>
             </div>
             <div className={styles.notePropsCtrlGroup}>
-                <Button onClick={onNotePropsSave} className={styles.notePropsCtrlGroupItem}>
+                <Button onClick={tryNotePropsSave} className={styles.notePropsCtrlGroupItem}>
                     Сохранить
                 </Button>
                 <Button onClick={() => setIsOpen(false)} className={styles.notePropsCtrlGroupItem}>
