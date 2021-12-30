@@ -8,10 +8,11 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styles from './style.module.css';
 import { CONTENT_TYPES } from '../../view-mode/constants';
 import blockStyles from '../style.module.css';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const TextBlock = (props) => {
     const { isEditMode, onSave, onCancel, data, setData, setError } = props;
+    const inputRef = useRef(null);
 
     useEffect(() => {
         if (JSON.parse(data).blocks.length === 1 && JSON.parse(data).blocks[0].text.trim() === '') {
@@ -20,6 +21,12 @@ const TextBlock = (props) => {
             setError(false);
         }
     }, [data]);
+
+    useEffect(() => {
+        if (isEditMode) {
+            inputRef.current.focusEditor();
+        }
+    }, [isEditMode]);
 
     return (
         <div className={blockStyles.blockContent}>
@@ -31,6 +38,7 @@ const TextBlock = (props) => {
                             setData(JSON.stringify(convertToRaw(newEditorState.getCurrentContent())))
                         }
                         editorClassName={styles.noteTextEditor}
+                        ref={inputRef}
                     />
                     <div className={blockStyles.blockActions}>
                         <Button
