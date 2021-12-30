@@ -1,5 +1,5 @@
 import { createNoteTree, getNestedArray, showConfirmModal, showAlertModal } from '../../helpers';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isUrlPossible } from '../../helpers';
 import firebaseService from '../../service/firebase';
@@ -26,7 +26,8 @@ const ChangeNotePropsModal = ({
         pages = useSelector((state) => state.pages),
         user = useSelector((state) => state.user),
         formattedPages = getNestedArray(pages, undefined),
-        dispatch = useDispatch();
+        dispatch = useDispatch(),
+        inputRef = useRef(null);
 
     useEffect(() => {
         setNoteProps({
@@ -35,6 +36,10 @@ const ChangeNotePropsModal = ({
             url: activeNoteData.url,
         });
     }, [activeNoteData]);
+
+    const autofocus = () => {
+        inputRef.current.focus();
+    };
 
     const tryNotePropsSave = () => {
         if (JSON.stringify(noteProps) === JSON.stringify(activeNoteData)) {
@@ -133,7 +138,12 @@ const ChangeNotePropsModal = ({
     };
 
     return (
-        <Modal isOpen={modalIsOpen} onRequestClose={() => setIsOpen(false)} contentLabel='Example Modal'>
+        <Modal
+            onAfterOpen={autofocus}
+            isOpen={modalIsOpen}
+            onRequestClose={() => setIsOpen(false)}
+            contentLabel='Example Modal'
+        >
             <h2>Введите свойства заметки</h2>
             <div className={styles.noteProps}>
                 <div className={styles.noteProp}>
@@ -141,6 +151,7 @@ const ChangeNotePropsModal = ({
                         placeholder='Заголовок'
                         value={noteProps.title}
                         onChange={(event) => setNoteProps({ ...noteProps, title: event.target.value })}
+                        ref={inputRef}
                     />
                 </div>
                 <div className={styles.noteProp}>

@@ -5,7 +5,7 @@ import { getNestedArray, createNoteTree } from '../../../../helpers';
 import { useNavigate } from 'react-router-dom';
 import { CONTENT_TYPES } from '../../view-mode/constants';
 import { NOTE_MODE_TYPES } from '../../../../constants';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import blockStyles from '../style.module.css';
 import styles from './style.module.css';
@@ -16,12 +16,19 @@ const LinkToNoteBlock = (props) => {
         activeMode = useSelector((state) => state.activeMode),
         formattedPages = getNestedArray(pages, undefined),
         navigate = useNavigate();
+    const inputRef = useRef(null);
 
     useEffect(() => {
         if (!data.id) {
             setError(true);
         }
     }, [data]);
+
+    useEffect(() => {
+        if (isEditMode) {
+            inputRef.current.focus();
+        }
+    }, [isEditMode]);
 
     const redirect = () => {
         const page = pages[data.id];
@@ -36,6 +43,7 @@ const LinkToNoteBlock = (props) => {
                         value={data.id}
                         onChange={(id, title) => setData({ id, title })}
                         className={styles.linkBlockElement}
+                        ref={inputRef}
                     >
                         {formattedPages.map((page) => {
                             return createNoteTree(page);

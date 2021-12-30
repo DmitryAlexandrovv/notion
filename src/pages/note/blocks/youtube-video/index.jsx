@@ -8,6 +8,7 @@ import { getVideoId, getPreview } from '../../../../helpers';
 
 import styles from './styles.module.css';
 import blockStyles from '../style.module.css';
+import { useEffect, useRef } from 'react';
 
 const VideoBlock = (props) => {
     const {
@@ -24,11 +25,18 @@ const VideoBlock = (props) => {
         } = props,
         videoID = getVideoId(data.url),
         preview = getPreview(videoID);
+    const inputRef = useRef(null);
 
     //ToDo что по ширине preview?
     const style = {
         width: '320px',
     };
+
+    useEffect(() => {
+        if (isEditMode) {
+            inputRef.current.focus();
+        }
+    }, [isEditMode]);
 
     return (
         <div className={`${blockStyles.blockContent} ${styles.videoBlock}`}>
@@ -39,6 +47,7 @@ const VideoBlock = (props) => {
                         placeholder='Введите адрес видео'
                         value={data.url}
                         onChange={onInput}
+                        ref={inputRef}
                     />
                     <div className={error || !videoID ? styles.videoBlockHidden : ''}>
                         <img

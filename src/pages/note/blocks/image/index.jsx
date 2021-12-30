@@ -6,16 +6,24 @@ import { CONTENT_TYPES } from '../../view-mode/constants';
 
 import styles from './style.module.css';
 import blockStyles from '../style.module.css';
+import { useEffect, useRef } from 'react';
 
 const ImageBlock = (props) => {
     const { isEditMode, onSave, onCancel, data, onInput, onSuccessImageLoaded, onBadImageLoaded, error, isLoaded } =
         props;
+    const inputRef = useRef(null);
 
     //ToDo стили будем принимать извне, если нет, то по дефолту width: 100%(при редактировании)
     //На будущее, пока сложно будет реализовать
     const style = {
         width: `${props.width}px`,
     };
+
+    useEffect(() => {
+        if (isEditMode) {
+            inputRef.current.focus();
+        }
+    }, [isEditMode]);
 
     return (
         <div className={blockStyles.blockContent}>
@@ -26,6 +34,7 @@ const ImageBlock = (props) => {
                         placeholder='Введите адрес изображения'
                         value={data.url}
                         onChange={onInput}
+                        ref={inputRef}
                     />
                     {isLoaded && error && <Alert message='Что-то пошло не так' type='error' />}
                 </>
