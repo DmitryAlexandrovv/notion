@@ -1,7 +1,7 @@
 # NotionItis App
 ### Web App
 
-The app can be found at the following link: [Notion]https://notionitis.web.app/)
+The app can be found at the following link: [Notion](https://notionitis.web.app/)
 
 ### Install dependencies:
 
